@@ -2,22 +2,28 @@ use bevy::{app::AppExit, prelude::*};
 
 use crate::{despawn_screen, DisplayQuality, GameState, Volume, TEXT_COLOR};
 
+use super::{
+    component::{MenuButtonAction, OnMainMenuScreen, OnSettingsMenuScreen, SelectedOption},
+    constant::{
+        HOVERED_BUTTON_COLOR, HOVERED_PRESSED_BUTTON_COLOR, NORMAL_BUTTON_COLOR,
+        PRESSED_BUTTON_COLOR,
+    },
+    state::MenuState,
+};
+
 pub struct MenuPlugin;
 
 impl Plugin for MenuPlugin {
     fn build(&self, app: &mut App) {
         app.add_state::<MenuState>()
-            .add_systems(OnEnter(GameState::Menu), menu_setup)
-            .add_systems(OnEnter(MenuState::Main), main_menu_setup)
-            .add_systems(OnExit(MenuState::Main), despawn_screen::<OnMainMenuScreen>)
-            .add_systems(OnEnter(MenuState::Settings), settings_menu_setup)
-            .add_systems(
-                OnExit(MenuState::Settings),
-                despawn_screen::<OnSettingsMenuScreen>,
-            )
+            // OnEnter
+            .add_systems(OnEnter(GameState::Menu), setup)
+            .add_systems(OnEnter(MenuState::Main), setup_main_menu)
+            .add_systems(OnEnter(MenuState::Settings), setup_settings_menu)
+            // Update
             .add_systems(
                 Update,
-                (setting_button_system::<DisplayQuality>.run_if(in_state(MenuState::Settings)),),
+                setting_button_system::<DisplayQuality>.run_if(in_state(MenuState::Settings)),
             )
             .add_systems(
                 Update,
@@ -25,82 +31,22 @@ impl Plugin for MenuPlugin {
             )
             .add_systems(
                 Update,
-                (menu_action_system, button_system).run_if(in_state(GameState::Menu)),
+                (button_system, menu_action_system).run_if(in_state(GameState::Menu)),
+            )
+            // OnExit
+            .add_systems(OnExit(MenuState::Main), despawn_screen::<OnMainMenuScreen>)
+            .add_systems(
+                OnExit(MenuState::Settings),
+                despawn_screen::<OnSettingsMenuScreen>,
             );
     }
 }
 
-#[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
-enum MenuState {
-    Main,
-    Settings,
-    #[default]
-    Disabled,
-}
-
-#[derive(Component)]
-struct OnMainMenuScreen;
-
-#[derive(Component)]
-struct OnSettingsMenuScreen;
-
-const NORMAL_BUTTON: Color = Color::rgb(0.15, 0.15, 0.15);
-const HOVERED_BUTTON: Color = Color::rgb(0.25, 0.25, 0.25);
-const HOVERED_PRESSED_BUTTON: Color = Color::rgb(0.25, 0.65, 0.25);
-const PRESSED_BUTTON: Color = Color::rgb(0.35, 0.75, 0.35);
-
-#[derive(Component)]
-struct SelectedOption;
-
-#[derive(Component)]
-enum MenuButtonAction {
-    Play,
-    Settings,
-    BackToMainMenu,
-    Quit,
-}
-
-fn button_system(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, Option<&SelectedOption>),
-        (Changed<Interaction>, With<Button>),
-    >,
-) {
-    for (interaction, mut color, selected) in &mut interaction_query {
-        *color = match (*interaction, selected) {
-            (Interaction::Pressed, _) | (Interaction::None, Some(_)) => PRESSED_BUTTON.into(),
-            (Interaction::Hovered, Some(_)) => HOVERED_PRESSED_BUTTON.into(),
-            (Interaction::Hovered, None) => HOVERED_BUTTON.into(),
-            (Interaction::None, None) => NORMAL_BUTTON.into(),
-        }
-    }
-}
-
-fn setting_button_system<T: Resource + Component + PartialEq + Copy>(
-    interaction_query: Query<(&Interaction, &T, Entity), (Changed<Interaction>, With<Button>)>,
-    mut selected_query: Query<(Entity, &mut BackgroundColor), (With<SelectedOption>, With<T>)>,
-    mut commands: Commands,
-    mut setting: ResMut<T>,
-) {
-    for (interaction, button_setting, entity) in &interaction_query {
-        if *interaction == Interaction::Pressed && *setting != *button_setting {
-            for (previous_button, mut previous_color) in selected_query.iter_mut() {
-                *previous_color = NORMAL_BUTTON.into();
-
-                commands.entity(previous_button).remove::<SelectedOption>();
-                commands.entity(entity).insert(SelectedOption);
-
-                *setting = *button_setting;
-            }
-        }
-    }
-}
-
-fn menu_setup(mut menu_state: ResMut<NextState<MenuState>>) {
+fn setup(mut menu_state: ResMut<NextState<MenuState>>) {
     menu_state.set(MenuState::Main);
 }
 
-fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
     let button_style = Style {
         width: Val::Px(250.0),
         height: Val::Px(65.0),
@@ -169,7 +115,7 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         .spawn((
                             ButtonBundle {
                                 style: button_style.clone(),
-                                background_color: NORMAL_BUTTON.into(),
+                                background_color: NORMAL_BUTTON_COLOR.into(),
                                 ..default()
                             },
                             MenuButtonAction::Play,
@@ -194,7 +140,7 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         .spawn((
                             ButtonBundle {
                                 style: button_style.clone(),
-                                background_color: NORMAL_BUTTON.into(),
+                                background_color: NORMAL_BUTTON_COLOR.into(),
                                 ..default()
                             },
                             MenuButtonAction::Settings,
@@ -219,7 +165,7 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
                         .spawn((
                             ButtonBundle {
                                 style: button_style,
-                                background_color: NORMAL_BUTTON.into(),
+                                background_color: NORMAL_BUTTON_COLOR.into(),
                                 ..default()
                             },
                             MenuButtonAction::Quit,
@@ -239,7 +185,7 @@ fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         });
 }
 
-fn settings_menu_setup(
+fn setup_settings_menu(
     mut commands: Commands,
     (display_quality, volume): (Res<DisplayQuality>, Res<Volume>),
 ) {
@@ -323,7 +269,7 @@ fn settings_menu_setup(
                                                     height: Val::Px(65.0),
                                                     ..button_style.clone()
                                                 },
-                                                background_color: NORMAL_BUTTON.into(),
+                                                background_color: NORMAL_BUTTON_COLOR.into(),
                                                 ..default()
                                             },
                                             quality_setting,
@@ -377,7 +323,8 @@ fn settings_menu_setup(
                                                             height: Val::Px(65.0),
                                                             ..button_style.clone()
                                                         },
-                                                        background_color: NORMAL_BUTTON.into(),
+                                                        background_color: NORMAL_BUTTON_COLOR
+                                                            .into(),
                                                         ..default()
                                                     },
                                                     Volume(volume_setting),
@@ -395,7 +342,7 @@ fn settings_menu_setup(
                                 .spawn((
                                     ButtonBundle {
                                         style: button_style,
-                                        background_color: NORMAL_BUTTON.into(),
+                                        background_color: NORMAL_BUTTON_COLOR.into(),
                                         ..default()
                                     },
                                     MenuButtonAction::BackToMainMenu,
@@ -409,8 +356,24 @@ fn settings_menu_setup(
         });
 }
 
+fn button_system(
+    mut query_interaction: Query<
+        (&Interaction, &mut BackgroundColor, Option<&SelectedOption>),
+        (Changed<Interaction>, With<Button>),
+    >,
+) {
+    for (interaction, mut color, selected) in &mut query_interaction {
+        *color = match (*interaction, selected) {
+            (Interaction::Pressed, _) | (Interaction::None, Some(_)) => PRESSED_BUTTON_COLOR.into(),
+            (Interaction::Hovered, Some(_)) => HOVERED_PRESSED_BUTTON_COLOR.into(),
+            (Interaction::Hovered, None) => HOVERED_BUTTON_COLOR.into(),
+            (Interaction::None, None) => NORMAL_BUTTON_COLOR.into(),
+        }
+    }
+}
+
 fn menu_action_system(
-    interaction_query: Query<
+    query_interaction: Query<
         (&Interaction, &MenuButtonAction),
         (Changed<Interaction>, With<Button>),
     >,
@@ -418,7 +381,7 @@ fn menu_action_system(
     mut menu_state: ResMut<NextState<MenuState>>,
     mut game_state: ResMut<NextState<GameState>>,
 ) {
-    for (interaction, menu_button_action) in &interaction_query {
+    for (interaction, menu_button_action) in &query_interaction {
         if *interaction == Interaction::Pressed {
             match menu_button_action {
                 MenuButtonAction::Quit => app_exit_events.send(AppExit),
@@ -428,6 +391,26 @@ fn menu_action_system(
                 }
                 MenuButtonAction::Settings => menu_state.set(MenuState::Settings),
                 MenuButtonAction::BackToMainMenu => menu_state.set(MenuState::Main),
+            }
+        }
+    }
+}
+
+fn setting_button_system<T: Resource + Component + PartialEq + Copy>(
+    query_interaction: Query<(&Interaction, &T, Entity), (Changed<Interaction>, With<Button>)>,
+    mut query_selected: Query<(Entity, &mut BackgroundColor), (With<SelectedOption>, With<T>)>,
+    mut commands: Commands,
+    mut setting: ResMut<T>,
+) {
+    for (interaction, button_setting, entity) in &query_interaction {
+        if *interaction == Interaction::Pressed && *setting != *button_setting {
+            for (previous_button, mut previous_color) in query_selected.iter_mut() {
+                *previous_color = NORMAL_BUTTON_COLOR.into();
+
+                commands.entity(previous_button).remove::<SelectedOption>();
+                commands.entity(entity).insert(SelectedOption);
+
+                *setting = *button_setting;
             }
         }
     }
