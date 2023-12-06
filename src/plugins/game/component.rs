@@ -49,4 +49,16 @@ pub(super) struct PlayerStat {
 pub(super) struct Speed(pub f32);
 
 #[derive(Component)]
-pub(super) struct Trifle(pub Lot);
+pub(super) struct Trifle {
+    pub lot: Lot,
+    pub can_happend: bool,
+}
+
+impl Trifle {
+    pub fn new(lot: Lot) -> Self {
+        Self {
+            lot,
+            can_happend: false,
+        }
+    }
+}

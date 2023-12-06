@@ -20,8 +20,8 @@ pub enum DisplayQuality {
 #[derive(Resource, Debug, Component, PartialEq, Eq, Clone, Copy)]
 pub struct Volume(pub u32);
 
-pub fn despawn_screen<T: Component>(to_despawn: Query<Entity, With<T>>, mut commands: Commands) {
-    for entity in &to_despawn {
+pub fn despawn_screen<T: Component>(mut commands: Commands, query_despawn: Query<Entity, With<T>>) {
+    for entity in &query_despawn {
         commands.entity(entity).despawn_recursive();
     }
 }

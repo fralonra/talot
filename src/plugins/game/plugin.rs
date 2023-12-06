@@ -168,7 +168,7 @@ fn setup(mut commands: Commands) {
                 ..default()
             },
             transform: Transform {
-                translation: Vec3::new(0.0, -GAME_AREA_HEIGHT * 0.5 + PLAYER_SIZE.y * 0.5, 1.0),
+                translation: Vec3::new(0.0, (PLAYER_SIZE.y - GAME_AREA_HEIGHT) * 0.5, 1.0),
                 scale: PLAYER_SIZE,
                 ..default()
             },
@@ -184,7 +184,7 @@ fn setup(mut commands: Commands) {
     commands.insert_resource(AgingTimer(Timer::from_seconds(2.0, TimerMode::Repeating)));
 
     commands.insert_resource(TrifleSpawnTimer(Timer::from_seconds(
-        1.0,
+        2.0,
         TimerMode::Repeating,
     )));
 }
@@ -220,8 +220,8 @@ fn keyboard_system(
 
     let new_position = transform.translation.x + direction * speed * time.delta_seconds();
 
-    let left_bound = -GAME_AREA_WIDTH * 0.5 + PLAYER_SIZE.x * 0.5;
-    let right_bound = GAME_AREA_WIDTH * 0.5 - PLAYER_SIZE.x * 0.5;
+    let left_bound = (PLAYER_SIZE.x - GAME_AREA_WIDTH) * 0.5;
+    let right_bound = (GAME_AREA_WIDTH - PLAYER_SIZE.x) * 0.5;
 
     transform.translation.x = new_position.clamp(left_bound, right_bound);
 }
@@ -312,7 +312,7 @@ fn trifle_spawn_system(
             p,
         };
 
-        let trifle = Trifle(lot);
+        let trifle = Trifle::new(lot);
         let speed = Speed(rand::thread_rng().gen_range(50.0..100.0));
 
         let width = GAME_AREA_WIDTH * p;
@@ -329,7 +329,7 @@ fn trifle_spawn_system(
             x = (GAME_AREA_WIDTH - width) * 0.5;
         }
 
-        let translation = Vec3::new(x, GAME_AREA_HEIGHT * 0.5 - TRIFLE_HEIGHT * 0.5, 1.0);
+        let translation = Vec3::new(x, (GAME_AREA_HEIGHT - TRIFLE_HEIGHT) * 0.5, 1.0);
         let scale = Vec3::new(width, TRIFLE_HEIGHT, 0.0);
 
         commands.spawn(TrifleBundle {
@@ -348,25 +348,57 @@ fn trifle_spawn_system(
 }
 
 fn trifle_handle_system(
-    (query_player, query_trifle): (Query<&Transform, With<Player>>, Query<&Trifle>),
+    mut commands: Commands,
+    (mut query_player, query_trifle): (
+        Query<(&mut Sprite, &Transform), With<Player>>,
+        Query<(Entity, &Transform, &Trifle)>,
+    ),
     time: Res<Time>,
 ) {
-    // for (speed, mut transform) in query_trifle.iter_mut() {
-    //     let new_position = transform.translation.y - speed.0 * time.delta_seconds();
+    let (mut player_sprite, player_transform) = query_player.single_mut();
+    let player_left = player_transform.translation.x - PLAYER_SIZE.x * 0.5;
+    let player_right = player_transform.translation.x + PLAYER_SIZE.x * 0.5;
 
-    //     transform.translation.y =
-    //         new_position.clamp(-GAME_AREA_HEIGHT * 0.5, GAME_AREA_HEIGHT * 0.5);
-    // }
+    let mut is_intersected = false;
+
+    for (entity, transform, trifle) in query_trifle.iter() {
+        if !trifle.can_happend {
+            continue;
+        }
+
+        let left = transform.translation.x - transform.scale.x * 0.5;
+        let right = transform.translation.x + transform.scale.x * 0.5;
+
+        if player_left <= right && player_right >= left {
+            is_intersected = true;
+
+            player_sprite.color = Color::RED;
+
+            commands.entity(entity).despawn_recursive();
+        }
+    }
+
+    if !is_intersected {
+        player_sprite.color = Color::rgb(0.25, 0.25, 0.75);
+    }
 }
 
 fn trifle_update_system(
-    mut query_trifle: Query<(&Speed, &mut Transform), With<Trifle>>,
+    mut query_trifle: Query<(&mut Sprite, &Speed, &mut Transform, &mut Trifle)>,
     time: Res<Time>,
 ) {
-    for (speed, mut transform) in query_trifle.iter_mut() {
+    for (mut sprite, speed, mut transform, mut trifle) in query_trifle.iter_mut() {
         let new_position = transform.translation.y - speed.0 * time.delta_seconds();
 
-        transform.translation.y =
-            new_position.clamp(-GAME_AREA_HEIGHT * 0.5, GAME_AREA_HEIGHT * 0.5);
+        transform.translation.y = new_position.clamp(
+            (TRIFLE_HEIGHT - GAME_AREA_HEIGHT) * 0.5,
+            (GAME_AREA_HEIGHT - TRIFLE_HEIGHT) * 0.5,
+        );
+
+        if transform.translation.y <= -GAME_AREA_HEIGHT * 0.5 + PLAYER_SIZE.y {
+            trifle.can_happend = true;
+
+            sprite.color = Color::GREEN;
+        }
     }
 }
