@@ -10,6 +10,7 @@ pub(super) const GAME_AREA_WIDTH: f32 =
 pub(super) const PANEL_BACKGROUND_COLOR: Color = Color::rgb(0.65, 0.65, 0.65);
 pub(super) const PANEL_WIDTH: f32 = 200.0;
 
-pub(super) const PLAYER_SIZE: Vec3 = Vec3::new(25.0, 25.0, 0.0);
+pub(super) const PLAYER_SIZE: Vec2 = Vec2::new(25.0, 25.0);
 
 pub(super) const TRIFLE_HEIGHT: f32 = 10.0;
+pub(super) const TRIFLE_LABEL_FONT_SIZE: f32 = 16.0;

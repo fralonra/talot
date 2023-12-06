@@ -1,6 +1,6 @@
 mod bundle;
 mod component;
-mod consntant;
+mod constant;
 mod plugin;
 mod resource;
 

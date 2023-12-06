@@ -2,7 +2,7 @@ use bevy::prelude::*;
 use rand::Rng;
 use rand_distr::{Distribution, Normal};
 
-use crate::{core::Lot, despawn_screen, plugins::game::bundle::TrifleBundle, GameState};
+use crate::{common::GameAssetHandle, core::GameAsset, despawn_screen, GameState};
 
 use super::{
     bundle::StatBundle,
@@ -11,9 +11,9 @@ use super::{
         UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel,
         UiPlayerStatSocialLabel,
     },
-    consntant::{
+    constant::{
         GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_WIDTH, PLAYER_SIZE,
-        TRIFLE_HEIGHT,
+        TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
     },
     resource::{AgingTimer, TrifleSpawnTimer},
 };
@@ -148,11 +148,7 @@ fn setup(mut commands: Commands) {
         SpriteBundle {
             sprite: Sprite {
                 color: Color::RED,
-                ..default()
-            },
-            transform: Transform {
-                translation: Vec3::ZERO,
-                scale: Vec3::new(GAME_AREA_WIDTH, GAME_AREA_HEIGHT, 0.0),
+                custom_size: Some(Vec2::new(GAME_AREA_WIDTH, GAME_AREA_HEIGHT)),
                 ..default()
             },
             ..default()
@@ -165,13 +161,14 @@ fn setup(mut commands: Commands) {
         SpriteBundle {
             sprite: Sprite {
                 color: Color::rgb(0.25, 0.25, 0.75),
+                custom_size: Some(PLAYER_SIZE),
                 ..default()
             },
-            transform: Transform {
-                translation: Vec3::new(0.0, (PLAYER_SIZE.y - GAME_AREA_HEIGHT) * 0.5, 1.0),
-                scale: PLAYER_SIZE,
-                ..default()
-            },
+            transform: Transform::from_translation(Vec3::new(
+                0.0,
+                (PLAYER_SIZE.y - GAME_AREA_HEIGHT) * 0.5,
+                1.0,
+            )),
             ..default()
         },
         Player,
@@ -299,23 +296,21 @@ fn text_stat_soc_system(
 
 fn trifle_spawn_system(
     mut commands: Commands,
-    (asset_server, time): (Res<AssetServer>, Res<Time>),
-    mut timer: ResMut<TrifleSpawnTimer>,
+    (asset_server, game_asset_handle, time): (Res<AssetServer>, Res<GameAssetHandle>, Res<Time>),
+    (game_assets, mut timer): (ResMut<Assets<GameAsset>>, ResMut<TrifleSpawnTimer>),
 ) {
     if timer.tick(time.delta()).finished() {
         let normal = Normal::new(0.5, 0.1).unwrap();
         let p = normal.sample(&mut rand::thread_rng());
         let p = (p as f32).clamp(0.1, 0.9);
 
-        let lot = Lot {
-            desc: "Test".to_owned(),
-            p,
-        };
+        let game_asset = game_assets.get(&game_asset_handle.0).unwrap();
+        let lot = game_asset.get_lot();
 
-        let trifle = Trifle::new(lot);
-        let speed = Speed(rand::thread_rng().gen_range(50.0..100.0));
+        let lot_desc = lot.desc.clone();
 
         let width = GAME_AREA_WIDTH * p;
+        let size = Vec2::new(width, TRIFLE_HEIGHT);
 
         let mut x = rand::thread_rng().gen_range(0.0..GAME_AREA_WIDTH) - GAME_AREA_WIDTH * 0.5;
 
@@ -330,20 +325,39 @@ fn trifle_spawn_system(
         }
 
         let translation = Vec3::new(x, (GAME_AREA_HEIGHT - TRIFLE_HEIGHT) * 0.5, 1.0);
-        let scale = Vec3::new(width, TRIFLE_HEIGHT, 0.0);
 
-        commands.spawn(TrifleBundle {
-            trifle,
-            speed,
-            sprite: SpriteBundle {
-                transform: Transform {
-                    translation,
-                    scale,
+        commands
+            .spawn((
+                SpriteBundle {
+                    sprite: Sprite {
+                        custom_size: Some(size),
+                        ..default()
+                    },
+                    transform: Transform::from_translation(translation),
                     ..default()
                 },
-                ..default()
-            },
-        });
+                Trifle::new(lot),
+                Speed(rand::thread_rng().gen_range(50.0..100.0)),
+            ))
+            .with_children(|parent| {
+                parent.spawn(Text2dBundle {
+                    text: Text::from_section(
+                        lot_desc,
+                        TextStyle {
+                            font_size: TRIFLE_LABEL_FONT_SIZE,
+                            color: Color::GOLD,
+                            ..default()
+                        },
+                    )
+                    .with_alignment(TextAlignment::Center),
+                    transform: Transform::from_translation(Vec3::new(
+                        0.0,
+                        size.y * 0.5 + 4.0 + TRIFLE_LABEL_FONT_SIZE * 0.5,
+                        0.0,
+                    )),
+                    ..default()
+                });
+            });
     }
 }
 
@@ -351,7 +365,7 @@ fn trifle_handle_system(
     mut commands: Commands,
     (mut query_player, query_trifle): (
         Query<(&mut Sprite, &Transform), With<Player>>,
-        Query<(Entity, &Transform, &Trifle)>,
+        Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
     ),
     time: Res<Time>,
 ) {
@@ -361,13 +375,15 @@ fn trifle_handle_system(
 
     let mut is_intersected = false;
 
-    for (entity, transform, trifle) in query_trifle.iter() {
+    for (entity, sprite, transform, trifle) in query_trifle.iter() {
         if !trifle.can_happend {
             continue;
         }
 
-        let left = transform.translation.x - transform.scale.x * 0.5;
-        let right = transform.translation.x + transform.scale.x * 0.5;
+        let size = sprite.custom_size.unwrap();
+
+        let left = transform.translation.x - size.x * 0.5;
+        let right = transform.translation.x + size.x * 0.5;
 
         if player_left <= right && player_right >= left {
             is_intersected = true;
