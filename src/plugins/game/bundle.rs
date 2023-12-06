@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use super::component::{Speed, Trifle};
+
 #[derive(Bundle)]
 pub(super) struct StatBundle {
     text: TextBundle,
@@ -28,22 +30,8 @@ impl StatBundle {
 
 #[derive(Bundle)]
 pub(super) struct TrifleBundle {
-    sprite: SpriteBundle,
-}
+    pub trifle: Trifle,
+    pub speed: Speed,
 
-impl Default for TrifleBundle {
-    fn default() -> Self {
-        Self {
-            sprite: SpriteBundle::default(),
-        }
-    }
-}
-
-impl TrifleBundle {
-    pub fn new(sprite: SpriteBundle) -> Self {
-        Self {
-            sprite,
-            ..default()
-        }
-    }
+    pub sprite: SpriteBundle,
 }

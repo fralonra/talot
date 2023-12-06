@@ -47,9 +47,8 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 }
 
 fn countdown_system(
-    mut game_state: ResMut<NextState<GameState>>,
     time: Res<Time>,
-    mut timer: ResMut<SplashTimer>,
+    (mut game_state, mut timer): (ResMut<NextState<GameState>>, ResMut<SplashTimer>),
 ) {
     if timer.tick(time.delta()).finished() {
         game_state.set(GameState::Menu);

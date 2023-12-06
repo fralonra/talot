@@ -358,11 +358,11 @@ fn setup_settings_menu(
 
 fn button_system(
     mut query_interaction: Query<
-        (&Interaction, &mut BackgroundColor, Option<&SelectedOption>),
+        (&mut BackgroundColor, &Interaction, Option<&SelectedOption>),
         (Changed<Interaction>, With<Button>),
     >,
 ) {
-    for (interaction, mut color, selected) in &mut query_interaction {
+    for (mut color, interaction, selected) in &mut query_interaction {
         *color = match (*interaction, selected) {
             (Interaction::Pressed, _) | (Interaction::None, Some(_)) => PRESSED_BUTTON_COLOR.into(),
             (Interaction::Hovered, Some(_)) => HOVERED_PRESSED_BUTTON_COLOR.into(),
@@ -378,8 +378,7 @@ fn menu_action_system(
         (Changed<Interaction>, With<Button>),
     >,
     mut app_exit_events: EventWriter<AppExit>,
-    mut menu_state: ResMut<NextState<MenuState>>,
-    mut game_state: ResMut<NextState<GameState>>,
+    (mut game_state, mut menu_state): (ResMut<NextState<GameState>>, ResMut<NextState<MenuState>>),
 ) {
     for (interaction, menu_button_action) in &query_interaction {
         if *interaction == Interaction::Pressed {
@@ -397,12 +396,14 @@ fn menu_action_system(
 }
 
 fn setting_button_system<T: Resource + Component + PartialEq + Copy>(
-    query_interaction: Query<(&Interaction, &T, Entity), (Changed<Interaction>, With<Button>)>,
-    mut query_selected: Query<(Entity, &mut BackgroundColor), (With<SelectedOption>, With<T>)>,
     mut commands: Commands,
+    (query_interaction, mut query_selected): (
+        Query<(Entity, &Interaction, &T), (Changed<Interaction>, With<Button>)>,
+        Query<(Entity, &mut BackgroundColor), (With<SelectedOption>, With<T>)>,
+    ),
     mut setting: ResMut<T>,
 ) {
-    for (interaction, button_setting, entity) in &query_interaction {
+    for (entity, interaction, button_setting) in &query_interaction {
         if *interaction == Interaction::Pressed && *setting != *button_setting {
             for (previous_button, mut previous_color) in query_selected.iter_mut() {
                 *previous_color = NORMAL_BUTTON_COLOR.into();

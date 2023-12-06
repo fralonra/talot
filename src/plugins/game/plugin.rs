@@ -1,6 +1,8 @@
 use bevy::prelude::*;
+use rand::Rng;
+use rand_distr::{Distribution, Normal};
 
-use crate::{despawn_screen, plugins::game::bundle::TrifleBundle, GameState};
+use crate::{core::Lot, despawn_screen, plugins::game::bundle::TrifleBundle, GameState};
 
 use super::{
     bundle::StatBundle,
@@ -10,10 +12,10 @@ use super::{
         UiPlayerStatSocialLabel,
     },
     consntant::{
-        GAME_AREA_BORDER_COLOR, GAME_AREA_BORDER_WIDTH, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR,
-        PANEL_WIDTH, PLAYER_SIZE,
+        GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_WIDTH, PLAYER_SIZE,
+        TRIFLE_HEIGHT,
     },
-    resource::TrifleSpawnTimer,
+    resource::{AgingTimer, TrifleSpawnTimer},
 };
 
 pub struct GamePlugin;
@@ -28,9 +30,15 @@ impl Plugin for GamePlugin {
                 Update,
                 (keyboard_system, mouse_system).run_if(in_state(GameState::Game)),
             )
+            .add_systems(Update, (aging_system).run_if(in_state(GameState::Game)))
             .add_systems(
                 Update,
-                (aging_system, trifle_system).run_if(in_state(GameState::Game)),
+                (
+                    trifle_spawn_system,
+                    trifle_update_system,
+                    trifle_handle_system,
+                )
+                    .run_if(in_state(GameState::Game)),
             )
             .add_systems(
                 Update,
@@ -91,19 +99,15 @@ fn setup(mut commands: Commands) {
                 });
 
             // Center
-            parent.spawn((
-                NodeBundle {
-                    style: Style {
-                        width: Val::Px(GAME_AREA_WIDTH),
-                        height: Val::Percent(100.0),
-                        border: UiRect::all(Val::Px(GAME_AREA_BORDER_WIDTH)),
-                        ..default()
-                    },
-                    border_color: GAME_AREA_BORDER_COLOR.into(),
-                    ..default()
-                },
-                UiGameArea,
-            ));
+            // parent.spawn(NodeBundle {
+            //     style: Style {
+            //         width: Val::Px(GAME_AREA_WIDTH + GAME_AREA_BORDER_WIDTH),
+            //         height: Val::Px(GAME_AREA_HEIGHT + GAME_AREA_BORDER_WIDTH),
+            //         ..default()
+            //     },
+            //     background_color: GAME_AREA_BORDER_COLOR.into(),
+            //     ..default()
+            // });
 
             // Right Panel
             parent
@@ -139,6 +143,23 @@ fn setup(mut commands: Commands) {
                 });
         });
 
+    // Game Area
+    commands.spawn((
+        SpriteBundle {
+            sprite: Sprite {
+                color: Color::RED,
+                ..default()
+            },
+            transform: Transform {
+                translation: Vec3::ZERO,
+                scale: Vec3::new(GAME_AREA_WIDTH, GAME_AREA_HEIGHT, 0.0),
+                ..default()
+            },
+            ..default()
+        },
+        UiGameArea,
+    ));
+
     // Player
     commands.spawn((
         SpriteBundle {
@@ -147,6 +168,7 @@ fn setup(mut commands: Commands) {
                 ..default()
             },
             transform: Transform {
+                translation: Vec3::new(0.0, -GAME_AREA_HEIGHT * 0.5 + PLAYER_SIZE.y * 0.5, 1.0),
                 scale: PLAYER_SIZE,
                 ..default()
             },
@@ -154,10 +176,12 @@ fn setup(mut commands: Commands) {
         },
         Player,
         PlayerStat::default(),
-        Age(0),
+        Age(0.0),
         Speed(100.0),
         OnGameScreen,
     ));
+
+    commands.insert_resource(AgingTimer(Timer::from_seconds(2.0, TimerMode::Repeating)));
 
     commands.insert_resource(TrifleSpawnTimer(Timer::from_seconds(
         1.0,
@@ -165,14 +189,23 @@ fn setup(mut commands: Commands) {
     )));
 }
 
-fn aging_system() {}
+fn aging_system(
+    mut query_age: Query<&mut Age>,
+    time: Res<Time>,
+    mut timer: ResMut<TrifleSpawnTimer>,
+) {
+    let mut age = query_age.single_mut();
+
+    if timer.tick(time.delta()).finished() {
+        **age += 1.0;
+    }
+}
 
 fn keyboard_system(
-    mut query_player: Query<(&mut Transform, &Speed), With<Player>>,
-    input: Res<Input<KeyCode>>,
-    time: Res<Time>,
+    mut query_player: Query<(&Speed, &mut Transform), With<Player>>,
+    (input, time): (Res<Input<KeyCode>>, Res<Time>),
 ) {
-    let (mut transform, speed) = query_player.single_mut();
+    let (speed, mut transform) = query_player.single_mut();
     let speed = speed.0;
 
     let mut direction = 0.0;
@@ -200,78 +233,140 @@ fn mouse_system(input: Res<Input<MouseButton>>) {
 }
 
 fn text_age_system(
-    mut query_text: Query<&mut Text, With<UiAgeLabel>>,
-    query_age: Query<&Age, With<Player>>,
+    (query_age, mut query_text): (
+        Query<&Age, (Changed<Age>, With<Player>)>,
+        Query<&mut Text, With<UiAgeLabel>>,
+    ),
 ) {
-    let age = query_age.single();
-
-    for mut text in &mut query_text {
-        text.sections[1].value = format!("{:.0}", age.0);
+    if let Ok(age) = query_age.get_single() {
+        for mut text in &mut query_text {
+            text.sections[1].value = format!("{:.0}", age.0);
+        }
     }
 }
 
 fn text_stat_int_system(
-    mut query_text: Query<&mut Text, With<UiPlayerStatIntuitionLabel>>,
-    query_stat: Query<&PlayerStat>,
+    (query_stat, mut query_text): (
+        Query<&PlayerStat, Changed<PlayerStat>>,
+        Query<&mut Text, With<UiPlayerStatIntuitionLabel>>,
+    ),
 ) {
-    let stat = query_stat.single();
-
-    for mut text in &mut query_text {
-        text.sections[1].value = format!("{:.0}", stat.intuition);
+    if let Ok(stat) = query_stat.get_single() {
+        for mut text in &mut query_text {
+            text.sections[1].value = format!("{:.0}", stat.intuition);
+        }
     }
 }
 
 fn text_stat_kno_system(
-    mut query_text: Query<&mut Text, With<UiPlayerStatKnowledgeLabel>>,
-    query_stat: Query<&PlayerStat>,
+    (query_stat, mut query_text): (
+        Query<&PlayerStat, Changed<PlayerStat>>,
+        Query<&mut Text, With<UiPlayerStatKnowledgeLabel>>,
+    ),
 ) {
-    let stat = query_stat.single();
-
-    for mut text in &mut query_text {
-        text.sections[1].value = format!("{:.0}", stat.knowledge);
+    if let Ok(stat) = query_stat.get_single() {
+        for mut text in &mut query_text {
+            text.sections[1].value = format!("{:.0}", stat.knowledge);
+        }
     }
 }
 
 fn text_stat_phy_system(
-    mut query_text: Query<&mut Text, With<UiPlayerStatPhysicalLabel>>,
-    query_stat: Query<&PlayerStat>,
+    (query_stat, mut query_text): (
+        Query<&PlayerStat, Changed<PlayerStat>>,
+        Query<&mut Text, With<UiPlayerStatPhysicalLabel>>,
+    ),
 ) {
-    let stat = query_stat.single();
-
-    for mut text in &mut query_text {
-        text.sections[1].value = format!("{:.0}", stat.physical);
+    if let Ok(stat) = query_stat.get_single() {
+        for mut text in &mut query_text {
+            text.sections[1].value = format!("{:.0}", stat.physical);
+        }
     }
 }
 
 fn text_stat_soc_system(
-    mut query_text: Query<&mut Text, With<UiPlayerStatSocialLabel>>,
-    query_stat: Query<&PlayerStat>,
+    (query_stat, mut query_text): (
+        Query<&PlayerStat, Changed<PlayerStat>>,
+        Query<&mut Text, With<UiPlayerStatSocialLabel>>,
+    ),
 ) {
-    let stat = query_stat.single();
-
-    for mut text in &mut query_text {
-        text.sections[1].value = format!("{:.0}", stat.social);
+    if let Ok(stat) = query_stat.get_single() {
+        for mut text in &mut query_text {
+            text.sections[1].value = format!("{:.0}", stat.social);
+        }
     }
 }
 
-fn trifle_system(
+fn trifle_spawn_system(
     mut commands: Commands,
-    query_trifle: Query<&Trifle>,
-    asset_server: Res<AssetServer>,
-    time: Res<Time>,
+    (asset_server, time): (Res<AssetServer>, Res<Time>),
     mut timer: ResMut<TrifleSpawnTimer>,
 ) {
-    if query_trifle.is_empty() {
-        commands.spawn(TrifleBundle::new(SpriteBundle {
-            texture: asset_server.load("branding/icon.png"),
-            ..default()
-        }));
-    }
-
     if timer.tick(time.delta()).finished() {
-        commands.spawn(TrifleBundle::new(SpriteBundle {
-            texture: asset_server.load("branding/icon.png"),
-            ..default()
-        }));
+        let normal = Normal::new(0.5, 0.1).unwrap();
+        let p = normal.sample(&mut rand::thread_rng());
+        let p = (p as f32).clamp(0.1, 0.9);
+
+        let lot = Lot {
+            desc: "Test".to_owned(),
+            p,
+        };
+
+        let trifle = Trifle(lot);
+        let speed = Speed(rand::thread_rng().gen_range(50.0..100.0));
+
+        let width = GAME_AREA_WIDTH * p;
+
+        let mut x = rand::thread_rng().gen_range(0.0..GAME_AREA_WIDTH) - GAME_AREA_WIDTH * 0.5;
+
+        let left_edge = x - width * 0.5;
+        if left_edge < -GAME_AREA_WIDTH * 0.5 {
+            x = (width - GAME_AREA_WIDTH) * 0.5;
+        }
+
+        let right_edge = x + width * 0.5;
+        if right_edge > GAME_AREA_WIDTH * 0.5 {
+            x = (GAME_AREA_WIDTH - width) * 0.5;
+        }
+
+        let translation = Vec3::new(x, GAME_AREA_HEIGHT * 0.5 - TRIFLE_HEIGHT * 0.5, 1.0);
+        let scale = Vec3::new(width, TRIFLE_HEIGHT, 0.0);
+
+        commands.spawn(TrifleBundle {
+            trifle,
+            speed,
+            sprite: SpriteBundle {
+                transform: Transform {
+                    translation,
+                    scale,
+                    ..default()
+                },
+                ..default()
+            },
+        });
+    }
+}
+
+fn trifle_handle_system(
+    (query_player, query_trifle): (Query<&Transform, With<Player>>, Query<&Trifle>),
+    time: Res<Time>,
+) {
+    // for (speed, mut transform) in query_trifle.iter_mut() {
+    //     let new_position = transform.translation.y - speed.0 * time.delta_seconds();
+
+    //     transform.translation.y =
+    //         new_position.clamp(-GAME_AREA_HEIGHT * 0.5, GAME_AREA_HEIGHT * 0.5);
+    // }
+}
+
+fn trifle_update_system(
+    mut query_trifle: Query<(&Speed, &mut Transform), With<Trifle>>,
+    time: Res<Time>,
+) {
+    for (speed, mut transform) in query_trifle.iter_mut() {
+        let new_position = transform.translation.y - speed.0 * time.delta_seconds();
+
+        transform.translation.y =
+            new_position.clamp(-GAME_AREA_HEIGHT * 0.5, GAME_AREA_HEIGHT * 0.5);
     }
 }

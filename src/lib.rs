@@ -1,5 +1,6 @@
 mod common;
 mod config;
+mod core;
 mod plugins;
 
 use bevy::prelude::*;

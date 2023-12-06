@@ -1,10 +1,6 @@
 use bevy::prelude::*;
 
-#[derive(Component)]
-pub(super) enum TrifleType {
-    Good,
-    Bad,
-}
+use crate::core::Lot;
 
 // --------- User Interface --------- //
 #[derive(Component)]
@@ -29,8 +25,8 @@ pub(super) struct UiPlayerStatPhysicalLabel;
 pub(super) struct UiPlayerStatSocialLabel;
 
 // --------- Gameplay --------- //
-#[derive(Component)]
-pub(super) struct Age(pub u32);
+#[derive(Component, Deref, DerefMut)]
+pub(super) struct Age(pub f32);
 
 #[derive(Component)]
 pub(super) struct EmotionalImpactFactor(pub f32);
@@ -43,14 +39,14 @@ pub(super) struct Player;
 
 #[derive(Component, Default)]
 pub(super) struct PlayerStat {
-    pub intuition: f64,
-    pub knowledge: f64,
-    pub physical: f64,
-    pub social: f64,
+    pub intuition: f32,
+    pub knowledge: f32,
+    pub physical: f32,
+    pub social: f32,
 }
 
 #[derive(Component)]
 pub(super) struct Speed(pub f32);
 
 #[derive(Component)]
-pub(super) struct Trifle(pub TrifleType);
+pub(super) struct Trifle(pub Lot);
