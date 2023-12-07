@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{despawn_screen, GameState};
+use crate::{common::despawn_screen, state::GameState};
 
 use super::{component::OnSplashScreen, resource::SplashTimer};
 

@@ -1,18 +1,17 @@
+mod asset;
 mod common;
-mod config;
-mod core;
-mod plugins;
+mod constant;
+mod plugin;
+mod resource;
+mod state;
 
+use asset::GameAsset;
 use bevy::prelude::*;
 use bevy_common_assets::toml::TomlAssetPlugin;
-use config::{WINDOW_HEIGHT, WINDOW_WIDTH};
-
-use crate::core::GameAsset;
-
-use self::{
-    common::*,
-    plugins::{GamePlugin, MenuPlugin, SplashPlugin},
-};
+use constant::{WINDOW_HEIGHT, WINDOW_WIDTH};
+use plugin::{GamePlugin, MenuPlugin, SplashPlugin};
+use resource::{DisplayQuality, GameAssetHandle, Volume};
+use state::GameState;
 
 pub fn run() {
     App::new()

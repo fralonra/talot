@@ -1,13 +1,16 @@
-use bevy::prelude::*;
+use bevy::{prelude::*, utils::HashSet};
 use rand::Rng;
 use rand_distr::{Distribution, Normal};
+use talot_core::QueryInfo;
 
-use crate::{common::GameAssetHandle, core::GameAsset, despawn_screen, GameState};
+use crate::{
+    asset::GameAsset, common::despawn_screen, resource::GameAssetHandle, state::GameState,
+};
 
 use super::{
     bundle::StatBundle,
     component::{
-        Age, OnGameScreen, Player, PlayerStat, Speed, Trifle, UiAgeLabel, UiGameArea,
+        Age, Attributable, OnGameScreen, Player, PlayerStat, Speed, Trifle, UiAgeLabel, UiGameArea,
         UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel,
         UiPlayerStatSocialLabel,
     },
@@ -173,6 +176,7 @@ fn setup(mut commands: Commands) {
         },
         Player,
         PlayerStat::default(),
+        Attributable(HashSet::new()),
         Age(0.0),
         Speed(100.0),
         OnGameScreen,
@@ -296,68 +300,77 @@ fn text_stat_soc_system(
 
 fn trifle_spawn_system(
     mut commands: Commands,
+    query_player: Query<(&Age, &Attributable, &PlayerStat), With<Player>>,
     (asset_server, game_asset_handle, time): (Res<AssetServer>, Res<GameAssetHandle>, Res<Time>),
     (game_assets, mut timer): (ResMut<Assets<GameAsset>>, ResMut<TrifleSpawnTimer>),
 ) {
+    let (age, attrs, stats) = query_player.single();
+
     if timer.tick(time.delta()).finished() {
         let normal = Normal::new(0.5, 0.1).unwrap();
         let p = normal.sample(&mut rand::thread_rng());
         let p = (p as f32).clamp(0.1, 0.9);
 
         let game_asset = game_assets.get(&game_asset_handle.0).unwrap();
-        let lot = game_asset.get_lot();
+        let lot = (*game_asset).get_lot(&QueryInfo {
+            age: **age,
+            attrs: &attrs.to_vec(),
+            stats: &stats,
+        });
 
-        let lot_desc = lot.desc.clone();
+        if let Some(lot) = lot {
+            let lot_desc = lot.desc.clone();
 
-        let width = GAME_AREA_WIDTH * p;
-        let size = Vec2::new(width, TRIFLE_HEIGHT);
+            let width = GAME_AREA_WIDTH * p;
+            let size = Vec2::new(width, TRIFLE_HEIGHT);
 
-        let mut x = rand::thread_rng().gen_range(0.0..GAME_AREA_WIDTH) - GAME_AREA_WIDTH * 0.5;
+            let mut x = rand::thread_rng().gen_range(0.0..GAME_AREA_WIDTH) - GAME_AREA_WIDTH * 0.5;
 
-        let left_edge = x - width * 0.5;
-        if left_edge < -GAME_AREA_WIDTH * 0.5 {
-            x = (width - GAME_AREA_WIDTH) * 0.5;
-        }
+            let left_edge = x - width * 0.5;
+            if left_edge < -GAME_AREA_WIDTH * 0.5 {
+                x = (width - GAME_AREA_WIDTH) * 0.5;
+            }
 
-        let right_edge = x + width * 0.5;
-        if right_edge > GAME_AREA_WIDTH * 0.5 {
-            x = (GAME_AREA_WIDTH - width) * 0.5;
-        }
+            let right_edge = x + width * 0.5;
+            if right_edge > GAME_AREA_WIDTH * 0.5 {
+                x = (GAME_AREA_WIDTH - width) * 0.5;
+            }
 
-        let translation = Vec3::new(x, (GAME_AREA_HEIGHT - TRIFLE_HEIGHT) * 0.5, 1.0);
+            let translation = Vec3::new(x, (GAME_AREA_HEIGHT - TRIFLE_HEIGHT) * 0.5, 1.0);
 
-        commands
-            .spawn((
-                SpriteBundle {
-                    sprite: Sprite {
-                        custom_size: Some(size),
-                        ..default()
-                    },
-                    transform: Transform::from_translation(translation),
-                    ..default()
-                },
-                Trifle::new(lot),
-                Speed(rand::thread_rng().gen_range(50.0..100.0)),
-            ))
-            .with_children(|parent| {
-                parent.spawn(Text2dBundle {
-                    text: Text::from_section(
-                        lot_desc,
-                        TextStyle {
-                            font_size: TRIFLE_LABEL_FONT_SIZE,
-                            color: Color::GOLD,
+            commands
+                .spawn((
+                    SpriteBundle {
+                        sprite: Sprite {
+                            custom_size: Some(size),
                             ..default()
                         },
-                    )
-                    .with_alignment(TextAlignment::Center),
-                    transform: Transform::from_translation(Vec3::new(
-                        0.0,
-                        size.y * 0.5 + 4.0 + TRIFLE_LABEL_FONT_SIZE * 0.5,
-                        0.0,
-                    )),
-                    ..default()
+                        transform: Transform::from_translation(translation),
+                        ..default()
+                    },
+                    Trifle::new(lot),
+                    Speed(rand::thread_rng().gen_range(50.0..100.0)),
+                ))
+                .with_children(|parent| {
+                    parent.spawn(Text2dBundle {
+                        text: Text::from_section(
+                            lot_desc,
+                            TextStyle {
+                                font_size: TRIFLE_LABEL_FONT_SIZE,
+                                color: Color::GOLD,
+                                ..default()
+                            },
+                        )
+                        .with_alignment(TextAlignment::Center),
+                        transform: Transform::from_translation(Vec3::new(
+                            0.0,
+                            size.y * 0.5 + 4.0 + TRIFLE_LABEL_FONT_SIZE * 0.5,
+                            0.0,
+                        )),
+                        ..default()
+                    });
                 });
-            });
+        }
     }
 }
 

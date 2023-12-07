@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::config::{WINDOW_HEIGHT, WINDOW_WIDTH};
+use crate::constant::{WINDOW_HEIGHT, WINDOW_WIDTH};
 
 pub(super) const GAME_AREA_BORDER_WIDTH: f32 = 15.0;
 pub(super) const GAME_AREA_HEIGHT: f32 = WINDOW_HEIGHT - 40.0;

@@ -1,6 +1,11 @@
 use bevy::{app::AppExit, prelude::*};
 
-use crate::{despawn_screen, DisplayQuality, GameState, Volume, TEXT_COLOR};
+use crate::{
+    common::despawn_screen,
+    constant::TEXT_COLOR,
+    resource::{DisplayQuality, Volume},
+    state::GameState,
+};
 
 use super::{
     component::{MenuButtonAction, OnMainMenuScreen, OnSettingsMenuScreen, SelectedOption},
