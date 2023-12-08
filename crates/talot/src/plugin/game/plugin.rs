@@ -20,8 +20,8 @@ use super::{
         UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
     },
     constant::{
-        GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_WIDTH, PLAYER_SIZE,
-        TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
+        GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_LEFT_WIDTH,
+        PANEL_RIGHT_WIDTH, PLAYER_SIZE, TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
     },
     resource::{AgingTimer, Attributes, Bio, TrifleSpawnTimer},
 };
@@ -86,7 +86,7 @@ fn setup(mut commands: Commands) {
             parent
                 .spawn(NodeBundle {
                     style: Style {
-                        width: Val::Px(PANEL_WIDTH),
+                        width: Val::Px(PANEL_LEFT_WIDTH),
                         height: Val::Percent(100.0),
                         padding: UiRect::all(Val::Px(5.0)),
                         flex_direction: FlexDirection::Column,
@@ -132,7 +132,7 @@ fn setup(mut commands: Commands) {
             parent
                 .spawn(NodeBundle {
                     style: Style {
-                        width: Val::Px(PANEL_WIDTH),
+                        width: Val::Px(PANEL_RIGHT_WIDTH),
                         height: Val::Percent(100.0),
                         padding: UiRect::all(Val::Px(5.0)),
                         flex_direction: FlexDirection::Column,
