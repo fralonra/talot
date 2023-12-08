@@ -4,7 +4,9 @@ use rand_distr::{Distribution, Normal};
 use talot_core::QueryInfo;
 
 use crate::{
-    asset::GameAsset, common::despawn_screen, resource::GameAssetHandle, state::GameState,
+    asset::{GameAsset, GameDataAssets},
+    common::despawn_screen,
+    state::GameState,
 };
 
 use super::{
@@ -302,13 +304,14 @@ fn text_stat_soc_system(
 fn trifle_spawn_system(
     mut commands: Commands,
     query_player: Query<(&Age, &Attributable, &EmotionalRating, &PlayerStat), With<Player>>,
-    (asset_server, game_asset_handle, time): (Res<AssetServer>, Res<GameAssetHandle>, Res<Time>),
+    (asset_server, asset_handles, time): (Res<AssetServer>, Res<GameDataAssets>, Res<Time>),
     (game_assets, mut timer): (ResMut<Assets<GameAsset>>, ResMut<TrifleSpawnTimer>),
 ) {
     let (age, attrs, er, stats) = query_player.single();
 
     if timer.tick(time.delta()).finished() {
-        let game_asset = game_assets.get(&game_asset_handle.0).unwrap();
+        let game_asset = game_assets.get(&asset_handles.core).unwrap();
+
         let lot = (*game_asset).get_lot(&QueryInfo {
             age: **age,
             attrs: &attrs,
@@ -351,7 +354,7 @@ fn trifle_spawn_system(
                         ..default()
                     },
                     Trifle::new(lot),
-                    Speed(rand::thread_rng().gen_range(50.0..100.0)),
+                    Speed(rand::thread_rng().gen_range(90.0..150.0)),
                 ))
                 .with_children(|parent| {
                     parent.spawn(Text2dBundle {
@@ -392,7 +395,7 @@ fn trifle_handle_system(
         >,
         Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
     ),
-    (game_asset_handle, time): (Res<GameAssetHandle>, Res<Time>),
+    (asset_handles, time): (Res<GameDataAssets>, Res<Time>),
     game_assets: ResMut<Assets<GameAsset>>,
 ) {
     let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
@@ -424,7 +427,8 @@ fn trifle_handle_system(
                 stats: &stats,
             };
 
-            let game_asset = game_assets.get(&game_asset_handle.0).unwrap();
+            let game_asset = game_assets.get(&asset_handles.core).unwrap();
+
             let lot = (*game_asset).get_lot(&query);
 
             if let Some(lot) = lot {

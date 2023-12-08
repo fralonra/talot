@@ -5,12 +5,13 @@ mod plugin;
 mod resource;
 mod state;
 
-use asset::GameAsset;
+use asset::{GameAsset, GameDataAssets, ImageAssets};
 use bevy::prelude::*;
+use bevy_asset_loader::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
 use constant::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use plugin::{GamePlugin, MenuPlugin, SplashPlugin};
-use resource::{DisplayQuality, GameAssetHandle, Volume};
+use resource::{DisplayQuality, Volume};
 use state::GameState;
 
 pub fn run() {
@@ -29,14 +30,14 @@ pub fn run() {
         .insert_resource(DisplayQuality::Medium)
         .insert_resource(Volume(7))
         .add_state::<GameState>()
+        .add_loading_state(LoadingState::new(GameState::Splash).continue_to_state(GameState::Menu))
+        .add_collection_to_loading_state::<_, GameDataAssets>(GameState::Splash)
+        .add_collection_to_loading_state::<_, ImageAssets>(GameState::Splash)
         .add_systems(Startup, setup)
         .add_plugins((SplashPlugin, MenuPlugin, GamePlugin))
         .run();
 }
 
-fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup(mut commands: Commands) {
     commands.spawn(Camera2dBundle::default());
-
-    let game_asset = GameAssetHandle(asset_server.load("core.asset.json"));
-    commands.insert_resource(game_asset);
 }
