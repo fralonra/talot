@@ -203,7 +203,7 @@ fn setup(mut commands: Commands) {
         OnGameScreen,
     ));
 
-    commands.insert_resource(AgingTimer(Timer::from_seconds(2.0, TimerMode::Repeating)));
+    commands.insert_resource(AgingTimer(Timer::from_seconds(3.0, TimerMode::Repeating)));
     commands.insert_resource(TrifleSpawnTimer(Timer::from_seconds(
         0.5,
         TimerMode::Repeating,
@@ -213,11 +213,7 @@ fn setup(mut commands: Commands) {
     commands.insert_resource(Bio::default());
 }
 
-fn aging_system(
-    mut query_age: Query<&mut Age>,
-    time: Res<Time>,
-    mut timer: ResMut<TrifleSpawnTimer>,
-) {
+fn aging_system(mut query_age: Query<&mut Age>, time: Res<Time>, mut timer: ResMut<AgingTimer>) {
     let mut age = query_age.single_mut();
 
     if timer.tick(time.delta()).finished() {
@@ -518,7 +514,6 @@ fn trifle_handle_system(
         >,
         Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
     ),
-    (asset_handles, game_assets): (Res<GameDataAssets>, Res<Assets<GameAsset>>),
     mut bio: ResMut<Bio>,
 ) {
     let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
@@ -550,41 +545,36 @@ fn trifle_handle_system(
                 stats: &stats,
             };
 
-            let game_asset = game_assets.get(&asset_handles.core).unwrap();
+            let lot = &trifle.lot;
+            let resp = lot.apply(&query);
 
-            let lot = (*game_asset).get_lot(&query);
+            if let Some(new_attrs) = resp.attrs {
+                attrs.0 = new_attrs;
+            }
 
-            if let Some(lot) = lot {
-                let resp = lot.apply(&query);
+            if let Some(new_er) = resp.er {
+                er.0 = new_er;
+            }
 
-                if let Some(new_attrs) = resp.attrs {
-                    attrs.0 = new_attrs;
-                }
+            if let Some(new_stats) = resp.stats {
+                stats.0 = new_stats;
+            }
 
-                if let Some(new_er) = resp.er {
-                    er.0 = new_er;
-                }
+            let event_repeated = bio
+                .last_mut()
+                .and_then(|last| {
+                    if last.0 == age.0 && last.1 == lot.desc {
+                        last.2 += 1;
 
-                if let Some(new_stats) = resp.stats {
-                    stats.0 = new_stats;
-                }
+                        return Some(true);
+                    }
 
-                let event_repeated = bio
-                    .last_mut()
-                    .and_then(|last| {
-                        if last.0 == age.0 && last.1 == lot.desc {
-                            last.2 += 1;
+                    Some(false)
+                })
+                .unwrap_or(false);
 
-                            return Some(true);
-                        }
-
-                        Some(false)
-                    })
-                    .unwrap_or(false);
-
-                if !event_repeated {
-                    bio.push((age.0, lot.desc.clone(), 1));
-                }
+            if !event_repeated {
+                bio.push((age.0, lot.desc.clone(), 1));
             }
 
             commands.entity(entity).despawn_recursive();
