@@ -7,8 +7,19 @@ use talot_core::{Lot, Stats, ER};
 #[derive(Component)]
 pub(super) struct OnGameScreen;
 
+#[derive(Component, Default)]
+pub(super) struct ScrollingList {
+    pub position: f32,
+}
+
 #[derive(Component)]
 pub(super) struct UiAgeLabel;
+
+#[derive(Component)]
+pub(super) struct UiAttrsPanel;
+
+#[derive(Component)]
+pub(super) struct UiBioPanel;
 
 #[derive(Component)]
 pub(super) struct UiGameArea;
@@ -41,7 +52,7 @@ pub(super) struct Player;
 #[derive(Component, Default, Deref, DerefMut)]
 pub(super) struct PlayerStat(pub Stats);
 
-#[derive(Component)]
+#[derive(Component, Deref, DerefMut)]
 pub(super) struct Speed(pub f32);
 
 #[derive(Component)]

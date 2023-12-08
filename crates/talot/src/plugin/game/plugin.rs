@@ -1,4 +1,7 @@
-use bevy::prelude::*;
+use bevy::{
+    input::mouse::{MouseScrollUnit, MouseWheel},
+    prelude::*,
+};
 use rand::Rng;
 use rand_distr::{Distribution, Normal};
 use talot_core::QueryInfo;
@@ -12,15 +15,15 @@ use crate::{
 use super::{
     bundle::StatBundle,
     component::{
-        Age, Attributable, EmotionalRating, OnGameScreen, Player, PlayerStat, Speed, Trifle,
-        UiAgeLabel, UiGameArea, UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel,
-        UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
+        Age, Attributable, EmotionalRating, OnGameScreen, Player, PlayerStat, ScrollingList, Speed,
+        Trifle, UiAgeLabel, UiBioPanel, UiGameArea, UiPlayerStatIntuitionLabel,
+        UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
     },
     constant::{
         GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_WIDTH, PLAYER_SIZE,
         TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
     },
-    resource::{AgingTimer, TrifleSpawnTimer},
+    resource::{AgingTimer, Attributes, Bio, TrifleSpawnTimer},
 };
 
 pub struct GamePlugin;
@@ -49,6 +52,8 @@ impl Plugin for GamePlugin {
                 Update,
                 (
                     text_age_system,
+                    text_attrs_system,
+                    text_bio_system,
                     text_stat_int_system,
                     text_stat_kno_system,
                     text_stat_phy_system,
@@ -83,43 +88,7 @@ fn setup(mut commands: Commands) {
                     style: Style {
                         width: Val::Px(PANEL_WIDTH),
                         height: Val::Percent(100.0),
-                        flex_direction: FlexDirection::Column,
-                        ..default()
-                    },
-                    background_color: PANEL_BACKGROUND_COLOR.into(),
-                    ..default()
-                })
-                .with_children(|parent| {
-                    // Physical Stat
-                    parent.spawn((StatBundle::new("PHY"), UiPlayerStatPhysicalLabel));
-
-                    // // Intuition Stat
-                    parent.spawn((StatBundle::new("INT"), UiPlayerStatIntuitionLabel));
-
-                    // // Knowledge Stat
-                    parent.spawn((StatBundle::new("KNO"), UiPlayerStatKnowledgeLabel));
-
-                    // // Social Stat
-                    parent.spawn((StatBundle::new("SOC"), UiPlayerStatSocialLabel));
-                });
-
-            // Center
-            // parent.spawn(NodeBundle {
-            //     style: Style {
-            //         width: Val::Px(GAME_AREA_WIDTH + GAME_AREA_BORDER_WIDTH),
-            //         height: Val::Px(GAME_AREA_HEIGHT + GAME_AREA_BORDER_WIDTH),
-            //         ..default()
-            //     },
-            //     background_color: GAME_AREA_BORDER_COLOR.into(),
-            //     ..default()
-            // });
-
-            // Right Panel
-            parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        width: Val::Px(PANEL_WIDTH),
-                        height: Val::Percent(100.0),
+                        padding: UiRect::all(Val::Px(5.0)),
                         flex_direction: FlexDirection::Column,
                         ..default()
                     },
@@ -133,17 +102,66 @@ fn setup(mut commands: Commands) {
                             TextSection::new(
                                 "Age: ",
                                 TextStyle {
-                                    font_size: 40.0,
+                                    font_size: 30.0,
                                     ..default()
                                 },
                             ),
                             TextSection::from_style(TextStyle {
-                                font_size: 40.0,
+                                font_size: 30.0,
                                 color: Color::BLUE,
                                 ..default()
                             }),
                         ]),
                         UiAgeLabel,
+                    ));
+
+                    // Physical Stat
+                    parent.spawn((StatBundle::new("PHY"), UiPlayerStatPhysicalLabel));
+
+                    // Intuition Stat
+                    parent.spawn((StatBundle::new("INT"), UiPlayerStatIntuitionLabel));
+
+                    // Knowledge Stat
+                    parent.spawn((StatBundle::new("KNO"), UiPlayerStatKnowledgeLabel));
+
+                    // Social Stat
+                    parent.spawn((StatBundle::new("SOC"), UiPlayerStatSocialLabel));
+                });
+
+            // Right Panel
+            parent
+                .spawn(NodeBundle {
+                    style: Style {
+                        width: Val::Px(PANEL_WIDTH),
+                        height: Val::Percent(100.0),
+                        padding: UiRect::all(Val::Px(5.0)),
+                        flex_direction: FlexDirection::Column,
+                        ..default()
+                    },
+                    background_color: PANEL_BACKGROUND_COLOR.into(),
+                    ..default()
+                })
+                .with_children(|parent| {
+                    // Bio
+                    parent.spawn(TextBundle::from_section(
+                        "Bio",
+                        TextStyle {
+                            font_size: 30.0,
+                            ..default()
+                        },
+                    ));
+
+                    parent.spawn((
+                        NodeBundle {
+                            style: Style {
+                                flex_direction: FlexDirection::Column,
+                                align_self: AlignSelf::Stretch,
+                                overflow: Overflow::clip_y(),
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        UiBioPanel,
                     ));
                 });
         });
@@ -186,11 +204,13 @@ fn setup(mut commands: Commands) {
     ));
 
     commands.insert_resource(AgingTimer(Timer::from_seconds(2.0, TimerMode::Repeating)));
-
     commands.insert_resource(TrifleSpawnTimer(Timer::from_seconds(
-        2.0,
+        0.5,
         TimerMode::Repeating,
     )));
+
+    commands.insert_resource(Attributes::default());
+    commands.insert_resource(Bio::default());
 }
 
 fn aging_system(
@@ -201,7 +221,7 @@ fn aging_system(
     let mut age = query_age.single_mut();
 
     if timer.tick(time.delta()).finished() {
-        **age += 1.0;
+        age.0 += 1.0;
     }
 }
 
@@ -210,7 +230,6 @@ fn keyboard_system(
     (input, time): (Res<Input<KeyCode>>, Res<Time>),
 ) {
     let (speed, mut transform) = query_player.single_mut();
-    let speed = speed.0;
 
     let mut direction = 0.0;
 
@@ -222,7 +241,7 @@ fn keyboard_system(
         direction += 1.0;
     }
 
-    let new_position = transform.translation.x + direction * speed * time.delta_seconds();
+    let new_position = transform.translation.x + direction * speed.0 * time.delta_seconds();
 
     let left_bound = (PLAYER_SIZE.x - GAME_AREA_WIDTH) * 0.5;
     let right_bound = (GAME_AREA_WIDTH - PLAYER_SIZE.x) * 0.5;
@@ -230,9 +249,29 @@ fn keyboard_system(
     transform.translation.x = new_position.clamp(left_bound, right_bound);
 }
 
-fn mouse_system(input: Res<Input<MouseButton>>) {
-    if input.just_pressed(MouseButton::Left) {
-        // Left button was pressed
+fn mouse_system(
+    (mut query_list, query_node): (
+        Query<(&Node, &Parent, &mut ScrollingList, &mut Style)>,
+        Query<&Node>,
+    ),
+    mut mouse_wheel_events: EventReader<MouseWheel>,
+) {
+    for mouse_wheel_event in mouse_wheel_events.read() {
+        for (list_node, parent, mut scrolling_list, mut style) in &mut query_list {
+            let items_height = list_node.size().y;
+            let container_height = query_node.get(parent.get()).unwrap().size().y;
+
+            let max_scroll = (items_height - container_height).max(0.);
+
+            let dy = match mouse_wheel_event.unit {
+                MouseScrollUnit::Line => mouse_wheel_event.y * 20.,
+                MouseScrollUnit::Pixel => mouse_wheel_event.y,
+            };
+
+            scrolling_list.position += dy;
+            scrolling_list.position = scrolling_list.position.clamp(-max_scroll, 0.);
+            style.top = Val::Px(scrolling_list.position);
+        }
     }
 }
 
@@ -246,6 +285,90 @@ fn text_age_system(
         for mut text in &mut query_text {
             text.sections[1].value = format!("{:.0}", age.0);
         }
+    }
+}
+
+fn text_attrs_system(attrs: Res<Attributes>) {
+    if attrs.is_changed() {}
+}
+
+fn text_bio_system(
+    mut commands: Commands,
+    query_entity: Query<Entity, With<UiBioPanel>>,
+    bio: Res<Bio>,
+) {
+    if bio.is_changed() {
+        let entity = query_entity.single();
+
+        commands.entity(entity).despawn_descendants();
+
+        commands
+            .entity(entity)
+            .insert((
+                NodeBundle {
+                    style: Style {
+                        flex_direction: FlexDirection::Column,
+                        align_items: AlignItems::Center,
+                        overflow: Overflow::clip_y(),
+                        ..default()
+                    },
+                    ..default()
+                },
+                ScrollingList::default(),
+            ))
+            .with_children(|parent| {
+                let mut last_age = -1.0;
+
+                for (age, bio, times) in &**bio {
+                    parent
+                        .spawn(NodeBundle {
+                            style: Style {
+                                width: Val::Percent(100.0),
+                                ..default()
+                            },
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            parent.spawn(
+                                TextBundle::from_section(
+                                    if last_age == *age {
+                                        "".to_owned()
+                                    } else {
+                                        format!("{}", age)
+                                    },
+                                    TextStyle {
+                                        font_size: 16.0,
+                                        ..default()
+                                    },
+                                )
+                                .with_style(Style {
+                                    width: Val::Percent(15.0),
+                                    ..default()
+                                }),
+                            );
+
+                            parent.spawn(
+                                TextBundle::from_section(
+                                    if *times > 1 {
+                                        format!("{} * {}", bio, times)
+                                    } else {
+                                        bio.to_owned()
+                                    },
+                                    TextStyle {
+                                        font_size: 16.0,
+                                        ..default()
+                                    },
+                                )
+                                .with_style(Style {
+                                    width: Val::Percent(85.0),
+                                    ..default()
+                                }),
+                            );
+                        });
+
+                    last_age = *age;
+                }
+            });
     }
 }
 
@@ -304,8 +427,8 @@ fn text_stat_soc_system(
 fn trifle_spawn_system(
     mut commands: Commands,
     query_player: Query<(&Age, &Attributable, &EmotionalRating, &PlayerStat), With<Player>>,
-    (asset_server, asset_handles, time): (Res<AssetServer>, Res<GameDataAssets>, Res<Time>),
-    (game_assets, mut timer): (ResMut<Assets<GameAsset>>, ResMut<TrifleSpawnTimer>),
+    (game_assets, asset_handles, time): (Res<Assets<GameAsset>>, Res<GameDataAssets>, Res<Time>),
+    mut timer: ResMut<TrifleSpawnTimer>,
 ) {
     let (age, attrs, er, stats) = query_player.single();
 
@@ -313,7 +436,7 @@ fn trifle_spawn_system(
         let game_asset = game_assets.get(&asset_handles.core).unwrap();
 
         let lot = (*game_asset).get_lot(&QueryInfo {
-            age: **age,
+            age: age.0,
             attrs: &attrs,
             er: &er,
             stats: &stats,
@@ -395,8 +518,8 @@ fn trifle_handle_system(
         >,
         Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
     ),
-    (asset_handles, time): (Res<GameDataAssets>, Res<Time>),
-    game_assets: ResMut<Assets<GameAsset>>,
+    (asset_handles, game_assets): (Res<GameDataAssets>, Res<Assets<GameAsset>>),
+    mut bio: ResMut<Bio>,
 ) {
     let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
         query_player.single_mut();
@@ -421,7 +544,7 @@ fn trifle_handle_system(
             player_sprite.color = Color::RED;
 
             let query = QueryInfo {
-                age: **age,
+                age: age.0,
                 attrs: &attrs,
                 er: &er,
                 stats: &stats,
@@ -444,6 +567,23 @@ fn trifle_handle_system(
 
                 if let Some(new_stats) = resp.stats {
                     stats.0 = new_stats;
+                }
+
+                let event_repeated = bio
+                    .last_mut()
+                    .and_then(|last| {
+                        if last.0 == age.0 && last.1 == lot.desc {
+                            last.2 += 1;
+
+                            return Some(true);
+                        }
+
+                        Some(false)
+                    })
+                    .unwrap_or(false);
+
+                if !event_repeated {
+                    bio.push((age.0, lot.desc.clone(), 1));
                 }
             }
 

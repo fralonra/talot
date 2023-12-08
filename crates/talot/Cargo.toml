@@ -7,7 +7,6 @@ edition.workspace = true
 bevy = "0.12.1"
 bevy_asset_loader = "0.18.0"
 bevy_common_assets = { version = "0.8.0", features = ["json"] }
-iyes_progress = "0.10.0"
 rand.workspace = true
 rand_distr.workspace = true
 serde.workspace = true
