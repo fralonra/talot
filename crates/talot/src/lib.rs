@@ -7,7 +7,7 @@ mod state;
 
 use asset::GameAsset;
 use bevy::prelude::*;
-use bevy_common_assets::toml::TomlAssetPlugin;
+use bevy_common_assets::json::JsonAssetPlugin;
 use constant::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use plugin::{GamePlugin, MenuPlugin, SplashPlugin};
 use resource::{DisplayQuality, GameAssetHandle, Volume};
@@ -24,7 +24,7 @@ pub fn run() {
                 }),
                 ..default()
             }),
-            TomlAssetPlugin::<GameAsset>::new(&["asset.toml"]),
+            JsonAssetPlugin::<GameAsset>::new(&["asset.json"]),
         ))
         .insert_resource(DisplayQuality::Medium)
         .insert_resource(Volume(7))
@@ -37,6 +37,6 @@ pub fn run() {
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn(Camera2dBundle::default());
 
-    let game_asset = GameAssetHandle(asset_server.load("core.asset.toml"));
+    let game_asset = GameAssetHandle(asset_server.load("core.asset.json"));
     commands.insert_resource(game_asset);
 }

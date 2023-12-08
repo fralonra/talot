@@ -1,4 +1,4 @@
-use bevy::{prelude::*, utils::HashSet};
+use bevy::prelude::*;
 use rand::Rng;
 use rand_distr::{Distribution, Normal};
 use talot_core::QueryInfo;
@@ -10,9 +10,9 @@ use crate::{
 use super::{
     bundle::StatBundle,
     component::{
-        Age, Attributable, OnGameScreen, Player, PlayerStat, Speed, Trifle, UiAgeLabel, UiGameArea,
-        UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel,
-        UiPlayerStatSocialLabel,
+        Age, Attributable, EmotionalRating, OnGameScreen, Player, PlayerStat, Speed, Trifle,
+        UiAgeLabel, UiGameArea, UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel,
+        UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
     },
     constant::{
         GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_WIDTH, PLAYER_SIZE,
@@ -176,8 +176,9 @@ fn setup(mut commands: Commands) {
         },
         Player,
         PlayerStat::default(),
-        Attributable(HashSet::new()),
         Age(0.0),
+        Attributable::default(),
+        EmotionalRating::default(),
         Speed(100.0),
         OnGameScreen,
     ));
@@ -300,25 +301,26 @@ fn text_stat_soc_system(
 
 fn trifle_spawn_system(
     mut commands: Commands,
-    query_player: Query<(&Age, &Attributable, &PlayerStat), With<Player>>,
+    query_player: Query<(&Age, &Attributable, &EmotionalRating, &PlayerStat), With<Player>>,
     (asset_server, game_asset_handle, time): (Res<AssetServer>, Res<GameAssetHandle>, Res<Time>),
     (game_assets, mut timer): (ResMut<Assets<GameAsset>>, ResMut<TrifleSpawnTimer>),
 ) {
-    let (age, attrs, stats) = query_player.single();
+    let (age, attrs, er, stats) = query_player.single();
 
     if timer.tick(time.delta()).finished() {
-        let normal = Normal::new(0.5, 0.1).unwrap();
-        let p = normal.sample(&mut rand::thread_rng());
-        let p = (p as f32).clamp(0.1, 0.9);
-
         let game_asset = game_assets.get(&game_asset_handle.0).unwrap();
         let lot = (*game_asset).get_lot(&QueryInfo {
             age: **age,
-            attrs: &attrs.to_vec(),
+            attrs: &attrs,
+            er: &er,
             stats: &stats,
         });
 
         if let Some(lot) = lot {
+            let normal = Normal::new(0.5, 0.1).unwrap();
+            let p = normal.sample(&mut rand::thread_rng());
+            let p = (p as f32).clamp(0.1, 0.9);
+
             let lot_desc = lot.desc.clone();
 
             let width = GAME_AREA_WIDTH * p;
@@ -377,12 +379,24 @@ fn trifle_spawn_system(
 fn trifle_handle_system(
     mut commands: Commands,
     (mut query_player, query_trifle): (
-        Query<(&mut Sprite, &Transform), With<Player>>,
+        Query<
+            (
+                &Age,
+                &mut Attributable,
+                &mut EmotionalRating,
+                &mut PlayerStat,
+                &mut Sprite,
+                &Transform,
+            ),
+            With<Player>,
+        >,
         Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
     ),
-    time: Res<Time>,
+    (game_asset_handle, time): (Res<GameAssetHandle>, Res<Time>),
+    game_assets: ResMut<Assets<GameAsset>>,
 ) {
-    let (mut player_sprite, player_transform) = query_player.single_mut();
+    let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
+        query_player.single_mut();
     let player_left = player_transform.translation.x - PLAYER_SIZE.x * 0.5;
     let player_right = player_transform.translation.x + PLAYER_SIZE.x * 0.5;
 
@@ -402,6 +416,32 @@ fn trifle_handle_system(
             is_intersected = true;
 
             player_sprite.color = Color::RED;
+
+            let query = QueryInfo {
+                age: **age,
+                attrs: &attrs,
+                er: &er,
+                stats: &stats,
+            };
+
+            let game_asset = game_assets.get(&game_asset_handle.0).unwrap();
+            let lot = (*game_asset).get_lot(&query);
+
+            if let Some(lot) = lot {
+                let resp = lot.apply(&query);
+
+                if let Some(new_attrs) = resp.attrs {
+                    attrs.0 = new_attrs;
+                }
+
+                if let Some(new_er) = resp.er {
+                    er.0 = new_er;
+                }
+
+                if let Some(new_stats) = resp.stats {
+                    stats.0 = new_stats;
+                }
+            }
 
             commands.entity(entity).despawn_recursive();
         }

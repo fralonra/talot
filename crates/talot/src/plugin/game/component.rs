@@ -1,5 +1,7 @@
-use bevy::{prelude::*, utils::HashSet};
-use talot_core::{Lot, Stats};
+use std::collections::HashSet;
+
+use bevy::prelude::*;
+use talot_core::{Lot, Stats, ER};
 
 // --------- User Interface --------- //
 #[derive(Component)]
@@ -27,20 +29,11 @@ pub(super) struct UiPlayerStatSocialLabel;
 #[derive(Component, Deref, DerefMut)]
 pub(super) struct Age(pub f32);
 
-#[derive(Component)]
+#[derive(Component, Default, Deref, DerefMut)]
 pub(super) struct Attributable(pub HashSet<u32>);
 
-impl Attributable {
-    pub fn to_vec(&self) -> Vec<u32> {
-        self.0.iter().cloned().collect()
-    }
-}
-
-#[derive(Component)]
-pub(super) struct EmotionalImpactFactor(pub f32);
-
-#[derive(Component)]
-pub(super) struct EmotionalRating(pub f32);
+#[derive(Component, Default, Deref, DerefMut)]
+pub(super) struct EmotionalRating(pub ER);
 
 #[derive(Component)]
 pub(super) struct Player;

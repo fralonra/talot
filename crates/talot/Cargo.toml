@@ -5,9 +5,8 @@ edition.workspace = true
 
 [dependencies]
 bevy = "0.12.1"
-bevy_common_assets = { version = "0.8.0", features = ["toml"] }
+bevy_common_assets = { version = "0.8.0", features = ["json"] }
 rand.workspace = true
 rand_distr.workspace = true
 serde.workspace = true
 talot_core = { path = "../talot_core" }
-toml = "0.8.8"

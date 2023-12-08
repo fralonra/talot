@@ -1,14 +1,18 @@
 use serde::Deserialize;
 
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Copy, Debug, Deserialize)]
 pub enum Stat {
+    // Intuition
     Int,
+    // Knowledge
     Kno,
+    // Physical
     Phy,
+    // Social
     Soc,
 }
 
-#[derive(Clone, Debug, Deserialize, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Stats {
     pub intuition: f32,
     pub knowledge: f32,

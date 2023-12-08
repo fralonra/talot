@@ -15,7 +15,7 @@ impl Condition {
     pub fn is_satisfied(&self, query: &QueryInfo) -> bool {
         match self {
             Self::Age(op) => op.is_matched(&query.age),
-            Self::Attr(op) => op.is_matched(&query.attrs.to_owned()),
+            Self::Attr(op) => op.is_matched(&query.attrs),
             Self::Stat((op, stat)) => {
                 let stat = match stat {
                     Stat::Int => query.stats.intuition,

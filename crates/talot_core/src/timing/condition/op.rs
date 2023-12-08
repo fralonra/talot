@@ -1,3 +1,5 @@
+use std::{collections::HashSet, hash::Hash};
+
 use serde::Deserialize;
 
 pub trait OpImpl {
@@ -7,18 +9,18 @@ pub trait OpImpl {
 }
 
 #[derive(Clone, Debug, Deserialize)]
-pub enum InclusionOp<T: PartialEq> {
+pub enum InclusionOp<T: Eq + Hash> {
     With(T),
     Without(T),
 }
 
-impl<T: PartialEq> OpImpl for InclusionOp<T> {
-    type Value = Vec<T>;
+impl<T: Eq + Hash> OpImpl for InclusionOp<T> {
+    type Value = HashSet<T>;
 
     fn is_matched(&self, value: &Self::Value) -> bool {
         match self {
-            Self::With(v) => value.into_iter().any(|value| value == v),
-            Self::Without(v) => value.into_iter().all(|value| value != v),
+            Self::With(v) => value.contains(v),
+            Self::Without(v) => !value.contains(v),
         }
     }
 }
