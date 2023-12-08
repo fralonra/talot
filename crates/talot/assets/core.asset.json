@@ -6,199 +6,199 @@
         },
         {
             "id": 1,
-            "name": "Teacher"
+            "name": "Mother"
         },
         {
             "id": 2,
-            "name": "Engineer"
+            "name": "Sister"
         },
         {
             "id": 3,
-            "name": "Doctor"
-        },
-        {
-            "id": 4,
-            "name": "Nurse"
-        },
-        {
-            "id": 5,
-            "name": "Artist"
-        },
-        {
-            "id": 6,
-            "name": "Musician"
-        },
-        {
-            "id": 7,
-            "name": "Actor"
-        },
-        {
-            "id": 8,
-            "name": "Writer"
-        },
-        {
-            "id": 9,
-            "name": "Journalist"
-        },
-        {
-            "id": 10,
-            "name": "Scientist"
-        },
-        {
-            "id": 11,
-            "name": "Researcher"
-        },
-        {
-            "id": 12,
-            "name": "Lawyer"
-        },
-        {
-            "id": 13,
-            "name": "Judge"
-        },
-        {
-            "id": 14,
-            "name": "Chef"
-        },
-        {
-            "id": 15,
-            "name": "Baker"
-        },
-        {
-            "id": 16,
-            "name": "Mechanic"
-        },
-        {
-            "id": 17,
-            "name": "Technician"
-        },
-        {
-            "id": 18,
-            "name": "Architect"
-        },
-        {
-            "id": 19,
-            "name": "Designer"
-        },
-        {
-            "id": 20,
-            "name": "Programmer"
-        },
-        {
-            "id": 21,
-            "name": "Entrepreneur"
-        },
-        {
-            "id": 22,
-            "name": "Manager"
-        },
-        {
-            "id": 23,
-            "name": "Executive"
-        },
-        {
-            "id": 24,
-            "name": "Salesperson"
-        },
-        {
-            "id": 25,
-            "name": "Marketer"
-        },
-        {
-            "id": 26,
-            "name": "Photographer"
-        },
-        {
-            "id": 27,
-            "name": "Model"
-        },
-        {
-            "id": 28,
-            "name": "Athlete"
-        },
-        {
-            "id": 29,
-            "name": "Coach"
-        },
-        {
-            "id": 30,
-            "name": "Pilot"
-        },
-        {
-            "id": 31,
-            "name": "Astronaut"
-        },
-        {
-            "id": 32,
-            "name": "Firefighter"
-        },
-        {
-            "id": 33,
-            "name": "Police Officer"
-        },
-        {
-            "id": 34,
-            "name": "Soldier"
-        },
-        {
-            "id": 35,
-            "name": "Dancer"
-        },
-        {
-            "id": 36,
-            "name": "Parent"
-        },
-        {
-            "id": 37,
-            "name": "Child"
-        },
-        {
-            "id": 38,
-            "name": "Sibling"
-        },
-        {
-            "id": 39,
-            "name": "Friend"
-        },
-        {
-            "id": 40,
-            "name": "Partner"
-        },
-        {
-            "id": 41,
             "name": "Vegetarian"
         },
         {
-            "id": 42,
-            "name": "Vegan"
+            "id": 4,
+            "name": "Artist"
         },
         {
-            "id": 43,
-            "name": "Foodie"
+            "id": 5,
+            "name": "Pregnant"
         },
         {
-            "id": 44,
+            "id": 6,
+            "name": "Teacher"
+        },
+        {
+            "id": 7,
+            "name": "Engineer"
+        },
+        {
+            "id": 8,
+            "name": "Doctor"
+        },
+        {
+            "id": 9,
+            "name": "Nurse"
+        },
+        {
+            "id": 10,
+            "name": "Lawyer"
+        },
+        {
+            "id": 11,
+            "name": "Musician"
+        },
+        {
+            "id": 12,
+            "name": "Actor"
+        },
+        {
+            "id": 13,
+            "name": "Writer"
+        },
+        {
+            "id": 14,
+            "name": "Athlete"
+        },
+        {
+            "id": 15,
+            "name": "Chef"
+        },
+        {
+            "id": 16,
+            "name": "Scientist"
+        },
+        {
+            "id": 17,
+            "name": "Designer"
+        },
+        {
+            "id": 18,
+            "name": "Entrepreneur"
+        },
+        {
+            "id": 19,
+            "name": "Photographer"
+        },
+        {
+            "id": 20,
+            "name": "Journalist"
+        },
+        {
+            "id": 21,
+            "name": "Architect"
+        },
+        {
+            "id": 22,
+            "name": "Painter"
+        },
+        {
+            "id": 23,
+            "name": "Dancer"
+        },
+        {
+            "id": 24,
+            "name": "Filmmaker"
+        },
+        {
+            "id": 25,
+            "name": "Programmer"
+        },
+        {
+            "id": 26,
             "name": "Gamer"
         },
         {
-            "id": 45,
+            "id": 27,
             "name": "Traveler"
         },
         {
-            "id": 46,
+            "id": 28,
             "name": "Adventurer"
         },
         {
+            "id": 29,
+            "name": "Blogger"
+        },
+        {
+            "id": 30,
+            "name": "Vlogger"
+        },
+        {
+            "id": 31,
+            "name": "Comedian"
+        },
+        {
+            "id": 32,
+            "name": "Magician"
+        },
+        {
+            "id": 33,
+            "name": "Animator"
+        },
+        {
+            "id": 34,
+            "name": "Illustrator"
+        },
+        {
+            "id": 35,
+            "name": "Podcaster"
+        },
+        {
+            "id": 36,
+            "name": "Streamer"
+        },
+        {
+            "id": 37,
+            "name": "Cyclist"
+        },
+        {
+            "id": 38,
+            "name": "Runner"
+        },
+        {
+            "id": 39,
+            "name": "Swimmer"
+        },
+        {
+            "id": 40,
+            "name": "Hiker"
+        },
+        {
+            "id": 41,
+            "name": "Gardener"
+        },
+        {
+            "id": 42,
+            "name": "Carpenter"
+        },
+        {
+            "id": 43,
+            "name": "Potter"
+        },
+        {
+            "id": 44,
+            "name": "Knitter"
+        },
+        {
+            "id": 45,
+            "name": "Baker"
+        },
+        {
+            "id": 46,
+            "name": "Barista"
+        },
+        {
             "id": 47,
-            "name": "Volunteer"
+            "name": "Bartender"
         },
         {
             "id": 48,
-            "name": "Donor"
+            "name": "Sommelier"
         },
         {
             "id": 49,
-            "name": "Activist"
+            "name": "Mixologist"
         }
     ],
     "categories": [
@@ -207,16 +207,11 @@
             "name": "Education",
             "timings": [
                 {
-                    "p": 0.8,
+                    "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 6
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 1
+                                "Gt": 5
                             }
                         }
                     ]
@@ -224,57 +219,71 @@
             ],
             "lots": [
                 {
-                    "desc": "Start primary school",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "Kindergarten",
+                    "p": 0.1,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.5,
+                                "attr_id": 0
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 0.5,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 5
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Elementary School",
+                    "p": 0.2,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.6,
+                                "attr_id": 1
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.6,
                             "conditions": [
                                 {
                                     "Age": {
                                         "Gt": 6
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start secondary school",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "Middle School",
+                    "p": 0.3,
+                    "effects": [
                         {
-                            "Stat": [
-                                20,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.7,
+                                "attr_id": 2
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 0.7,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 12
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
+                                        "Gt": 11
                                     }
                                 }
                             ]
@@ -282,14 +291,14 @@
                     ]
                 },
                 {
-                    "desc": "Start high school",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "High School",
+                    "p": 0.4,
+                    "effects": [
                         {
-                            "Stat": [
-                                30,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.8,
+                                "attr_id": 3
+                            }
                         }
                     ],
                     "timings": [
@@ -300,155 +309,101 @@
                                     "Age": {
                                         "Gt": 15
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start university",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "College",
+                    "p": 0.5,
+                    "effects": [
                         {
-                            "Stat": [
-                                40,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.9,
+                                "attr_id": 4
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 0.9,
                             "conditions": [
                                 {
                                     "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Graduate from university",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "Masters",
+                    "p": 0.6,
+                    "effects": [
                         {
-                            "Stat": [
-                                50,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 5
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 1.0,
                             "conditions": [
                                 {
                                     "Age": {
                                         "Gt": 22
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start master's degree",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "PhD",
+                    "p": 0.7,
+                    "effects": [
                         {
-                            "Stat": [
-                                60,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.1,
+                                "attr_id": 6
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 23
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Graduate from master's degree",
-                    "p": 0.9,
-                    "effect": [
-                        {
-                            "Stat": [
-                                70,
-                                "Kno"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
+                            "p": 0.1,
                             "conditions": [
                                 {
                                     "Age": {
                                         "Gt": 25
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start PhD",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "Postdoc",
+                    "p": 0.8,
+                    "effects": [
                         {
-                            "Stat": [
-                                80,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.2,
+                                "attr_id": 7
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 0.2,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 26
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
+                                        "Gt": 28
                                     }
                                 }
                             ]
@@ -456,57 +411,47 @@
                     ]
                 },
                 {
-                    "desc": "Graduate from PhD",
+                    "desc": "Professor",
                     "p": 0.9,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                90,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.3,
+                                "attr_id": 8
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
                                         "Gt": 30
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start postdoc",
-                    "p": 0.9,
-                    "effect": [
+                    "desc": "Emeritus",
+                    "p": 1.0,
+                    "effects": [
                         {
-                            "Stat": [
-                                100,
-                                "Kno"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.4,
+                                "attr_id": 9
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.8,
+                            "p": 0.4,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 31
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
+                                        "Gt": 65
                                     }
                                 }
                             ]
@@ -517,19 +462,14 @@
         },
         {
             "id": 1,
-            "name": "Work",
+            "name": "Health",
             "timings": [
                 {
-                    "p": 0.7,
+                    "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 22
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
+                                "Gt": 18
                             }
                         }
                     ]
@@ -537,72 +477,14 @@
             ],
             "lots": [
                 {
-                    "desc": "Start first job",
-                    "p": 0.8,
-                    "effect": [
+                    "desc": "Exercise 1",
+                    "p": 0.1,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 22
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get promotion",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 25
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Change job",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.5,
+                                "attr_id": 14
+                            }
                         }
                     ],
                     "timings": [
@@ -611,12 +493,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 28
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -624,86 +501,23 @@
                     ]
                 },
                 {
-                    "desc": "Start own business",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                30,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 30
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Expand business",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                40,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 35
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sell business",
+                    "desc": "Exercise 2",
                     "p": 0.2,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                50,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.6,
+                                "attr_id": 15
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.2,
+                            "p": 0.6,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 40
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -711,14 +525,110 @@
                     ]
                 },
                 {
-                    "desc": "Retire",
-                    "p": 0.1,
-                    "effect": [
+                    "desc": "Exercise 3",
+                    "p": 0.3,
+                    "effects": [
                         {
-                            "Stat": [
-                                60,
-                                "Soc"
+                            "AttrAdd": {
+                                "p": 0.7,
+                                "attr_id": 16
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.7,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Exercise 4",
+                    "p": 0.4,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.8,
+                                "attr_id": 17
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.8,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Exercise 5",
+                    "p": 0.5,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.9,
+                                "attr_id": 18
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.9,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Exercise 6",
+                    "p": 0.6,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 19
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 1.0,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Exercise 7",
+                    "p": 0.7,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.1,
+                                "attr_id": 20
+                            }
                         }
                     ],
                     "timings": [
@@ -727,12 +637,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 65
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -740,28 +645,23 @@
                     ]
                 },
                 {
-                    "desc": "Start consulting",
-                    "p": 0.05,
-                    "effect": [
+                    "desc": "Exercise 8",
+                    "p": 0.8,
+                    "effects": [
                         {
-                            "Stat": [
-                                70,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.2,
+                                "attr_id": 21
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.05,
+                            "p": 0.2,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 70
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 8
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -769,28 +669,23 @@
                     ]
                 },
                 {
-                    "desc": "Write a book",
-                    "p": 0.03,
-                    "effect": [
+                    "desc": "Exercise 9",
+                    "p": 0.9,
+                    "effects": [
                         {
-                            "Stat": [
-                                80,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.3,
+                                "attr_id": 22
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.03,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 75
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 9
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -798,28 +693,23 @@
                     ]
                 },
                 {
-                    "desc": "Give a TED talk",
-                    "p": 0.01,
-                    "effect": [
+                    "desc": "Exercise 10",
+                    "p": 1.0,
+                    "effects": [
                         {
-                            "Stat": [
-                                90,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.4,
+                                "attr_id": 23
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.01,
+                            "p": 0.4,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 80
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 10
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -830,19 +720,14 @@
         },
         {
             "id": 2,
-            "name": "Health",
+            "name": "Hobbies",
             "timings": [
                 {
-                    "p": 0.9,
+                    "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 0
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
+                                "Gt": 18
                             }
                         }
                     ]
@@ -850,101 +735,14 @@
             ],
             "lots": [
                 {
-                    "desc": "Start regular exercise",
-                    "p": 0.8,
-                    "effect": [
+                    "desc": "Hobby 1",
+                    "p": 0.1,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get a cold",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -5,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Recover from a cold",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                5,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Break a bone",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -20,
-                                "Phy"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.5,
+                                "attr_id": 24
+                            }
                         }
                     ],
                     "timings": [
@@ -953,12 +751,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -966,269 +759,14 @@
                     ]
                 },
                 {
-                    "desc": "Heal a broken bone",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get a check-up",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                0,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a diet",
+                    "desc": "Hobby 2",
                     "p": 0.2,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Quit a diet",
-                    "p": 0.1,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get a flu shot",
-                    "p": 0.05,
-                    "effect": [
-                        {
-                            "Stat": [
-                                0,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.05,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a new medication",
-                    "p": 0.01,
-                    "effect": [
-                        {
-                            "Stat": [
-                                0,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.01,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "name": "Health",
-            "timings": [
-                {
-                    "p": 0.9,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 0
+                            "AttrAdd": {
+                                "p": 0.6,
+                                "attr_id": 25
                             }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Start regular exercise",
-                    "p": 0.8,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get a cold",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -5,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Recover from a cold",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                5,
-                                "Phy"
-                            ]
                         }
                     ],
                     "timings": [
@@ -1237,12 +775,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 1
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1250,86 +783,23 @@
                     ]
                 },
                 {
-                    "desc": "Break a bone",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -20,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Heal a broken bone",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get a check-up",
+                    "desc": "Hobby 3",
                     "p": 0.3,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                0,
-                                "Phy"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.7,
+                                "attr_id": 26
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.3,
+                            "p": 0.7,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1337,28 +807,23 @@
                     ]
                 },
                 {
-                    "desc": "Start a diet",
-                    "p": 0.2,
-                    "effect": [
+                    "desc": "Hobby 4",
+                    "p": 0.4,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.8,
+                                "attr_id": 27
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.2,
+                            "p": 0.8,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1366,14 +831,62 @@
                     ]
                 },
                 {
-                    "desc": "Quit a diet",
-                    "p": 0.1,
-                    "effect": [
+                    "desc": "Hobby 5",
+                    "p": 0.5,
+                    "effects": [
                         {
-                            "Stat": [
-                                -10,
-                                "Phy"
+                            "AttrAdd": {
+                                "p": 0.9,
+                                "attr_id": 28
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.9,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Hobby 6",
+                    "p": 0.6,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 29
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 1.0,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Hobby 7",
+                    "p": 0.7,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.1,
+                                "attr_id": 30
+                            }
                         }
                     ],
                     "timings": [
@@ -1382,12 +895,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 4
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1395,28 +903,23 @@
                     ]
                 },
                 {
-                    "desc": "Get a flu shot",
-                    "p": 0.05,
-                    "effect": [
+                    "desc": "Hobby 8",
+                    "p": 0.8,
+                    "effects": [
                         {
-                            "Stat": [
-                                0,
-                                "Phy"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.2,
+                                "attr_id": 31
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.05,
+                            "p": 0.2,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1424,28 +927,47 @@
                     ]
                 },
                 {
-                    "desc": "Start a new medication",
-                    "p": 0.01,
-                    "effect": [
+                    "desc": "Hobby 9",
+                    "p": 0.9,
+                    "effects": [
                         {
-                            "Stat": [
-                                0,
-                                "Phy"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.3,
+                                "attr_id": 32
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.01,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
+                                        "Gt": 18
                                     }
-                                },
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Hobby 10",
+                    "p": 1.0,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.4,
+                                "attr_id": 33
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.4,
+                            "conditions": [
                                 {
-                                    "Attr": {
-                                        "Without": 6
+                                    "Age": {
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1456,19 +978,14 @@
         },
         {
             "id": 3,
-            "name": "Relationships",
+            "name": "Travel",
             "timings": [
                 {
-                    "p": 0.9,
+                    "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 0
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
+                                "Gt": 18
                             }
                         }
                     ]
@@ -1476,101 +993,14 @@
             ],
             "lots": [
                 {
-                    "desc": "Make a new friend",
-                    "p": 0.8,
-                    "effect": [
+                    "desc": "Trip 1",
+                    "p": 0.1,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a romantic relationship",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 16
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "End a romantic relationship",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 16
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get married",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.5,
+                                "attr_id": 34
+                            }
                         }
                     ],
                     "timings": [
@@ -1581,97 +1011,29 @@
                                     "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Have a child",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                25,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 20
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get divorced",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                -15,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 20
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "With": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Remarry",
+                    "desc": "Trip 2",
                     "p": 0.2,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.6,
+                                "attr_id": 35
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.2,
+                            "p": 0.6,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 20
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1679,14 +1041,110 @@
                     ]
                 },
                 {
-                    "desc": "Retire",
-                    "p": 0.1,
-                    "effect": [
+                    "desc": "Trip 3",
+                    "p": 0.3,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
+                            "AttrAdd": {
+                                "p": 0.7,
+                                "attr_id": 36
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.7,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Trip 4",
+                    "p": 0.4,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.8,
+                                "attr_id": 37
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.8,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Trip 5",
+                    "p": 0.5,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.9,
+                                "attr_id": 38
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.9,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Trip 6",
+                    "p": 0.6,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 39
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 1.0,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Trip 7",
+                    "p": 0.7,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.1,
+                                "attr_id": 40
+                            }
                         }
                     ],
                     "timings": [
@@ -1695,12 +1153,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 65
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1708,28 +1161,23 @@
                     ]
                 },
                 {
-                    "desc": "Become a grandparent",
-                    "p": 0.05,
-                    "effect": [
+                    "desc": "Trip 8",
+                    "p": 0.8,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.2,
+                                "attr_id": 41
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.05,
+                            "p": 0.2,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 50
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1737,28 +1185,47 @@
                     ]
                 },
                 {
-                    "desc": "Start a new hobby",
-                    "p": 0.01,
-                    "effect": [
+                    "desc": "Trip 9",
+                    "p": 0.9,
+                    "effects": [
                         {
-                            "Stat": [
-                                5,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.3,
+                                "attr_id": 42
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.01,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
+                                        "Gt": 18
                                     }
-                                },
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Trip 10",
+                    "p": 1.0,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.4,
+                                "attr_id": 43
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.4,
+                            "conditions": [
                                 {
-                                    "Attr": {
-                                        "Without": 6
+                                    "Age": {
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1769,19 +1236,14 @@
         },
         {
             "id": 4,
-            "name": "Hobbies",
+            "name": "Sports",
             "timings": [
                 {
-                    "p": 0.9,
+                    "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 0
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
+                                "Gt": 18
                             }
                         }
                     ]
@@ -1789,101 +1251,14 @@
             ],
             "lots": [
                 {
-                    "desc": "Start playing a musical instrument",
-                    "p": 0.8,
-                    "effect": [
+                    "desc": "Sport 1",
+                    "p": 0.1,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Join a sports team",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start painting",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a book club",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.5,
+                                "attr_id": 44
+                            }
                         }
                     ],
                     "timings": [
@@ -1894,97 +1269,29 @@
                                     "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start gardening",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a DIY project",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a cooking class",
+                    "desc": "Sport 2",
                     "p": 0.2,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.6,
+                                "attr_id": 45
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.2,
+                            "p": 0.6,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -1992,14 +1299,110 @@
                     ]
                 },
                 {
-                    "desc": "Start a blog",
-                    "p": 0.1,
-                    "effect": [
+                    "desc": "Sport 3",
+                    "p": 0.3,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
+                            "AttrAdd": {
+                                "p": 0.7,
+                                "attr_id": 46
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.7,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
                             ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Sport 4",
+                    "p": 0.4,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.8,
+                                "attr_id": 47
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.8,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Sport 5",
+                    "p": 0.5,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.9,
+                                "attr_id": 48
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.9,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Sport 6",
+                    "p": 0.6,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 49
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 1.0,
+                            "conditions": [
+                                {
+                                    "Age": {
+                                        "Gt": 18
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Sport 7",
+                    "p": 0.7,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.1,
+                                "attr_id": 0
+                            }
                         }
                     ],
                     "timings": [
@@ -2008,12 +1411,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -2021,28 +1419,23 @@
                     ]
                 },
                 {
-                    "desc": "Start a YouTube channel",
-                    "p": 0.05,
-                    "effect": [
+                    "desc": "Sport 8",
+                    "p": 0.8,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.2,
+                                "attr_id": 1
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.05,
+                            "p": 0.2,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 8
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -2050,28 +1443,47 @@
                     ]
                 },
                 {
-                    "desc": "Start a podcast",
-                    "p": 0.01,
-                    "effect": [
+                    "desc": "Sport 9",
+                    "p": 0.9,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.3,
+                                "attr_id": 2
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.01,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
+                                        "Gt": 18
                                     }
-                                },
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Sport 10",
+                    "p": 1.0,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.4,
+                                "attr_id": 3
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.4,
+                            "conditions": [
                                 {
-                                    "Attr": {
-                                        "Without": 9
+                                    "Age": {
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -2082,19 +1494,14 @@
         },
         {
             "id": 5,
-            "name": "Travel",
+            "name": "Work",
             "timings": [
                 {
-                    "p": 0.9,
+                    "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 0
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
+                                "Gt": 18
                             }
                         }
                     ]
@@ -2102,101 +1509,14 @@
             ],
             "lots": [
                 {
-                    "desc": "Visit a local museum",
-                    "p": 0.8,
-                    "effect": [
+                    "desc": "Job 1",
+                    "p": 0.1,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Take a road trip",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 16
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Go camping",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Visit a foreign country",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.5,
+                                "attr_id": 4
+                            }
                         }
                     ],
                     "timings": [
@@ -2207,280 +1527,20 @@
                                     "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Go on a cruise",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Go hiking",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Go skiing",
+                    "desc": "Job 2",
                     "p": 0.2,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                15,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Go to a beach resort",
-                    "p": 0.1,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Go on a safari",
-                    "p": 0.05,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.05,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 8
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Go on a pilgrimage",
-                    "p": 0.01,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.01,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 9
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 6,
-            "name": "Career Development",
-            "timings": [
-                {
-                    "p": 0.9,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 0
+                            "AttrAdd": {
+                                "p": 0.6,
+                                "attr_id": 5
                             }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Get a job",
-                    "p": 0.8,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 22
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Get a promotion",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 25
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Change jobs",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
                         }
                     ],
                     "timings": [
@@ -2489,595 +1549,22 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 30
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a business",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 35
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Expand business",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 40
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sell business",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 45
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Retire",
-                    "p": 0.2,
-                    "effect": [
-                        {
-                            "Stat": [
-                                5,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 65
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a new career",
-                    "p": 0.1,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 50
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Become a mentor",
-                    "p": 0.05,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.05,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 55
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 8
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Write a book",
-                    "p": 0.01,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.01,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 60
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 9
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 7,
-            "name": "Personal Development",
-            "timings": [
-                {
-                    "p": 0.9,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 0
-                            }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Start a new hobby",
-                    "p": 0.8,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Learn a new language",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 16
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a fitness routine",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start meditating",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Read a self-help book",
-                    "p": 0.4,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Attend a seminar",
+                    "desc": "Job 3",
                     "p": 0.3,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Take a cooking class",
-                    "p": 0.2,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Learn to play a musical instrument",
-                    "p": 0.1,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a book club",
-                    "p": 0.05,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.05,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 8
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a DIY project",
-                    "p": 0.01,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.01,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 9
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 8,
-            "name": "Financial Management",
-            "timings": [
-                {
-                    "p": 0.9,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 0
+                            "AttrAdd": {
+                                "p": 0.7,
+                                "attr_id": 6
                             }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Open a bank account",
-                    "p": 0.8,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a savings plan",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Int"
-                            ]
                         }
                     ],
                     "timings": [
@@ -3088,280 +1575,20 @@
                                     "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Invest in stocks",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 21
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Buy a house",
-                    "p": 0.5,
-                    "effect": [
-                        {
-                            "Stat": [
-                                20,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 25
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a retirement fund",
+                    "desc": "Job 4",
                     "p": 0.4,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                15,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 30
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Invest in real estate",
-                    "p": 0.3,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 35
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Start a college fund for a child",
-                    "p": 0.2,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 30
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Pay off mortgage",
-                    "p": 0.1,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 50
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Donate to charity",
-                    "p": 0.05,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.05,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 8
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Inherit wealth",
-                    "p": 0.01,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.01,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 9
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 9,
-            "name": "Personal Growth",
-            "timings": [
-                {
-                    "p": 0.9,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 0
+                            "AttrAdd": {
+                                "p": 0.8,
+                                "attr_id": 7
                             }
-                        },
-                        {
-                            "Attr": {
-                                "Without": 0
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Start a daily journal",
-                    "p": 0.8,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
                         }
                     ],
                     "timings": [
@@ -3370,12 +1597,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 0
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -3383,115 +1605,47 @@
                     ]
                 },
                 {
-                    "desc": "Read a book",
-                    "p": 0.7,
-                    "effect": [
-                        {
-                            "Stat": [
-                                15,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 6
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 1
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Learn a new skill",
-                    "p": 0.6,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 2
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Take a personal development course",
+                    "desc": "Job 5",
                     "p": 0.5,
-                    "effect": [
+                    "effects": [
                         {
-                            "Stat": [
-                                20,
-                                "Int"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.9,
+                                "attr_id": 8
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.5,
+                            "p": 0.9,
                             "conditions": [
                                 {
                                     "Age": {
                                         "Gt": 18
                                     }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 3
-                                    }
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "desc": "Start a meditation practice",
-                    "p": 0.4,
-                    "effect": [
+                    "desc": "Job 6",
+                    "p": 0.6,
+                    "effects": [
                         {
-                            "Stat": [
-                                15,
-                                "Int"
-                            ]
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 9
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.4,
+                            "p": 1.0,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 4
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -3499,72 +1653,14 @@
                     ]
                 },
                 {
-                    "desc": "Start a fitness routine",
-                    "p": 0.3,
-                    "effect": [
+                    "desc": "Job 7",
+                    "p": 0.7,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Phy"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 5
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Learn a new language",
-                    "p": 0.2,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Int"
-                            ]
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 6
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Volunteer for a cause",
-                    "p": 0.1,
-                    "effect": [
-                        {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.1,
+                                "attr_id": 10
+                            }
                         }
                     ],
                     "timings": [
@@ -3573,12 +1669,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 7
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -3586,28 +1677,23 @@
                     ]
                 },
                 {
-                    "desc": "Start a blog",
-                    "p": 0.05,
-                    "effect": [
+                    "desc": "Job 8",
+                    "p": 0.8,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.2,
+                                "attr_id": 11
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.05,
+                            "p": 0.2,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
-                                    }
-                                },
-                                {
-                                    "Attr": {
-                                        "Without": 8
+                                        "Gt": 18
                                     }
                                 }
                             ]
@@ -3615,28 +1701,47 @@
                     ]
                 },
                 {
-                    "desc": "Start a YouTube channel",
-                    "p": 0.01,
-                    "effect": [
+                    "desc": "Job 9",
+                    "p": 0.9,
+                    "effects": [
                         {
-                            "Stat": [
-                                10,
-                                "Soc"
-                            ]
+                            "AttrAdd": {
+                                "p": 0.3,
+                                "attr_id": 12
+                            }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.01,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 0
+                                        "Gt": 18
                                     }
-                                },
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "desc": "Job 10",
+                    "p": 1.0,
+                    "effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 0.4,
+                                "attr_id": 13
+                            }
+                        }
+                    ],
+                    "timings": [
+                        {
+                            "p": 0.4,
+                            "conditions": [
                                 {
-                                    "Attr": {
-                                        "Without": 9
+                                    "Age": {
+                                        "Gt": 18
                                     }
                                 }
                             ]

@@ -1,9 +1,9 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 use rand_distr::{Distribution, WeightedIndex};
-use serde::Deserialize;
+use serde::{de, Deserialize, Deserializer};
 
-use crate::{Category, Lot, Stat, Stats, Timing, TimingImpl, ER};
+use crate::{Attribute, Category, Lot, Stats, Timing, TimingImpl, ER};
 
 pub struct TimingWrapper<'a, T: Copy> {
     pub id: T,
@@ -35,12 +35,18 @@ pub struct RespInfo {
 
 #[derive(Debug, Deserialize)]
 pub struct Engine {
+    #[serde(deserialize_with = "deserialize_attrs")]
+    pub attributes: HashMap<u32, Attribute>,
     pub categories: Vec<Category>,
 }
 
 impl Engine {
     pub fn apply_lot(&self, lot: &Lot, query: &QueryInfo) -> RespInfo {
         lot.apply(query)
+    }
+
+    pub fn get_attr(&self, id: u32) -> Option<&Attribute> {
+        self.attributes.get(&id)
     }
 
     pub fn get_lot(&self, query: &QueryInfo) -> Option<Lot> {
@@ -115,6 +121,26 @@ impl Engine {
 
         index.and_then(|index| list.iter().nth(index))
     }
+}
+
+fn deserialize_attrs<'de, D>(deserializer: D) -> Result<HashMap<u32, Attribute>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let original = <Vec<Attribute>>::deserialize(deserializer)?;
+
+    let original_len = original.len();
+
+    let data = original
+        .into_iter()
+        .map(|attr| (attr.id, attr))
+        .collect::<HashMap<_, _>>();
+
+    if data.len() < original_len {
+        return Err(de::Error::custom("detected duplicate integer key"));
+    }
+
+    Ok(data)
 }
 
 fn get_weighted_random<T: Copy>(items: Vec<(T, f32)>) -> Option<T> {

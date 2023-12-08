@@ -4,7 +4,7 @@ use bevy::{
 };
 use rand::Rng;
 use rand_distr::{Distribution, Normal};
-use talot_core::QueryInfo;
+use talot_core::{Attribute, QueryInfo};
 
 use crate::{
     asset::{GameAsset, GameDataAssets},
@@ -16,7 +16,7 @@ use super::{
     bundle::StatBundle,
     component::{
         Age, Attributable, EmotionalRating, OnGameScreen, Player, PlayerStat, ScrollingList, Speed,
-        Trifle, UiAgeLabel, UiBioPanel, UiGameArea, UiPlayerStatIntuitionLabel,
+        Trifle, UiAgeLabel, UiAttrsPanel, UiBioPanel, UiGameArea, UiPlayerStatIntuitionLabel,
         UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
     },
     constant::{
@@ -111,7 +111,11 @@ fn setup(mut commands: Commands) {
                                 color: Color::BLUE,
                                 ..default()
                             }),
-                        ]),
+                        ])
+                        .with_style(Style {
+                            margin: UiRect::bottom(Val::Px(12.0)),
+                            ..default()
+                        }),
                         UiAgeLabel,
                     ));
 
@@ -126,6 +130,8 @@ fn setup(mut commands: Commands) {
 
                     // Social Stat
                     parent.spawn((StatBundle::new("SOC"), UiPlayerStatSocialLabel));
+
+                    parent.spawn((NodeBundle::default(), UiAttrsPanel));
                 });
 
             // Right Panel
@@ -154,8 +160,8 @@ fn setup(mut commands: Commands) {
                     parent.spawn((
                         NodeBundle {
                             style: Style {
-                                flex_direction: FlexDirection::Column,
                                 align_self: AlignSelf::Stretch,
+                                flex_direction: FlexDirection::Column,
                                 overflow: Overflow::clip_y(),
                                 ..default()
                             },
@@ -203,7 +209,7 @@ fn setup(mut commands: Commands) {
         OnGameScreen,
     ));
 
-    commands.insert_resource(AgingTimer(Timer::from_seconds(3.0, TimerMode::Repeating)));
+    commands.insert_resource(AgingTimer(Timer::from_seconds(1.0, TimerMode::Repeating)));
     commands.insert_resource(TrifleSpawnTimer(Timer::from_seconds(
         0.5,
         TimerMode::Repeating,
@@ -284,8 +290,51 @@ fn text_age_system(
     }
 }
 
-fn text_attrs_system(attrs: Res<Attributes>) {
-    if attrs.is_changed() {}
+fn text_attrs_system(
+    mut commands: Commands,
+    query_entity: Query<Entity, With<UiAttrsPanel>>,
+    attrs: Res<Attributes>,
+) {
+    if attrs.is_changed() {
+        let entity = query_entity.single();
+
+        commands.entity(entity).despawn_descendants();
+
+        commands
+            .entity(entity)
+            .insert(NodeBundle {
+                style: Style {
+                    padding: UiRect::top(Val::Px(20.0)),
+                    flex_wrap: FlexWrap::Wrap,
+                    ..default()
+                },
+                ..default()
+            })
+            .with_children(|parent| {
+                for attr in &**attrs {
+                    parent
+                        .spawn(NodeBundle {
+                            style: Style {
+                                border: UiRect::all(Val::Px(1.0)),
+                                margin: UiRect::px(0.0, 8.0, 8.0, 0.0),
+                                padding: UiRect::px(8.0, 8.0, 4.0, 4.0),
+                                ..default()
+                            },
+                            border_color: Color::ORANGE.into(),
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            parent.spawn(TextBundle::from_section(
+                                attr,
+                                TextStyle {
+                                    font_size: 16.0,
+                                    ..default()
+                                },
+                            ));
+                        });
+                }
+            });
+    }
 }
 
 fn text_bio_system(
@@ -303,8 +352,8 @@ fn text_bio_system(
             .insert((
                 NodeBundle {
                     style: Style {
-                        flex_direction: FlexDirection::Column,
                         align_items: AlignItems::Center,
+                        flex_direction: FlexDirection::Column,
                         overflow: Overflow::clip_y(),
                         ..default()
                     },
@@ -514,7 +563,8 @@ fn trifle_handle_system(
         >,
         Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
     ),
-    mut bio: ResMut<Bio>,
+    (game_assets, asset_handles): (Res<Assets<GameAsset>>, Res<GameDataAssets>),
+    (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
 ) {
     let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
         query_player.single_mut();
@@ -548,8 +598,24 @@ fn trifle_handle_system(
             let lot = &trifle.lot;
             let resp = lot.apply(&query);
 
-            if let Some(new_attrs) = resp.attrs {
-                attrs.0 = new_attrs;
+            if let Some(ids) = resp.attrs {
+                let game_asset = game_assets.get(&asset_handles.core).unwrap();
+
+                let mut new_attrs = ids
+                    .iter()
+                    .map_while(|id| game_asset.get_attr(*id))
+                    .collect::<Vec<&Attribute>>();
+
+                new_attrs.sort_by(|a, b| a.id.cmp(&b.id));
+
+                let new_attrs = new_attrs
+                    .iter()
+                    .map(|attr| attr.name.clone())
+                    .collect::<Vec<String>>();
+
+                res_attrs.0 = new_attrs;
+
+                attrs.0 = ids;
             }
 
             if let Some(new_er) = resp.er {

@@ -1,7 +1,7 @@
 use rand_distr::{Bernoulli, Distribution};
 use serde::Deserialize;
 
-use crate::{QueryInfo, RespInfo, Stat, EF};
+use crate::{Stat, EF};
 
 pub enum EffectResp {
     None,
