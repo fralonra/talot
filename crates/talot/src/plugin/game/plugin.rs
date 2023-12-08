@@ -7,7 +7,7 @@ use rand_distr::{Distribution, Normal};
 use talot_core::{Attribute, QueryInfo};
 
 use crate::{
-    asset::{GameAsset, GameDataAssets},
+    asset::{GameAsset, GameDataAssets, ImageAssets},
     common::despawn_screen,
     state::GameState,
 };
@@ -16,12 +16,14 @@ use super::{
     bundle::StatBundle,
     component::{
         Age, Attributable, EmotionalRating, OnGameScreen, Player, PlayerStat, ScrollingList, Speed,
-        Trifle, UiAgeLabel, UiAttrsPanel, UiBioPanel, UiGameArea, UiPlayerStatIntuitionLabel,
-        UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
+        Trifle, UiAgeLabel, UiAttrsPanel, UiBioPanel, UiERSprite, UiGameArea,
+        UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel,
+        UiPlayerStatSocialLabel,
     },
     constant::{
-        GAME_AREA_HEIGHT, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR, PANEL_LEFT_WIDTH,
-        PANEL_RIGHT_WIDTH, PLAYER_SIZE, TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
+        GAME_AREA_HEIGHT, GAME_AREA_MARGIN, GAME_AREA_WIDTH, PANEL_BACKGROUND_COLOR,
+        PANEL_BOTTOM_HEIGHT, PANEL_LEFT_WIDTH, PANEL_RIGHT_WIDTH, PLAYER_SIZE, TRIFLE_HEIGHT,
+        TRIFLE_LABEL_FONT_SIZE,
     },
     resource::{AgingTimer, Attributes, Bio, TrifleSpawnTimer},
 };
@@ -51,6 +53,7 @@ impl Plugin for GamePlugin {
             .add_systems(
                 Update,
                 (
+                    er_bar_system,
                     text_age_system,
                     text_attrs_system,
                     text_bio_system,
@@ -66,7 +69,7 @@ impl Plugin for GamePlugin {
     }
 }
 
-fn setup(mut commands: Commands) {
+fn setup(mut commands: Commands, image_assets: Res<ImageAssets>) {
     commands
         .spawn((
             NodeBundle {
@@ -185,6 +188,48 @@ fn setup(mut commands: Commands) {
         UiGameArea,
     ));
 
+    // ER Bar
+    // Background
+    for i in 0..20 {
+        commands.spawn((
+            SpriteBundle {
+                sprite: Sprite {
+                    custom_size: Some(Vec2::splat(20.0)),
+                    ..default()
+                },
+                transform: Transform::from_translation(Vec3::new(
+                    (i as f32 + 0.5) * 25.0 - 250.0,
+                    -GAME_AREA_HEIGHT * 0.5 - GAME_AREA_MARGIN - PANEL_BOTTOM_HEIGHT * 0.5,
+                    0.0,
+                )),
+                texture: image_assets.empty_ef.clone(),
+                ..default()
+            },
+            OnGameScreen,
+        ));
+    }
+    // Foreground
+    for i in 0..20 {
+        commands.spawn((
+            SpriteBundle {
+                sprite: Sprite {
+                    custom_size: Some(Vec2::splat(20.0)),
+                    ..default()
+                },
+                transform: Transform::from_translation(Vec3::new(
+                    (i as f32 + 0.5) * 25.0 - 250.0,
+                    -GAME_AREA_HEIGHT * 0.5 - GAME_AREA_MARGIN - PANEL_BOTTOM_HEIGHT * 0.5,
+                    0.0,
+                )),
+                texture: image_assets.empty_ef.clone(),
+                visibility: Visibility::Hidden,
+                ..default()
+            },
+            OnGameScreen,
+            UiERSprite,
+        ));
+    }
+
     // Player
     commands.spawn((
         SpriteBundle {
@@ -224,6 +269,38 @@ fn aging_system(mut query_age: Query<&mut Age>, time: Res<Time>, mut timer: ResM
 
     if timer.tick(time.delta()).finished() {
         age.0 += 1.0;
+    }
+}
+
+fn er_bar_system(
+    (query_er, mut query_sprites): (
+        Query<&EmotionalRating, (Changed<EmotionalRating>, With<Player>)>,
+        Query<(&mut Handle<Image>, &mut Visibility), With<UiERSprite>>,
+    ),
+    image_assets: Res<ImageAssets>,
+) {
+    if let Ok(er) = query_er.get_single() {
+        let lol = er.lol as usize;
+        let tot = er.tot as usize;
+
+        for (i, (mut handle, mut visibility)) in &mut query_sprites.iter_mut().enumerate() {
+            if 20 - i <= lol {
+                *handle = image_assets.lol.clone();
+                *visibility = Visibility::Visible;
+            } else {
+                *handle = image_assets.empty_ef.clone();
+                *visibility = Visibility::Hidden;
+            }
+        }
+
+        for (i, (mut handle, mut visibility)) in &mut query_sprites.iter_mut().enumerate() {
+            if i < tot {
+                *handle = image_assets.tot.clone();
+                *visibility = Visibility::Visible;
+            } else if *handle == image_assets.empty_ef {
+                *visibility = Visibility::Hidden;
+            }
+        }
     }
 }
 

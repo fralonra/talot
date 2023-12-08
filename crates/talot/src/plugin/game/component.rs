@@ -22,6 +22,9 @@ pub(super) struct UiAttrsPanel;
 pub(super) struct UiBioPanel;
 
 #[derive(Component)]
+pub(super) struct UiERSprite;
+
+#[derive(Component)]
 pub(super) struct UiGameArea;
 
 #[derive(Component)]
