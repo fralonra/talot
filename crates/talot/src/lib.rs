@@ -5,7 +5,7 @@ mod plugin;
 mod resource;
 mod state;
 
-use asset::{GameAsset, GameDataAssets, ImageAssets};
+use asset::{AudioAssets, GameAsset, GameDataAssets, ImageAssets};
 use bevy::prelude::*;
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
@@ -30,6 +30,7 @@ pub fn run() {
         .insert_resource(Difficulty::Knight)
         .add_state::<GameState>()
         .add_loading_state(LoadingState::new(GameState::Splash).continue_to_state(GameState::Menu))
+        .add_collection_to_loading_state::<_, AudioAssets>(GameState::Splash)
         .add_collection_to_loading_state::<_, GameDataAssets>(GameState::Splash)
         .add_collection_to_loading_state::<_, ImageAssets>(GameState::Splash)
         .add_systems(Startup, setup)

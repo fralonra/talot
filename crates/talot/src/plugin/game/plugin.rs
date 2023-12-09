@@ -7,7 +7,7 @@ use rand_distr::{Distribution, Normal};
 use talot_core::{Attribute, QueryInfo, RespInfo};
 
 use crate::{
-    asset::{GameAsset, GameDataAssets, ImageAssets},
+    asset::{AudioAssets, GameAsset, GameDataAssets, ImageAssets},
     common::despawn_screen,
     constant::{
         HOVERED_BUTTON_COLOR, MENU_BACKGROUND_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR,
@@ -984,7 +984,11 @@ fn trifle_handle_system(
         >,
         Query<(Entity, &CanHappen, &Sprite, &Transform, &Trifle), (With<Trifle>, Without<Player>)>,
     ),
-    (game_assets, asset_handles): (Res<Assets<GameAsset>>, Res<GameDataAssets>),
+    (audio_assets, game_assets, asset_handles): (
+        Res<AudioAssets>,
+        Res<Assets<GameAsset>>,
+        Res<GameDataAssets>,
+    ),
     (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
 ) {
     let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
@@ -1018,6 +1022,25 @@ fn trifle_handle_system(
 
             let lot = &**trifle;
             let resp = lot.apply(&query);
+
+            if let Some(er) = &resp.er {
+                if er.lol >= 0.0 {
+                    commands.spawn(AudioBundle {
+                        source: audio_assets.lol.clone(),
+                        ..default()
+                    });
+                } else {
+                    commands.spawn(AudioBundle {
+                        source: audio_assets.tot.clone(),
+                        ..default()
+                    });
+                }
+            } else {
+                commands.spawn(AudioBundle {
+                    source: audio_assets.lot.clone(),
+                    ..default()
+                });
+            }
 
             apply_resp(
                 resp,
@@ -1056,7 +1079,11 @@ fn trifle_miss_system(
         >,
         Query<(Entity, &CanHappen, &Transform, &Trifle)>,
     ),
-    (game_assets, asset_handles): (Res<Assets<GameAsset>>, Res<GameDataAssets>),
+    (audio_assets, game_assets, asset_handles): (
+        Res<AudioAssets>,
+        Res<Assets<GameAsset>>,
+        Res<GameDataAssets>,
+    ),
     (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
 ) {
     let (age, mut attrs, mut er, mut stats) = query_player.single_mut();
@@ -1076,6 +1103,11 @@ fn trifle_miss_system(
 
             let lot = &**trifle;
             let resp = lot.apply_miss(&query);
+
+            commands.spawn(AudioBundle {
+                source: audio_assets.miss.clone(),
+                ..default()
+            });
 
             apply_resp(
                 resp,

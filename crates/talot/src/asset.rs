@@ -7,6 +7,18 @@ use talot_core::Engine;
 pub struct GameAsset(pub Engine);
 
 #[derive(AssetCollection, Resource)]
+pub struct AudioAssets {
+    #[asset(path = "audios/lol.ogg")]
+    pub lol: Handle<AudioSource>,
+    #[asset(path = "audios/tot.ogg")]
+    pub tot: Handle<AudioSource>,
+    #[asset(path = "audios/lot.ogg")]
+    pub lot: Handle<AudioSource>,
+    #[asset(path = "audios/miss.ogg")]
+    pub miss: Handle<AudioSource>,
+}
+
+#[derive(AssetCollection, Resource)]
 pub struct GameDataAssets {
     #[asset(path = "core.asset.json")]
     pub core: Handle<GameAsset>,
