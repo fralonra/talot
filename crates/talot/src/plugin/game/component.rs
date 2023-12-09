@@ -5,7 +5,20 @@ use talot_core::{Lot, Stats, ER};
 
 // --------- User Interface --------- //
 #[derive(Component)]
+pub(super) enum MenuButtonAction {
+    Rebirth,
+    Resume,
+    BackToMainMenu,
+}
+
+#[derive(Component)]
 pub(super) struct OnGameScreen;
+
+#[derive(Component)]
+pub(super) struct OnGameOverScreen;
+
+#[derive(Component)]
+pub(super) struct OnGameSuspendScreen;
 
 #[derive(Component, Default)]
 pub(super) struct ScrollingList {

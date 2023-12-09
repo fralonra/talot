@@ -2,17 +2,16 @@ use bevy::{app::AppExit, prelude::*};
 
 use crate::{
     common::despawn_screen,
-    constant::TEXT_COLOR,
+    constant::{
+        HOVERED_BUTTON_COLOR, HOVERED_PRESSED_BUTTON_COLOR, NORMAL_BUTTON_COLOR,
+        PRESSED_BUTTON_COLOR, TEXT_COLOR,
+    },
     resource::{DisplayQuality, Volume},
     state::GameState,
 };
 
 use super::{
     component::{MenuButtonAction, OnMainMenuScreen, OnSettingsMenuScreen, SelectedOption},
-    constant::{
-        HOVERED_BUTTON_COLOR, HOVERED_PRESSED_BUTTON_COLOR, NORMAL_BUTTON_COLOR,
-        PRESSED_BUTTON_COLOR,
-    },
     state::MenuState,
 };
 
@@ -104,13 +103,13 @@ fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                         TextBundle::from_section(
                             "Bevy Game Menu UI",
                             TextStyle {
-                                font_size: 80.0,
+                                font_size: 50.0,
                                 color: TEXT_COLOR,
                                 ..default()
                             },
                         )
                         .with_style(Style {
-                            margin: UiRect::all(Val::Px(50.0)),
+                            margin: UiRect::all(Val::Px(40.0)),
                             ..default()
                         }),
                     );
@@ -135,7 +134,7 @@ fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                             });
 
                             parent.spawn(TextBundle::from_section(
-                                "New Game",
+                                "New Life",
                                 button_text_style.clone(),
                             ));
                         });
