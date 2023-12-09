@@ -1206,6 +1206,7 @@ fn apply_resp(
         let mut new_attrs = ids
             .iter()
             .map_while(|id| game_asset.get_attr(*id))
+            .filter(|attr| !attr.hidden)
             .collect::<Vec<&Attribute>>();
 
         new_attrs.sort_by(|a, b| a.id.cmp(&b.id));

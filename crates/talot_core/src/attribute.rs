@@ -4,4 +4,6 @@ use serde::Deserialize;
 pub struct Attribute {
     pub id: u32,
     pub name: String,
+    #[serde(default)]
+    pub hidden: bool,
 }

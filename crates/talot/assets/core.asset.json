@@ -2,11 +2,12 @@
     "attributes": [
         {
             "id": 0,
-            "name": "Student"
+            "name": "Mute"
         },
         {
             "id": 1,
-            "name": "Mother"
+            "name": "Can Talk",
+            "hidden": true
         },
         {
             "id": 2,
@@ -204,14 +205,44 @@
     "categories": [
         {
             "id": 0,
-            "name": "Education",
+            "name": "Family",
             "timings": [
+                {
+                    "p": 0.9,
+                    "conditions": [
+                        {
+                            "Age": {
+                                "Lt": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "p": 0.7,
+                    "conditions": [
+                        {
+                            "Age": {
+                                "Lt": 6
+                            }
+                        }
+                    ]
+                },
                 {
                     "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 5
+                                "Lt": 16
+                            }
+                        }
+                    ]
+                },
+                {
+                    "p": 0.3,
+                    "conditions": [
+                        {
+                            "Age": {
+                                "Gt": 16
                             }
                         }
                     ]
@@ -501,14 +532,14 @@
         },
         {
             "id": 1,
-            "name": "Health",
+            "name": "Education",
             "timings": [
                 {
                     "p": 0.5,
                     "conditions": [
                         {
                             "Age": {
-                                "Gt": 18
+                                "Lt": 16
                             }
                         }
                     ]
@@ -516,13 +547,35 @@
             ],
             "lots": [
                 {
-                    "desc": "Exercise 1",
+                    "desc": "Get good early education",
                     "p": 0.1,
                     "effects": [
                         {
-                            "AttrAdd": {
+                            "Stat": {
                                 "p": 0.5,
-                                "attr_id": 14
+                                "stat": "Kno",
+                                "v": 4.0
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.5,
+                                "stat": "Kno",
+                                "v": 1.0
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.3,
+                                "stat": "Phy",
+                                "v": 3.0
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.3,
+                                "stat": "Phy",
+                                "v": 1.0
                             }
                         }
                     ],
@@ -532,7 +585,7 @@
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 18
+                                        "Lt": 8
                                     }
                                 }
                             ]
@@ -540,23 +593,52 @@
                     ]
                 },
                 {
-                    "desc": "Exercise 2",
-                    "p": 0.2,
+                    "desc": "Start talking",
+                    "p": 0.5,
+                    "missed_effects": [
+                        {
+                            "AttrAdd": {
+                                "p": 1.0,
+                                "attr_id": 0
+                            }
+                        }
+                    ],
                     "effects": [
                         {
                             "AttrAdd": {
-                                "p": 0.6,
-                                "attr_id": 15
+                                "p": 1.0,
+                                "attr_id": 1
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 1.0,
+                                "stat": "Soc",
+                                "v": 5.0
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.5,
+                                "stat": "Soc",
+                                "v": 1.0
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.2,
+                                "stat": "Soc",
+                                "v": 1.0
                             }
                         }
                     ],
                     "timings": [
                         {
-                            "p": 0.6,
+                            "p": 0.9,
                             "conditions": [
                                 {
                                     "Age": {
-                                        "Gt": 18
+                                        "Lt": 3
                                     }
                                 }
                             ]
