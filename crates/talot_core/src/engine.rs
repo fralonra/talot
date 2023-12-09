@@ -49,20 +49,32 @@ impl Engine {
         self.attributes.get(&id)
     }
 
-    pub fn get_lot(&self, query: &QueryInfo) -> Option<Lot> {
-        let category = self.get_category(query);
-
-        category.and_then(|id| self.get_lot_of_category(id, query))
-    }
-
-    fn get_category(&self, query: &QueryInfo) -> Option<&Category> {
-        self.get_random_item(&self.categories, query, |(id, category)| TimingWrapper {
+    pub fn query_category(&self, query: &QueryInfo) -> Option<&Category> {
+        self.query_random_item(&self.categories, query, |(id, category)| TimingWrapper {
             id,
             timings: &category.timings,
         })
     }
 
-    fn get_candidates_id_and_weight<T>(
+    pub fn query_category_and_lot(&self, query: &QueryInfo) -> Option<(&Category, &Lot)> {
+        let category = self.query_category(query);
+
+        let lot = category.and_then(|id| self.query_lot_of_category(id, query));
+
+        if category.is_none() || lot.is_none() {
+            return None;
+        }
+
+        Some((category.unwrap(), lot.unwrap()))
+    }
+
+    pub fn query_lot(&self, query: &QueryInfo) -> Option<&Lot> {
+        let category = self.query_category(query);
+
+        category.and_then(|id| self.query_lot_of_category(id, query))
+    }
+
+    fn query_candidates_id_and_weight<T>(
         &self,
         with_timings: &[impl TimingImpl<T>],
         query: &QueryInfo,
@@ -92,15 +104,18 @@ impl Engine {
         res
     }
 
-    fn get_lot_of_category(&self, category: &Category, query: &QueryInfo) -> Option<Lot> {
-        self.get_random_item(&category.lots, query, |(id, lot)| TimingWrapper {
+    fn query_lot_of_category<'a>(
+        &'a self,
+        category: &'a Category,
+        query: &QueryInfo,
+    ) -> Option<&'a Lot> {
+        self.query_random_item(&category.lots, query, |(id, lot)| TimingWrapper {
             id,
             timings: &lot.timings,
         })
-        .cloned()
     }
 
-    fn get_random_item<'a, T, F>(
+    fn query_random_item<'a, T, F>(
         &self,
         list: &'a [T],
         query: &QueryInfo,
@@ -115,7 +130,7 @@ impl Engine {
             .map(wrapper_mapper)
             .collect::<Vec<TimingWrapper<usize>>>();
 
-        let candidates = self.get_candidates_id_and_weight(&wrapper_list, query);
+        let candidates = self.query_candidates_id_and_weight(&wrapper_list, query);
 
         let index = get_weighted_random(candidates);
 

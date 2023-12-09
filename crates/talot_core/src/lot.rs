@@ -7,6 +7,10 @@ pub struct Lot {
     pub desc: String,
     pub p: f32,
     #[serde(default)]
+    pub hidden: bool,
+    #[serde(default)]
+    pub hide_desc: bool,
+    #[serde(default)]
     pub effects: Vec<Effect>,
     #[serde(default)]
     pub timings: Vec<Timing>,

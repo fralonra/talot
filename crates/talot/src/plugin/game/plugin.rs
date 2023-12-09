@@ -822,19 +822,25 @@ fn trifle_spawn_system(
     if timer.tick(time.delta()).finished() {
         let game_asset = game_assets.get(&asset_handles.core).unwrap();
 
-        let lot = (*game_asset).get_lot(&QueryInfo {
+        let category_and_lot = (*game_asset).query_category_and_lot(&QueryInfo {
             age: age.0,
             attrs: &attrs,
             er: &er,
             stats: &stats,
         });
 
-        if let Some(lot) = lot {
+        if let Some((category, lot)) = category_and_lot {
             let normal = Normal::new(0.5, 0.1).unwrap();
             let p = normal.sample(&mut rand::thread_rng());
             let p = (p as f32).clamp(0.1, 0.9);
 
-            let lot_desc = lot.desc.clone();
+            let lot_desc = if lot.hidden {
+                format!("????")
+            } else if lot.hide_desc {
+                format!("{} - ????", category.name)
+            } else {
+                format!("{} - {}", category.name, lot.desc)
+            };
 
             let width = GAME_AREA_WIDTH * p;
             let size = Vec2::new(width, TRIFLE_HEIGHT);
@@ -863,7 +869,7 @@ fn trifle_spawn_system(
                         transform: Transform::from_translation(translation),
                         ..default()
                     },
-                    Trifle::new(lot),
+                    Trifle::new(lot.clone()),
                     Speed(rand::thread_rng().gen_range(90.0..150.0)),
                     OnGameScreen,
                 ))

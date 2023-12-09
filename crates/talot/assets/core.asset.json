@@ -221,6 +221,7 @@
                 {
                     "desc": "Kindergarten",
                     "p": 0.1,
+                    "hide_desc": true,
                     "effects": [
                         {
                             "AttrAdd": {
@@ -259,6 +260,7 @@
                 {
                     "desc": "Elementary School",
                     "p": 0.2,
+                    "hidden": true,
                     "effects": [
                         {
                             "AttrAdd": {
