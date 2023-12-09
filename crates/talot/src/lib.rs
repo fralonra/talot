@@ -4,6 +4,8 @@ mod constant;
 mod plugin;
 mod resource;
 mod state;
+#[cfg(target_arch = "wasm32")]
+mod web;
 
 use asset::{AudioAssets, GameAsset, GameDataAssets, ImageAssets};
 use bevy::prelude::*;
