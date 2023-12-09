@@ -244,6 +244,15 @@
                             }
                         }
                     ],
+                    "missed_effects": [
+                        {
+                            "Stat": {
+                                "p": 0.8,
+                                "stat": "Phy",
+                                "v": 5.0
+                            }
+                        }
+                    ],
                     "timings": [
                         {
                             "p": 0.5,

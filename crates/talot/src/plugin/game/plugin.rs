@@ -4,7 +4,7 @@ use bevy::{
 };
 use rand::Rng;
 use rand_distr::{Distribution, Normal};
-use talot_core::{Attribute, QueryInfo};
+use talot_core::{Attribute, QueryInfo, RespInfo};
 
 use crate::{
     asset::{GameAsset, GameDataAssets, ImageAssets},
@@ -16,9 +16,9 @@ use crate::{
 use super::{
     bundle::StatBundle,
     component::{
-        Age, Attributable, EmotionalRating, MenuButtonAction, OnGameOverScreen, OnGameScreen,
-        OnGameSuspendScreen, Player, PlayerStat, ScrollingList, Speed, Trifle, UiAgeLabel,
-        UiAttrsPanel, UiBioPanel, UiERSprite, UiGameArea, UiPlayerStatIntuitionLabel,
+        Age, Attributable, CanHappen, EmotionalRating, MenuButtonAction, OnGameOverScreen,
+        OnGameScreen, OnGameSuspendScreen, Player, PlayerStat, ScrollingList, Speed, Trifle,
+        UiAgeLabel, UiAttrsPanel, UiBioPanel, UiERSprite, UiGameArea, UiPlayerStatIntuitionLabel,
         UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
     },
     constant::{
@@ -59,6 +59,7 @@ impl Plugin for GamePlugin {
                     trifle_spawn_system,
                     trifle_update_system,
                     trifle_handle_system,
+                    trifle_miss_system,
                 )
                     .run_if(in_state(InGameState::Playing)),
             )
@@ -869,7 +870,8 @@ fn trifle_spawn_system(
                         transform: Transform::from_translation(translation),
                         ..default()
                     },
-                    Trifle::new(lot.clone()),
+                    Trifle(lot.clone()),
+                    CanHappen(false),
                     Speed(rand::thread_rng().gen_range(90.0..150.0)),
                     OnGameScreen,
                 ))
@@ -910,7 +912,7 @@ fn trifle_handle_system(
             ),
             With<Player>,
         >,
-        Query<(Entity, &Sprite, &Transform, &Trifle), Without<Player>>,
+        Query<(Entity, &CanHappen, &Sprite, &Transform, &Trifle), (With<Trifle>, Without<Player>)>,
     ),
     (game_assets, asset_handles): (Res<Assets<GameAsset>>, Res<GameDataAssets>),
     (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
@@ -922,8 +924,8 @@ fn trifle_handle_system(
 
     let mut is_intersected = false;
 
-    for (entity, sprite, transform, trifle) in query_trifle.iter() {
-        if !trifle.can_happend {
+    for (entity, can_happen, sprite, transform, trifle) in query_trifle.iter() {
+        if !**can_happen {
             continue;
         }
 
@@ -944,55 +946,22 @@ fn trifle_handle_system(
                 stats: &stats,
             };
 
-            let lot = &trifle.lot;
+            let lot = &**trifle;
             let resp = lot.apply(&query);
 
-            if let Some(ids) = resp.attrs {
-                let game_asset = game_assets.get(&asset_handles.core).unwrap();
-
-                let mut new_attrs = ids
-                    .iter()
-                    .map_while(|id| game_asset.get_attr(*id))
-                    .collect::<Vec<&Attribute>>();
-
-                new_attrs.sort_by(|a, b| a.id.cmp(&b.id));
-
-                let new_attrs = new_attrs
-                    .iter()
-                    .map(|attr| attr.name.clone())
-                    .collect::<Vec<String>>();
-
-                res_attrs.0 = new_attrs;
-
-                attrs.0 = ids;
-            }
-
-            if let Some(new_er) = resp.er {
-                er.tot = new_er.tot;
-
-                er.lol = new_er.lol.min(ER_CAPACITY - er.tot);
-            }
-
-            if let Some(new_stats) = resp.stats {
-                stats.0 = new_stats;
-            }
-
-            let event_repeated = bio
-                .last_mut()
-                .and_then(|last| {
-                    if last.0 == age.0 && last.1 == lot.desc {
-                        last.2 += 1;
-
-                        return Some(true);
-                    }
-
-                    Some(false)
-                })
-                .unwrap_or(false);
-
-            if !event_repeated {
-                bio.push((age.0, lot.desc.clone(), 1));
-            }
+            apply_resp(
+                resp,
+                &game_assets,
+                &asset_handles,
+                &lot.desc,
+                **age,
+                &mut attrs,
+                &mut er,
+                &mut stats,
+                &mut res_attrs,
+                &mut bio,
+                false,
+            );
 
             commands.entity(entity).despawn_recursive();
         }
@@ -1003,22 +972,143 @@ fn trifle_handle_system(
     }
 }
 
+fn trifle_miss_system(
+    mut commands: Commands,
+    (mut query_player, query_trifle): (
+        Query<
+            (
+                &Age,
+                &mut Attributable,
+                &mut EmotionalRating,
+                &mut PlayerStat,
+            ),
+            With<Player>,
+        >,
+        Query<(Entity, &CanHappen, &Transform, &Trifle)>,
+    ),
+    (game_assets, asset_handles): (Res<Assets<GameAsset>>, Res<GameDataAssets>),
+    (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
+) {
+    let (age, mut attrs, mut er, mut stats) = query_player.single_mut();
+
+    for (entity, can_happen, transform, trifle) in query_trifle.iter() {
+        if !**can_happen {
+            continue;
+        }
+
+        if transform.translation.y <= -(GAME_AREA_HEIGHT + TRIFLE_HEIGHT) * 0.5 {
+            let query = QueryInfo {
+                age: age.0,
+                attrs: &attrs,
+                er: &er,
+                stats: &stats,
+            };
+
+            let lot = &**trifle;
+            let resp = lot.apply_miss(&query);
+
+            apply_resp(
+                resp,
+                &game_assets,
+                &asset_handles,
+                &lot.desc,
+                **age,
+                &mut attrs,
+                &mut er,
+                &mut stats,
+                &mut res_attrs,
+                &mut bio,
+                true,
+            );
+
+            commands.entity(entity).despawn_recursive();
+        }
+    }
+}
+
 fn trifle_update_system(
-    mut query_trifle: Query<(&mut Sprite, &Speed, &mut Transform, &mut Trifle)>,
+    mut query_trifle: Query<(&mut CanHappen, &mut Sprite, &Speed, &mut Transform), With<Trifle>>,
     time: Res<Time>,
 ) {
-    for (mut sprite, speed, mut transform, mut trifle) in query_trifle.iter_mut() {
+    for (mut can_happen, mut sprite, speed, mut transform) in query_trifle.iter_mut() {
         let new_position = transform.translation.y - speed.0 * time.delta_seconds();
 
         transform.translation.y = new_position.clamp(
-            (TRIFLE_HEIGHT - GAME_AREA_HEIGHT) * 0.5,
+            -(GAME_AREA_HEIGHT + TRIFLE_HEIGHT) * 0.5,
             (GAME_AREA_HEIGHT - TRIFLE_HEIGHT) * 0.5,
         );
 
         if transform.translation.y <= -GAME_AREA_HEIGHT * 0.5 + PLAYER_SIZE.y {
-            trifle.can_happend = true;
+            **can_happen = true;
 
             sprite.color = Color::GREEN;
         }
+    }
+}
+
+fn apply_resp(
+    resp: RespInfo,
+    game_assets: &Assets<GameAsset>,
+    asset_handles: &GameDataAssets,
+    lot_desc: &String,
+    age: f32,
+    attrs: &mut Attributable,
+    er: &mut EmotionalRating,
+    stats: &mut PlayerStat,
+    res_attrs: &mut Attributes,
+    bio: &mut Bio,
+    missed: bool,
+) {
+    if let Some(ids) = resp.attrs {
+        let game_asset = game_assets.get(&asset_handles.core).unwrap();
+
+        let mut new_attrs = ids
+            .iter()
+            .map_while(|id| game_asset.get_attr(*id))
+            .collect::<Vec<&Attribute>>();
+
+        new_attrs.sort_by(|a, b| a.id.cmp(&b.id));
+
+        let new_attrs = new_attrs
+            .iter()
+            .map(|attr| attr.name.clone())
+            .collect::<Vec<String>>();
+
+        res_attrs.0 = new_attrs;
+
+        attrs.0 = ids;
+    }
+
+    if let Some(new_er) = resp.er {
+        er.tot = new_er.tot;
+
+        er.lol = new_er.lol.min(ER_CAPACITY - er.tot);
+    }
+
+    if let Some(new_stats) = resp.stats {
+        stats.0 = new_stats;
+    }
+
+    let desc = if missed {
+        format!("(Did Not) {}", lot_desc)
+    } else {
+        lot_desc.clone()
+    };
+
+    let event_repeated = bio
+        .last_mut()
+        .and_then(|last| {
+            if last.0 == age && last.1 == *desc {
+                last.2 += 1;
+
+                return Some(true);
+            }
+
+            Some(false)
+        })
+        .unwrap_or(false);
+
+    if !event_repeated {
+        bio.push((age, desc, 1));
     }
 }

@@ -59,6 +59,9 @@ pub(super) struct Age(pub f32);
 #[derive(Component, Default, Deref, DerefMut)]
 pub(super) struct Attributable(pub HashSet<u32>);
 
+#[derive(Component, Deref, DerefMut)]
+pub(super) struct CanHappen(pub bool);
+
 #[derive(Component, Default, Deref, DerefMut)]
 pub(super) struct EmotionalRating(pub ER);
 
@@ -71,17 +74,5 @@ pub(super) struct PlayerStat(pub Stats);
 #[derive(Component, Deref, DerefMut)]
 pub(super) struct Speed(pub f32);
 
-#[derive(Component)]
-pub(super) struct Trifle {
-    pub lot: Lot,
-    pub can_happend: bool,
-}
-
-impl Trifle {
-    pub fn new(lot: Lot) -> Self {
-        Self {
-            lot,
-            can_happend: false,
-        }
-    }
-}
+#[derive(Component, Deref, DerefMut)]
+pub(super) struct Trifle(pub Lot);
