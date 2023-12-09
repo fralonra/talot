@@ -16,6 +16,8 @@ pub struct AudioAssets {
     pub lot: Handle<AudioSource>,
     #[asset(path = "audios/miss.ogg")]
     pub miss: Handle<AudioSource>,
+    #[asset(path = "audios/dong.ogg")]
+    pub dong: Handle<AudioSource>,
 }
 
 #[derive(AssetCollection, Resource)]

@@ -1,4 +1,5 @@
 use bevy::{
+    audio,
     input::mouse::{MouseScrollUnit, MouseWheel},
     prelude::*,
 };
@@ -13,7 +14,7 @@ use crate::{
         HOVERED_BUTTON_COLOR, MENU_BACKGROUND_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR,
         TEXT_COLOR,
     },
-    resource::Difficulty,
+    resource::{Difficulty, Volume},
     state::GameState,
 };
 
@@ -300,41 +301,65 @@ fn setup_playing(
                 })
                 .with_children(|parent| {
                     // Game Tips
-                    parent.spawn(TextBundle::from_section(
-                        "Move your character using arrow keys.",
-                        TextStyle {
-                            font_size: 20.0,
-                            color: TEXT_COLOR,
+                    parent.spawn(
+                        TextBundle::from_section(
+                            "Move your character using arrow keys.",
+                            TextStyle {
+                                font_size: 20.0,
+                                color: TEXT_COLOR,
+                                ..default()
+                            },
+                        )
+                        .with_style(Style {
+                            margin: UiRect::bottom(Val::Px(10.0)),
                             ..default()
-                        },
-                    ));
+                        }),
+                    );
 
-                    parent.spawn(TextBundle::from_section(
-                        "Collect lol, avoid tot.",
-                        TextStyle {
-                            font_size: 20.0,
-                            color: TEXT_COLOR,
+                    parent.spawn(
+                        TextBundle::from_section(
+                            "Collect lol, avoid tot.",
+                            TextStyle {
+                                font_size: 20.0,
+                                color: TEXT_COLOR,
+                                ..default()
+                            },
+                        )
+                        .with_style(Style {
+                            margin: UiRect::bottom(Val::Px(10.0)),
                             ..default()
-                        },
-                    ));
+                        }),
+                    );
 
-                    parent.spawn(TextBundle::from_section(
-                        "Find your way to a remarkable life.",
-                        TextStyle {
-                            font_size: 20.0,
-                            color: TEXT_COLOR,
+                    parent.spawn(
+                        TextBundle::from_section(
+                            "Find your way to a remarkable life.",
+                            TextStyle {
+                                font_size: 20.0,
+                                color: TEXT_COLOR,
+                                ..default()
+                            },
+                        )
+                        .with_style(Style {
+                            margin: UiRect::bottom(Val::Px(10.0)),
                             ..default()
-                        },
-                    ));
+                        }),
+                    );
 
-                    parent.spawn(TextBundle::from_section(
-                        "Don't get depressed.",
-                        TextStyle {
-                            font_size: 20.0,
-                            color: TEXT_COLOR,
+                    parent.spawn(
+                        TextBundle::from_section(
+                            "Don't get depressed.",
+                            TextStyle {
+                                font_size: 20.0,
+                                color: TEXT_COLOR,
+                                ..default()
+                            },
+                        )
+                        .with_style(Style {
+                            margin: UiRect::bottom(Val::Px(10.0)),
                             ..default()
-                        },
-                    ));
+                        }),
+                    );
                 });
 
             // Right Panel
@@ -984,10 +1009,11 @@ fn trifle_handle_system(
         >,
         Query<(Entity, &CanHappen, &Sprite, &Transform, &Trifle), (With<Trifle>, Without<Player>)>,
     ),
-    (audio_assets, game_assets, asset_handles): (
+    (audio_assets, game_assets, asset_handles, volume): (
         Res<AudioAssets>,
         Res<Assets<GameAsset>>,
         Res<GameDataAssets>,
+        Res<Volume>,
     ),
     (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
 ) {
@@ -1027,18 +1053,27 @@ fn trifle_handle_system(
                 if er.lol >= 0.0 {
                     commands.spawn(AudioBundle {
                         source: audio_assets.lol.clone(),
-                        ..default()
+                        settings: PlaybackSettings {
+                            volume: audio::Volume::new_relative(volume.to_volume()),
+                            ..default()
+                        },
                     });
                 } else {
                     commands.spawn(AudioBundle {
                         source: audio_assets.tot.clone(),
-                        ..default()
+                        settings: PlaybackSettings {
+                            volume: audio::Volume::new_relative(volume.to_volume()),
+                            ..default()
+                        },
                     });
                 }
             } else {
                 commands.spawn(AudioBundle {
                     source: audio_assets.lot.clone(),
-                    ..default()
+                    settings: PlaybackSettings {
+                        volume: audio::Volume::new_relative(volume.to_volume()),
+                        ..default()
+                    },
                 });
             }
 
@@ -1079,10 +1114,11 @@ fn trifle_miss_system(
         >,
         Query<(Entity, &CanHappen, &Transform, &Trifle)>,
     ),
-    (audio_assets, game_assets, asset_handles): (
+    (audio_assets, game_assets, asset_handles, volume): (
         Res<AudioAssets>,
         Res<Assets<GameAsset>>,
         Res<GameDataAssets>,
+        Res<Volume>,
     ),
     (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
 ) {
@@ -1106,7 +1142,10 @@ fn trifle_miss_system(
 
             commands.spawn(AudioBundle {
                 source: audio_assets.miss.clone(),
-                ..default()
+                settings: PlaybackSettings {
+                    volume: audio::Volume::new_relative(volume.to_volume()),
+                    ..default()
+                },
             });
 
             apply_resp(

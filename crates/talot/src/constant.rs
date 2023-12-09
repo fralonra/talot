@@ -11,3 +11,5 @@ pub const MENU_BACKGROUND_COLOR: Color = Color::rgba(0.3, 0.3, 0.3, 0.9);
 
 pub const WINDOW_WIDTH: f32 = 1024.0;
 pub const WINDOW_HEIGHT: f32 = 768.0;
+
+pub const NORMAL_VOLUME: u32 = 5;

@@ -1,12 +1,13 @@
-use bevy::{app::AppExit, prelude::*};
+use bevy::{app::AppExit, audio, prelude::*};
 
 use crate::{
+    asset::AudioAssets,
     common::despawn_screen,
     constant::{
         HOVERED_BUTTON_COLOR, HOVERED_PRESSED_BUTTON_COLOR, MENU_BACKGROUND_COLOR,
         NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR, TEXT_COLOR,
     },
-    resource::Difficulty,
+    resource::{Difficulty, Volume},
     state::GameState,
 };
 
@@ -27,11 +28,23 @@ impl Plugin for MenuPlugin {
             // Update
             .add_systems(
                 Update,
-                setting_button_system::<Difficulty>.run_if(in_state(MenuState::Settings)),
+                (
+                    setting_button_system::<Difficulty>,
+                    setting_button_system::<Volume>,
+                )
+                    .run_if(in_state(MenuState::Settings)),
             )
             .add_systems(
                 Update,
                 (button_system, menu_action_system).run_if(in_state(GameState::Menu)),
+            )
+            .add_systems(
+                Update,
+                (
+                    setting_changed_system::<Difficulty>,
+                    setting_changed_system::<Volume>,
+                )
+                    .run_if(in_state(MenuState::Settings)),
             )
             // OnExit
             .add_systems(OnExit(MenuState::Main), despawn_screen::<OnMainMenuScreen>)
@@ -154,7 +167,10 @@ fn setup_main_menu(mut commands: Commands) {
         });
 }
 
-fn setup_settings_menu(mut commands: Commands, difficulty: Res<Difficulty>) {
+fn setup_settings_menu(
+    mut commands: Commands,
+    (difficulty, volume): (Res<Difficulty>, Res<Volume>),
+) {
     let button_style = Style {
         margin: UiRect::all(Val::Px(20.0)),
         padding: UiRect::px(16.0, 16.0, 10.0, 10.0),
@@ -248,6 +264,49 @@ fn setup_settings_menu(mut commands: Commands, difficulty: Res<Difficulty>) {
                             }
                         });
 
+                    // Sounds
+                    parent.spawn(
+                        TextBundle::from_section("Sounds", button_text_style.clone()).with_style(
+                            Style {
+                                margin: UiRect::bottom(Val::Px(10.0)),
+                                ..default()
+                            },
+                        ),
+                    );
+
+                    parent
+                        .spawn(NodeBundle {
+                            style: Style {
+                                align_items: AlignItems::Center,
+                                ..default()
+                            },
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            parent.spawn(TextBundle::from_section("0", button_text_style.clone()));
+
+                            for volume_setting in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] {
+                                let mut entity = parent.spawn((
+                                    ButtonBundle {
+                                        style: Style {
+                                            margin: UiRect::all(Val::Px(10.0)),
+                                            ..button_style.clone()
+                                        },
+                                        background_color: NORMAL_BUTTON_COLOR.into(),
+                                        ..default()
+                                    },
+                                    Volume(volume_setting),
+                                ));
+
+                                if *volume == Volume(volume_setting) {
+                                    entity.insert(SelectedOption);
+                                }
+                            }
+
+                            parent
+                                .spawn(TextBundle::from_section("100", button_text_style.clone()));
+                        });
+
                     // Back
                     parent
                         .spawn((
@@ -323,5 +382,20 @@ fn setting_button_system<T: Resource + Component + PartialEq + Copy>(
                 *setting = *button_setting;
             }
         }
+    }
+}
+
+fn setting_changed_system<T: Resource>(
+    mut commands: Commands,
+    (audio_assets, res, volume): (Res<AudioAssets>, Res<T>, Res<Volume>),
+) {
+    if res.is_changed() && !res.is_added() {
+        commands.spawn(AudioBundle {
+            source: audio_assets.dong.clone(),
+            settings: PlaybackSettings {
+                volume: audio::Volume::new_relative(volume.to_volume()),
+                ..default()
+            },
+        });
     }
 }
