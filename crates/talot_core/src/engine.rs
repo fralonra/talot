@@ -1,4 +1,7 @@
-use std::collections::{HashMap, HashSet};
+use std::{
+    collections::{HashMap, HashSet},
+    sync::{Arc, RwLock},
+};
 
 use rand_distr::{Distribution, WeightedIndex};
 use serde::{de, Deserialize, Deserializer};
@@ -38,6 +41,9 @@ pub struct Engine {
     #[serde(deserialize_with = "deserialize_attrs")]
     pub attributes: HashMap<u32, Attribute>,
     pub categories: Vec<Category>,
+
+    #[serde(skip)]
+    pub executed_map: Arc<RwLock<HashMap<u32, bool>>>,
 }
 
 impl Engine {
@@ -50,10 +56,15 @@ impl Engine {
     }
 
     pub fn query_category(&self, query: &QueryInfo) -> Option<&Category> {
-        self.query_random_item(&self.categories, query, |(id, category)| TimingWrapper {
-            id,
-            timings: &category.timings,
-        })
+        self.query_random_item(
+            &self.categories,
+            query,
+            |_| true,
+            |(id, category)| TimingWrapper {
+                id,
+                timings: &category.timings,
+            },
+        )
     }
 
     pub fn query_category_and_lot(&self, query: &QueryInfo) -> Option<(&Category, &Lot)> {
@@ -72,6 +83,10 @@ impl Engine {
         let category = self.query_category(query);
 
         category.and_then(|id| self.query_lot_of_category(id, query))
+    }
+
+    pub fn reset(&self) {
+        self.executed_map.write().unwrap().clear();
     }
 
     fn query_candidates_id_and_weight<T>(
@@ -109,23 +124,37 @@ impl Engine {
         category: &'a Category,
         query: &QueryInfo,
     ) -> Option<&'a Lot> {
-        self.query_random_item(&category.lots, query, |(id, lot)| TimingWrapper {
-            id,
-            timings: &lot.timings,
-        })
+        let lot = self.query_random_item(
+            &category.lots,
+            query,
+            |lot| !lot.one_time || !self.executed_map.read().unwrap().contains_key(&lot.id),
+            |(id, lot)| TimingWrapper {
+                id,
+                timings: &lot.timings,
+            },
+        );
+
+        if let Some(lot) = lot {
+            self.executed_map.write().unwrap().insert(lot.id, true);
+        }
+
+        lot
     }
 
-    fn query_random_item<'a, T, F>(
+    fn query_random_item<'a, T, M, P>(
         &self,
         list: &'a [T],
         query: &QueryInfo,
-        wrapper_mapper: F,
+        predicate: P,
+        wrapper_mapper: M,
     ) -> Option<&'a T>
     where
-        F: FnMut((usize, &T)) -> TimingWrapper<usize>,
+        M: FnMut((usize, &T)) -> TimingWrapper<usize>,
+        P: FnMut(&&T) -> bool,
     {
         let wrapper_list = list
             .iter()
+            .filter(predicate)
             .enumerate()
             .map(wrapper_mapper)
             .collect::<Vec<TimingWrapper<usize>>>();

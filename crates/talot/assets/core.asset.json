@@ -250,6 +250,7 @@
             ],
             "lots": [
                 {
+                    "id": 0,
                     "desc": "Kindergarten",
                     "p": 0.1,
                     "hide_desc": true,
@@ -264,14 +265,14 @@
                             "ER": {
                                 "p": 0.8,
                                 "ef": "Lol",
-                                "v": 2.0
+                                "v": 2
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.8,
                                 "stat": "Kno",
-                                "v": 5.0
+                                "v": 5
                             }
                         }
                     ],
@@ -280,7 +281,7 @@
                             "Stat": {
                                 "p": 0.8,
                                 "stat": "Phy",
-                                "v": 5.0
+                                "v": 5
                             }
                         }
                     ],
@@ -298,6 +299,7 @@
                     ]
                 },
                 {
+                    "id": 1,
                     "desc": "Elementary School",
                     "p": 0.2,
                     "hidden": true,
@@ -312,14 +314,14 @@
                             "ER": {
                                 "p": 0.8,
                                 "ef": "Tot",
-                                "v": 8.0
+                                "v": 8
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.8,
                                 "stat": "Soc",
-                                "v": 3.0
+                                "v": 3
                             }
                         }
                     ],
@@ -337,6 +339,7 @@
                     ]
                 },
                 {
+                    "id": 2,
                     "desc": "Middle School",
                     "p": 0.3,
                     "effects": [
@@ -354,174 +357,6 @@
                                 {
                                     "Age": {
                                         "Gt": 11
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "High School",
-                    "p": 0.4,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.8,
-                                "attr_id": 3
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 15
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "College",
-                    "p": 0.5,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.9,
-                                "attr_id": 4
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.9,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Masters",
-                    "p": 0.6,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 1.0,
-                                "attr_id": 5
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 1.0,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 22
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "PhD",
-                    "p": 0.7,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.1,
-                                "attr_id": 6
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 25
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Postdoc",
-                    "p": 0.8,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.2,
-                                "attr_id": 7
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 28
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Professor",
-                    "p": 0.9,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.3,
-                                "attr_id": 8
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 30
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Emeritus",
-                    "p": 1.0,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.4,
-                                "attr_id": 9
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 65
                                     }
                                 }
                             ]
@@ -547,6 +382,7 @@
             ],
             "lots": [
                 {
+                    "id": 3,
                     "desc": "Get good early education",
                     "p": 0.1,
                     "effects": [
@@ -554,28 +390,28 @@
                             "Stat": {
                                 "p": 0.5,
                                 "stat": "Kno",
-                                "v": 4.0
+                                "v": 4
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.5,
                                 "stat": "Kno",
-                                "v": 1.0
+                                "v": 1
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.3,
                                 "stat": "Phy",
-                                "v": 3.0
+                                "v": 3
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.3,
                                 "stat": "Phy",
-                                "v": 1.0
+                                "v": 1
                             }
                         }
                     ],
@@ -593,12 +429,14 @@
                     ]
                 },
                 {
+                    "id": 4,
                     "desc": "Start talking",
                     "p": 0.5,
+                    "one_time": true,
                     "missed_effects": [
                         {
                             "AttrAdd": {
-                                "p": 1.0,
+                                "p": 1,
                                 "attr_id": 0
                             }
                         }
@@ -606,29 +444,29 @@
                     "effects": [
                         {
                             "AttrAdd": {
-                                "p": 1.0,
+                                "p": 1,
                                 "attr_id": 1
                             }
                         },
                         {
                             "Stat": {
-                                "p": 1.0,
+                                "p": 1,
                                 "stat": "Soc",
-                                "v": 5.0
+                                "v": 5
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.5,
                                 "stat": "Soc",
-                                "v": 1.0
+                                "v": 1
                             }
                         },
                         {
                             "Stat": {
                                 "p": 0.2,
                                 "stat": "Soc",
-                                "v": 1.0
+                                "v": 1
                             }
                         }
                     ],
@@ -639,1230 +477,6 @@
                                 {
                                     "Age": {
                                         "Lt": 3
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 3",
-                    "p": 0.3,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.7,
-                                "attr_id": 16
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 4",
-                    "p": 0.4,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.8,
-                                "attr_id": 17
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 5",
-                    "p": 0.5,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.9,
-                                "attr_id": 18
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.9,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 6",
-                    "p": 0.6,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 1.0,
-                                "attr_id": 19
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 1.0,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 7",
-                    "p": 0.7,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.1,
-                                "attr_id": 20
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 8",
-                    "p": 0.8,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.2,
-                                "attr_id": 21
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 9",
-                    "p": 0.9,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.3,
-                                "attr_id": 22
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Exercise 10",
-                    "p": 1.0,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.4,
-                                "attr_id": 23
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "name": "Hobbies",
-            "timings": [
-                {
-                    "p": 0.5,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 18
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Hobby 1",
-                    "p": 0.1,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.5,
-                                "attr_id": 24
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 2",
-                    "p": 0.2,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.6,
-                                "attr_id": 25
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 3",
-                    "p": 0.3,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.7,
-                                "attr_id": 26
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 4",
-                    "p": 0.4,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.8,
-                                "attr_id": 27
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 5",
-                    "p": 0.5,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.9,
-                                "attr_id": 28
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.9,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 6",
-                    "p": 0.6,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 1.0,
-                                "attr_id": 29
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 1.0,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 7",
-                    "p": 0.7,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.1,
-                                "attr_id": 30
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 8",
-                    "p": 0.8,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.2,
-                                "attr_id": 31
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 9",
-                    "p": 0.9,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.3,
-                                "attr_id": 32
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Hobby 10",
-                    "p": 1.0,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.4,
-                                "attr_id": 33
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "name": "Travel",
-            "timings": [
-                {
-                    "p": 0.5,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 18
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Trip 1",
-                    "p": 0.1,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.5,
-                                "attr_id": 34
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 2",
-                    "p": 0.2,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.6,
-                                "attr_id": 35
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 3",
-                    "p": 0.3,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.7,
-                                "attr_id": 36
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 4",
-                    "p": 0.4,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.8,
-                                "attr_id": 37
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 5",
-                    "p": 0.5,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.9,
-                                "attr_id": 38
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.9,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 6",
-                    "p": 0.6,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 1.0,
-                                "attr_id": 39
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 1.0,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 7",
-                    "p": 0.7,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.1,
-                                "attr_id": 40
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 8",
-                    "p": 0.8,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.2,
-                                "attr_id": 41
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 9",
-                    "p": 0.9,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.3,
-                                "attr_id": 42
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Trip 10",
-                    "p": 1.0,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.4,
-                                "attr_id": 43
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "name": "Sports",
-            "timings": [
-                {
-                    "p": 0.5,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 18
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Sport 1",
-                    "p": 0.1,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.5,
-                                "attr_id": 44
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 2",
-                    "p": 0.2,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.6,
-                                "attr_id": 45
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 3",
-                    "p": 0.3,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.7,
-                                "attr_id": 46
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 4",
-                    "p": 0.4,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.8,
-                                "attr_id": 47
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 5",
-                    "p": 0.5,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.9,
-                                "attr_id": 48
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.9,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 6",
-                    "p": 0.6,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 1.0,
-                                "attr_id": 49
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 1.0,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 7",
-                    "p": 0.7,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.1,
-                                "attr_id": 0
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 8",
-                    "p": 0.8,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.2,
-                                "attr_id": 1
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 9",
-                    "p": 0.9,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.3,
-                                "attr_id": 2
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Sport 10",
-                    "p": 1.0,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.4,
-                                "attr_id": 3
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "id": 5,
-            "name": "Work",
-            "timings": [
-                {
-                    "p": 0.5,
-                    "conditions": [
-                        {
-                            "Age": {
-                                "Gt": 18
-                            }
-                        }
-                    ]
-                }
-            ],
-            "lots": [
-                {
-                    "desc": "Job 1",
-                    "p": 0.1,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.5,
-                                "attr_id": 4
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.5,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 2",
-                    "p": 0.2,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.6,
-                                "attr_id": 5
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.6,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 3",
-                    "p": 0.3,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.7,
-                                "attr_id": 6
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.7,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 4",
-                    "p": 0.4,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.8,
-                                "attr_id": 7
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.8,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 5",
-                    "p": 0.5,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.9,
-                                "attr_id": 8
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.9,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 6",
-                    "p": 0.6,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 1.0,
-                                "attr_id": 9
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 1.0,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 7",
-                    "p": 0.7,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.1,
-                                "attr_id": 10
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.1,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 8",
-                    "p": 0.8,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.2,
-                                "attr_id": 11
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.2,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 9",
-                    "p": 0.9,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.3,
-                                "attr_id": 12
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.3,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    "desc": "Job 10",
-                    "p": 1.0,
-                    "effects": [
-                        {
-                            "AttrAdd": {
-                                "p": 0.4,
-                                "attr_id": 13
-                            }
-                        }
-                    ],
-                    "timings": [
-                        {
-                            "p": 0.4,
-                            "conditions": [
-                                {
-                                    "Age": {
-                                        "Gt": 18
                                     }
                                 }
                             ]

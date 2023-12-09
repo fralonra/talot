@@ -199,11 +199,19 @@ fn setup_over(mut commands: Commands) {
 fn setup_playing(
     mut commands: Commands,
     query_player: Query<&Player>,
-    (difficulty, image_assets): (Res<Difficulty>, Res<ImageAssets>),
+    (game_assets, difficulty, asset_handles, image_assets): (
+        Res<Assets<GameAsset>>,
+        Res<Difficulty>,
+        Res<GameDataAssets>,
+        Res<ImageAssets>,
+    ),
 ) {
     if !query_player.is_empty() {
         return;
     }
+
+    let game_asset = game_assets.get(&asset_handles.core).unwrap();
+    game_asset.reset();
 
     commands
         .spawn((
@@ -311,7 +319,7 @@ fn setup_playing(
                             },
                         )
                         .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(10.0)),
+                            margin: UiRect::bottom(Val::Px(8.0)),
                             ..default()
                         }),
                     );
@@ -326,7 +334,7 @@ fn setup_playing(
                             },
                         )
                         .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(10.0)),
+                            margin: UiRect::bottom(Val::Px(8.0)),
                             ..default()
                         }),
                     );
@@ -341,7 +349,7 @@ fn setup_playing(
                             },
                         )
                         .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(10.0)),
+                            margin: UiRect::bottom(Val::Px(8.0)),
                             ..default()
                         }),
                     );
@@ -356,7 +364,7 @@ fn setup_playing(
                             },
                         )
                         .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(10.0)),
+                            margin: UiRect::bottom(Val::Px(8.0)),
                             ..default()
                         }),
                     );

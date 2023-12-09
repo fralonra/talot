@@ -4,8 +4,11 @@ use crate::{effect::EffectResp, Effect, QueryInfo, RespInfo, Stat, Timing, EF};
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct Lot {
+    pub id: u32,
     pub desc: String,
     pub p: f32,
+    #[serde(default)]
+    pub one_time: bool,
     #[serde(default)]
     pub hidden: bool,
     #[serde(default)]
