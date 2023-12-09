@@ -11,7 +11,7 @@ use bevy_asset_loader::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
 use constant::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use plugin::{GamePlugin, MenuPlugin, SplashPlugin};
-use resource::{DisplayQuality, Volume};
+use resource::Difficulty;
 use state::GameState;
 
 pub fn run() {
@@ -27,8 +27,7 @@ pub fn run() {
             }),
             JsonAssetPlugin::<GameAsset>::new(&["asset.json"]),
         ))
-        .insert_resource(DisplayQuality::Medium)
-        .insert_resource(Volume(7))
+        .insert_resource(Difficulty::Knight)
         .add_state::<GameState>()
         .add_loading_state(LoadingState::new(GameState::Splash).continue_to_state(GameState::Menu))
         .add_collection_to_loading_state::<_, GameDataAssets>(GameState::Splash)

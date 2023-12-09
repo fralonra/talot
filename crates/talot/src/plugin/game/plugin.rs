@@ -9,7 +9,11 @@ use talot_core::{Attribute, QueryInfo, RespInfo};
 use crate::{
     asset::{GameAsset, GameDataAssets, ImageAssets},
     common::despawn_screen,
-    constant::{HOVERED_BUTTON_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR, TEXT_COLOR},
+    constant::{
+        HOVERED_BUTTON_COLOR, MENU_BACKGROUND_COLOR, NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR,
+        TEXT_COLOR,
+    },
+    resource::Difficulty,
     state::GameState,
 };
 
@@ -137,7 +141,7 @@ fn setup_over(mut commands: Commands) {
                         align_items: AlignItems::Center,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
+                    background_color: MENU_BACKGROUND_COLOR.into(),
                     ..default()
                 })
                 .with_children(|parent| {
@@ -194,7 +198,7 @@ fn setup_over(mut commands: Commands) {
 fn setup_playing(
     mut commands: Commands,
     query_player: Query<&Player>,
-    image_assets: Res<ImageAssets>,
+    (difficulty, image_assets): (Res<Difficulty>, Res<ImageAssets>),
 ) {
     if !query_player.is_empty() {
         return;
@@ -229,6 +233,22 @@ fn setup_playing(
                     ..default()
                 })
                 .with_children(|parent| {
+                    // Difficulty
+                    parent.spawn(
+                        TextBundle::from_section(
+                            format!("Difficulty: {}", difficulty.label()),
+                            TextStyle {
+                                font_size: 16.0,
+                                color: Color::BEIGE,
+                                ..default()
+                            },
+                        )
+                        .with_style(Style {
+                            margin: UiRect::bottom(Val::Px(12.0)),
+                            ..default()
+                        }),
+                    );
+
                     // Age
                     parent.spawn((
                         TextBundle::from_sections([
@@ -265,6 +285,56 @@ fn setup_playing(
                     parent.spawn((StatBundle::new("SOC"), UiPlayerStatSocialLabel));
 
                     parent.spawn((NodeBundle::default(), UiAttrsPanel));
+                });
+
+            // Center
+            parent
+                .spawn(NodeBundle {
+                    style: Style {
+                        padding: UiRect::all(Val::Px(20.0)),
+                        align_self: AlignSelf::FlexStart,
+                        flex_direction: FlexDirection::Column,
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|parent| {
+                    // Game Tips
+                    parent.spawn(TextBundle::from_section(
+                        "Move your character using arrow keys.",
+                        TextStyle {
+                            font_size: 20.0,
+                            color: TEXT_COLOR,
+                            ..default()
+                        },
+                    ));
+
+                    parent.spawn(TextBundle::from_section(
+                        "Collect lol, avoid tot.",
+                        TextStyle {
+                            font_size: 20.0,
+                            color: TEXT_COLOR,
+                            ..default()
+                        },
+                    ));
+
+                    parent.spawn(TextBundle::from_section(
+                        "Find your way to a remarkable life.",
+                        TextStyle {
+                            font_size: 20.0,
+                            color: TEXT_COLOR,
+                            ..default()
+                        },
+                    ));
+
+                    parent.spawn(TextBundle::from_section(
+                        "Don't get depressed.",
+                        TextStyle {
+                            font_size: 20.0,
+                            color: TEXT_COLOR,
+                            ..default()
+                        },
+                    ));
                 });
 
             // Right Panel
@@ -360,13 +430,13 @@ fn setup_playing(
         Age(0.0),
         Attributable::default(),
         EmotionalRating::default(),
-        Speed(100.0),
+        Speed(200.0 * difficulty.player_speed_factor()),
         OnGameScreen,
     ));
 
-    commands.insert_resource(AgingTimer(Timer::from_seconds(1.0, TimerMode::Repeating)));
+    commands.insert_resource(AgingTimer(Timer::from_seconds(2.0, TimerMode::Repeating)));
     commands.insert_resource(TrifleSpawnTimer(Timer::from_seconds(
-        0.5,
+        1.0 * difficulty.spawn_timer_factor(),
         TimerMode::Repeating,
     )));
 
@@ -415,7 +485,7 @@ fn setup_suspend(mut commands: Commands) {
                         align_items: AlignItems::Center,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
+                    background_color: MENU_BACKGROUND_COLOR.into(),
                     ..default()
                 })
                 .with_children(|parent| {
@@ -843,7 +913,7 @@ fn trifle_spawn_system(
                 format!("{} - {}", category.name, lot.desc)
             };
 
-            let width = GAME_AREA_WIDTH * p;
+            let width = GAME_AREA_WIDTH * p * 0.5;
             let size = Vec2::new(width, TRIFLE_HEIGHT);
 
             let mut x = rand::thread_rng().gen_range(0.0..GAME_AREA_WIDTH) - GAME_AREA_WIDTH * 0.5;

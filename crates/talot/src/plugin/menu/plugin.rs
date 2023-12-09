@@ -3,10 +3,10 @@ use bevy::{app::AppExit, prelude::*};
 use crate::{
     common::despawn_screen,
     constant::{
-        HOVERED_BUTTON_COLOR, HOVERED_PRESSED_BUTTON_COLOR, NORMAL_BUTTON_COLOR,
-        PRESSED_BUTTON_COLOR, TEXT_COLOR,
+        HOVERED_BUTTON_COLOR, HOVERED_PRESSED_BUTTON_COLOR, MENU_BACKGROUND_COLOR,
+        NORMAL_BUTTON_COLOR, PRESSED_BUTTON_COLOR, TEXT_COLOR,
     },
-    resource::{DisplayQuality, Volume},
+    resource::Difficulty,
     state::GameState,
 };
 
@@ -27,11 +27,7 @@ impl Plugin for MenuPlugin {
             // Update
             .add_systems(
                 Update,
-                setting_button_system::<DisplayQuality>.run_if(in_state(MenuState::Settings)),
-            )
-            .add_systems(
-                Update,
-                setting_button_system::<Volume>.run_if(in_state(MenuState::Settings)),
+                setting_button_system::<Difficulty>.run_if(in_state(MenuState::Settings)),
             )
             .add_systems(
                 Update,
@@ -50,20 +46,13 @@ fn setup(mut menu_state: ResMut<NextState<MenuState>>) {
     menu_state.set(MenuState::Main);
 }
 
-fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn setup_main_menu(mut commands: Commands) {
     let button_style = Style {
         width: Val::Px(250.0),
         height: Val::Px(65.0),
         margin: UiRect::all(Val::Px(20.0)),
         justify_content: JustifyContent::Center,
         align_items: AlignItems::Center,
-        ..default()
-    };
-
-    let button_icon_style = Style {
-        width: Val::Px(30.0),
-        position_type: PositionType::Absolute,
-        left: Val::Px(10.0),
         ..default()
     };
 
@@ -91,17 +80,17 @@ fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
             parent
                 .spawn(NodeBundle {
                     style: Style {
-                        flex_direction: FlexDirection::Column,
                         align_items: AlignItems::Center,
+                        flex_direction: FlexDirection::Column,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
+                    background_color: MENU_BACKGROUND_COLOR.into(),
                     ..default()
                 })
                 .with_children(|parent| {
                     parent.spawn(
                         TextBundle::from_section(
-                            "Bevy Game Menu UI",
+                            "How are you today",
                             TextStyle {
                                 font_size: 50.0,
                                 color: TEXT_COLOR,
@@ -125,14 +114,6 @@ fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                             MenuButtonAction::Play,
                         ))
                         .with_children(|parent| {
-                            let icon = asset_server.load("textures/Game Icons/right.png");
-
-                            parent.spawn(ImageBundle {
-                                style: button_icon_style.clone(),
-                                image: UiImage::new(icon),
-                                ..default()
-                            });
-
                             parent.spawn(TextBundle::from_section(
                                 "New Life",
                                 button_text_style.clone(),
@@ -150,14 +131,6 @@ fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                             MenuButtonAction::Settings,
                         ))
                         .with_children(|parent| {
-                            let icon = asset_server.load("textures/Game Icons/wrench.png");
-
-                            parent.spawn(ImageBundle {
-                                style: button_icon_style.clone(),
-                                image: UiImage::new(icon),
-                                ..default()
-                            });
-
                             parent.spawn(TextBundle::from_section(
                                 "Settings",
                                 button_text_style.clone(),
@@ -175,28 +148,16 @@ fn setup_main_menu(mut commands: Commands, asset_server: Res<AssetServer>) {
                             MenuButtonAction::Quit,
                         ))
                         .with_children(|parent| {
-                            let icon = asset_server.load("textures/Game Icons/exitRight.png");
-
-                            parent.spawn(ImageBundle {
-                                style: button_icon_style,
-                                image: UiImage::new(icon),
-                                ..default()
-                            });
-
                             parent.spawn(TextBundle::from_section("Quit", button_text_style));
                         });
                 });
         });
 }
 
-fn setup_settings_menu(
-    mut commands: Commands,
-    (display_quality, volume): (Res<DisplayQuality>, Res<Volume>),
-) {
+fn setup_settings_menu(mut commands: Commands, difficulty: Res<Difficulty>) {
     let button_style = Style {
-        width: Val::Px(200.0),
-        height: Val::Px(65.0),
         margin: UiRect::all(Val::Px(20.0)),
+        padding: UiRect::px(16.0, 16.0, 10.0, 10.0),
         justify_content: JustifyContent::Center,
         align_items: AlignItems::Center,
         ..default()
@@ -226,135 +187,79 @@ fn setup_settings_menu(
             parent
                 .spawn(NodeBundle {
                     style: Style {
-                        flex_direction: FlexDirection::Column,
                         align_items: AlignItems::Center,
+                        padding: UiRect::all(Val::Px(20.0)),
+                        flex_direction: FlexDirection::Column,
                         ..default()
                     },
-                    background_color: Color::CRIMSON.into(),
+                    background_color: MENU_BACKGROUND_COLOR.into(),
                     ..default()
                 })
                 .with_children(|parent| {
-                    // Display
+                    // Difficulty
+                    parent.spawn(
+                        TextBundle::from_section("Difficulty", button_text_style.clone())
+                            .with_style(Style {
+                                margin: UiRect::bottom(Val::Px(10.0)),
+                                ..default()
+                            }),
+                    );
+
                     parent
                         .spawn(NodeBundle {
                             style: Style {
-                                flex_direction: FlexDirection::Column,
                                 align_items: AlignItems::Center,
                                 ..default()
                             },
-                            background_color: Color::CRIMSON.into(),
                             ..default()
                         })
                         .with_children(|parent| {
-                            parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        align_items: AlignItems::Center,
-                                        ..default()
-                                    },
-                                    background_color: Color::CRIMSON.into(),
-                                    ..default()
-                                })
-                                .with_children(|parent| {
-                                    parent.spawn(TextBundle::from_section(
-                                        "Display Quality",
-                                        button_text_style.clone(),
-                                    ));
-
-                                    for quality_setting in [
-                                        DisplayQuality::Low,
-                                        DisplayQuality::Medium,
-                                        DisplayQuality::High,
-                                    ] {
-                                        let mut entity = parent.spawn((
-                                            ButtonBundle {
-                                                style: Style {
-                                                    width: Val::Px(150.0),
-                                                    height: Val::Px(65.0),
-                                                    ..button_style.clone()
-                                                },
-                                                background_color: NORMAL_BUTTON_COLOR.into(),
-                                                ..default()
-                                            },
-                                            quality_setting,
-                                        ));
-
-                                        entity.with_children(|parent| {
-                                            parent.spawn(TextBundle::from_section(
-                                                format!("{quality_setting:?}"),
-                                                button_text_style.clone(),
-                                            ));
-                                        });
-
-                                        if *display_quality == quality_setting {
-                                            entity.insert(SelectedOption);
-                                        }
-                                    }
-                                });
-
-                            // Sound
-                            parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        flex_direction: FlexDirection::Column,
-                                        align_items: AlignItems::Center,
-                                        ..default()
-                                    },
-                                    background_color: Color::CRIMSON.into(),
-                                    ..default()
-                                })
-                                .with_children(|parent| {
-                                    parent
-                                        .spawn(NodeBundle {
-                                            style: Style {
-                                                align_items: AlignItems::Center,
-                                                ..default()
-                                            },
-                                            background_color: Color::CRIMSON.into(),
-                                            ..default()
-                                        })
-                                        .with_children(|parent| {
-                                            parent.spawn(TextBundle::from_section(
-                                                "Volume",
-                                                button_text_style.clone(),
-                                            ));
-
-                                            for volume_setting in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] {
-                                                let mut entity = parent.spawn((
-                                                    ButtonBundle {
-                                                        style: Style {
-                                                            width: Val::Px(30.0),
-                                                            height: Val::Px(65.0),
-                                                            ..button_style.clone()
-                                                        },
-                                                        background_color: NORMAL_BUTTON_COLOR
-                                                            .into(),
-                                                        ..default()
-                                                    },
-                                                    Volume(volume_setting),
-                                                ));
-
-                                                if *volume == Volume(volume_setting) {
-                                                    entity.insert(SelectedOption);
-                                                }
-                                            }
-                                        });
-                                });
-
-                            // Back
-                            parent
-                                .spawn((
+                            for difficulty_setting in [
+                                Difficulty::Farmer,
+                                Difficulty::Knight,
+                                Difficulty::DragonSlayer,
+                                Difficulty::Psychopath,
+                            ] {
+                                let mut entity = parent.spawn((
                                     ButtonBundle {
-                                        style: button_style,
+                                        style: Style {
+                                            margin: UiRect::all(Val::Px(10.0)),
+                                            ..button_style.clone()
+                                        },
                                         background_color: NORMAL_BUTTON_COLOR.into(),
                                         ..default()
                                     },
-                                    MenuButtonAction::BackToMainMenu,
-                                ))
-                                .with_children(|parent| {
-                                    parent
-                                        .spawn(TextBundle::from_section("Back", button_text_style));
+                                    difficulty_setting,
+                                ));
+
+                                entity.with_children(|parent| {
+                                    parent.spawn(TextBundle::from_section(
+                                        difficulty_setting.label(),
+                                        TextStyle {
+                                            font_size: 20.0,
+                                            ..button_text_style.clone()
+                                        },
+                                    ));
                                 });
+
+                                if *difficulty == difficulty_setting {
+                                    entity.insert(SelectedOption);
+                                }
+                            }
+                        });
+
+                    // Back
+                    parent
+                        .spawn((
+                            ButtonBundle {
+                                style: button_style,
+                                background_color: NORMAL_BUTTON_COLOR.into(),
+                                ..default()
+                            },
+                            MenuButtonAction::BackToMainMenu,
+                        ))
+                        .with_children(|parent| {
+                            parent.spawn(TextBundle::from_section("Back", button_text_style));
                         });
                 });
         });
