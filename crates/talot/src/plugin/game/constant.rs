@@ -19,7 +19,7 @@ pub(super) const PANEL_BOTTOM_HEIGHT: f32 = 100.0;
 pub(super) const PANEL_LEFT_WIDTH: f32 = 250.0;
 pub(super) const PANEL_RIGHT_WIDTH: f32 = 250.0;
 
-pub(super) const PLAYER_SIZE: Vec2 = Vec2::new(25.0, 25.0);
+pub(super) const PLAYER_SIZE: Vec2 = Vec2::new(50.0, 50.0);
 
 pub(super) const TRIFLE_HEIGHT: f32 = 10.0;
 pub(super) const TRIFLE_LABEL_FONT_SIZE: f32 = 20.0;

@@ -447,7 +447,7 @@ fn setup_playing(
     commands.spawn((
         SpriteBundle {
             sprite: Sprite {
-                color: Color::rgb(0.25, 0.25, 0.75),
+                color: Color::WHITE,
                 custom_size: Some(PLAYER_SIZE),
                 ..default()
             },
@@ -456,6 +456,7 @@ fn setup_playing(
                 (PLAYER_SIZE.y - GAME_AREA_HEIGHT) * 0.5,
                 1.0,
             )),
+            texture: image_assets.player.clone(),
             ..default()
         },
         Player,
@@ -700,20 +701,18 @@ fn player_aging_system(
 }
 
 fn player_moving_system(
-    mut query_player: Query<(&Speed, &mut Transform), With<Player>>,
+    mut query_player: Query<(&Speed, &mut Sprite, &mut Transform), With<Player>>,
     (input, time): (Res<Input<KeyCode>>, Res<Time>),
 ) {
-    let (speed, mut transform) = query_player.single_mut();
+    let (speed, mut sprite, mut transform) = query_player.single_mut();
 
-    let mut direction = 0.0;
-
-    if input.pressed(KeyCode::Left) {
-        direction -= 1.0;
-    }
-
-    if input.pressed(KeyCode::Right) {
-        direction += 1.0;
-    }
+    let direction = if input.pressed(KeyCode::Left) {
+        -1.0
+    } else if input.pressed(KeyCode::Right) {
+        1.0
+    } else {
+        0.0
+    };
 
     let new_position = transform.translation.x + direction * speed.0 * time.delta_seconds();
 
@@ -721,6 +720,9 @@ fn player_moving_system(
     let right_bound = (GAME_AREA_WIDTH - PLAYER_SIZE.x) * 0.5;
 
     transform.translation.x = new_position.clamp(left_bound, right_bound);
+    if direction != 0.0 {
+        sprite.flip_x = direction > 0.0;
+    }
 }
 
 fn text_age_system(
@@ -1045,8 +1047,6 @@ fn trifle_handle_system(
         if player_left <= right && player_right >= left {
             is_intersected = true;
 
-            player_sprite.color = Color::RED;
-
             let query = QueryInfo {
                 age: age.0,
                 attrs: &attrs,
@@ -1101,10 +1101,6 @@ fn trifle_handle_system(
 
             commands.entity(entity).despawn_recursive();
         }
-    }
-
-    if !is_intersected {
-        player_sprite.color = Color::rgb(0.25, 0.25, 0.75);
     }
 }
 
@@ -1189,8 +1185,6 @@ fn trifle_update_system(
 
         if transform.translation.y <= -GAME_AREA_HEIGHT * 0.5 + PLAYER_SIZE.y {
             **can_happen = true;
-
-            sprite.color = Color::GREEN;
         }
     }
 }

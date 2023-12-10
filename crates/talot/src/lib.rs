@@ -47,7 +47,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     // Background
     commands.spawn(SpriteBundle {
         sprite: Sprite {
-            color: Color::rgba(0.0, 0.0, 0.0, 0.7),
+            color: Color::rgba(0.1, 0.1, 0.1, 0.7),
             ..default()
         },
         texture: asset_server.load("images/background.png"),
