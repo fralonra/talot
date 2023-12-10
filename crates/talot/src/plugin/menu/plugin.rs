@@ -61,16 +61,16 @@ fn setup(mut menu_state: ResMut<NextState<MenuState>>) {
 
 fn setup_main_menu(mut commands: Commands) {
     let button_style = Style {
-        width: Val::Px(250.0),
+        width: Val::Px(350.0),
         height: Val::Px(65.0),
-        margin: UiRect::all(Val::Px(20.0)),
+        margin: UiRect::all(Val::Px(15.0)),
         justify_content: JustifyContent::Center,
         align_items: AlignItems::Center,
         ..default()
     };
 
     let button_text_style = TextStyle {
-        font_size: 40.0,
+        font_size: 30.0,
         color: TEXT_COLOR,
         ..default()
     };
@@ -94,6 +94,7 @@ fn setup_main_menu(mut commands: Commands) {
                 .spawn(NodeBundle {
                     style: Style {
                         align_items: AlignItems::Center,
+                        padding: UiRect::all(Val::Px(20.0)),
                         flex_direction: FlexDirection::Column,
                         ..default()
                     },
@@ -111,7 +112,7 @@ fn setup_main_menu(mut commands: Commands) {
                             },
                         )
                         .with_style(Style {
-                            margin: UiRect::all(Val::Px(40.0)),
+                            margin: UiRect::all(Val::Px(30.0)),
                             ..default()
                         }),
                     );
@@ -128,7 +129,7 @@ fn setup_main_menu(mut commands: Commands) {
                         ))
                         .with_children(|parent| {
                             parent.spawn(TextBundle::from_section(
-                                "New Life",
+                                "Start A New Life",
                                 button_text_style.clone(),
                             ));
                         });
@@ -145,7 +146,7 @@ fn setup_main_menu(mut commands: Commands) {
                         ))
                         .with_children(|parent| {
                             parent.spawn(TextBundle::from_section(
-                                "Settings",
+                                "Want To Change Sth",
                                 button_text_style.clone(),
                             ));
                         });
@@ -161,7 +162,13 @@ fn setup_main_menu(mut commands: Commands) {
                             MenuButtonAction::Quit,
                         ))
                         .with_children(|parent| {
-                            parent.spawn(TextBundle::from_section("Quit", button_text_style));
+                            parent.spawn(TextBundle::from_section(
+                                "Bye",
+                                TextStyle {
+                                    font_size: 40.0,
+                                    ..button_text_style.clone()
+                                },
+                            ));
                         });
                 });
         });

@@ -19,7 +19,6 @@ use crate::{
 };
 
 use super::{
-    bundle::StatBundle,
     component::{
         Age, Attributable, CanHappen, EmotionalRating, MenuButtonAction, OnGameOverScreen,
         OnGameScreen, OnGameSuspendScreen, Player, PlayerStat, ScrollingList, Speed, Trifle,
@@ -282,17 +281,33 @@ fn setup_playing(
                         UiAgeLabel,
                     ));
 
-                    // Physical Stat
-                    parent.spawn((StatBundle::new("PHY"), UiPlayerStatPhysicalLabel));
+                    ui_stat(
+                        parent,
+                        "Physical",
+                        image_assets.stat_phy.clone(),
+                        UiPlayerStatPhysicalLabel,
+                    );
 
-                    // Intuition Stat
-                    parent.spawn((StatBundle::new("INT"), UiPlayerStatIntuitionLabel));
+                    ui_stat(
+                        parent,
+                        "Intuition",
+                        image_assets.stat_int.clone(),
+                        UiPlayerStatIntuitionLabel,
+                    );
 
-                    // Knowledge Stat
-                    parent.spawn((StatBundle::new("KNO"), UiPlayerStatKnowledgeLabel));
+                    ui_stat(
+                        parent,
+                        "Knowledge",
+                        image_assets.stat_kno.clone(),
+                        UiPlayerStatKnowledgeLabel,
+                    );
 
-                    // Social Stat
-                    parent.spawn((StatBundle::new("SOC"), UiPlayerStatSocialLabel));
+                    ui_stat(
+                        parent,
+                        "Social",
+                        image_assets.stat_soc.clone(),
+                        UiPlayerStatSocialLabel,
+                    );
 
                     parent.spawn((NodeBundle::default(), UiAttrsPanel));
                 });
@@ -877,7 +892,7 @@ fn text_stat_int_system(
 ) {
     if let Ok(stat) = query_stat.get_single() {
         for mut text in &mut query_text {
-            text.sections[1].value = format!("{:.0}", stat.intuition);
+            text.sections[0].value = format!("{:.0}", stat.intuition);
         }
     }
 }
@@ -890,7 +905,7 @@ fn text_stat_kno_system(
 ) {
     if let Ok(stat) = query_stat.get_single() {
         for mut text in &mut query_text {
-            text.sections[1].value = format!("{:.0}", stat.knowledge);
+            text.sections[0].value = format!("{:.0}", stat.knowledge);
         }
     }
 }
@@ -903,7 +918,7 @@ fn text_stat_phy_system(
 ) {
     if let Ok(stat) = query_stat.get_single() {
         for mut text in &mut query_text {
-            text.sections[1].value = format!("{:.0}", stat.physical);
+            text.sections[0].value = format!("{:.0}", stat.physical);
         }
     }
 }
@@ -916,7 +931,7 @@ fn text_stat_soc_system(
 ) {
     if let Ok(stat) = query_stat.get_single() {
         for mut text in &mut query_text {
-            text.sections[1].value = format!("{:.0}", stat.social);
+            text.sections[0].value = format!("{:.0}", stat.social);
         }
     }
 }
@@ -947,9 +962,9 @@ fn trifle_spawn_system(
             let lot_desc = if lot.hidden {
                 format!("????")
             } else if lot.hide_desc {
-                format!("{} - ????", category.name)
+                format!("???? ({})", category.name)
             } else {
-                format!("{} - {}", category.name, lot.desc)
+                format!("{}", lot.desc)
             };
 
             let width = GAME_AREA_WIDTH * p * 0.5;
@@ -998,7 +1013,7 @@ fn trifle_spawn_system(
                         transform: Transform::from_translation(Vec3::new(
                             0.0,
                             size.y * 0.5 + 4.0 + TRIFLE_LABEL_FONT_SIZE * 0.5,
-                            100.0,
+                            0.0,
                         )),
                         ..default()
                     });
@@ -1254,4 +1269,58 @@ fn apply_resp(
     if !event_repeated {
         bio.push((age, desc, 1));
     }
+}
+
+fn ui_stat<C: Component>(
+    parent: &mut ChildBuilder,
+    label: &str,
+    image: Handle<Image>,
+    component: C,
+) {
+    parent
+        .spawn(NodeBundle {
+            style: Style {
+                justify_content: JustifyContent::SpaceBetween,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            ..default()
+        })
+        .with_children(|parent| {
+            parent.spawn(NodeBundle::default()).with_children(|parent| {
+                parent.spawn(ImageBundle {
+                    style: Style {
+                        width: Val::Px(30.0),
+                        ..default()
+                    },
+                    image: UiImage::new(image),
+                    ..default()
+                });
+
+                parent.spawn(TextBundle::from_section(
+                    label,
+                    TextStyle {
+                        font_size: 30.0,
+                        color: TEXT_COLOR,
+                        ..default()
+                    },
+                ));
+            });
+
+            parent.spawn((
+                TextBundle::from_section(
+                    "",
+                    TextStyle {
+                        font_size: 30.0,
+                        color: Color::GOLD,
+                        ..default()
+                    },
+                )
+                .with_style(Style {
+                    margin: UiRect::right(Val::Px(10.0)),
+                    ..default()
+                }),
+                component,
+            ));
+        });
 }

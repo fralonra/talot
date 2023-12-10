@@ -1,4 +1,3 @@
-mod bundle;
 mod component;
 mod constant;
 mod plugin;

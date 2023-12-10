@@ -36,6 +36,14 @@ pub struct ImageAssets {
     pub lol: Handle<Image>,
     #[asset(path = "images/player.png")]
     pub player: Handle<Image>,
+    #[asset(path = "images/stat_int.png")]
+    pub stat_int: Handle<Image>,
+    #[asset(path = "images/stat_kno.png")]
+    pub stat_kno: Handle<Image>,
+    #[asset(path = "images/stat_phy.png")]
+    pub stat_phy: Handle<Image>,
+    #[asset(path = "images/stat_soc.png")]
+    pub stat_soc: Handle<Image>,
     #[asset(path = "images/tot.png")]
     pub tot: Handle<Image>,
 }
