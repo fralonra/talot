@@ -17,7 +17,7 @@ pub struct Lot {
     pub effects: Vec<Effect>,
     #[serde(default)]
     pub missed_effects: Vec<Effect>,
-    #[serde(default)]
+    #[serde(default = "Timing::default_timings")]
     pub timings: Vec<Timing>,
 }
 

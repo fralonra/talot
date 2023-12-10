@@ -6,7 +6,7 @@ use crate::{Lot, Timing};
 pub struct Category {
     pub id: u32,
     pub name: String,
-    #[serde(default)]
+    #[serde(default = "Timing::default_timings")]
     pub timings: Vec<Timing>,
     #[serde(default)]
     pub lots: Vec<Lot>,

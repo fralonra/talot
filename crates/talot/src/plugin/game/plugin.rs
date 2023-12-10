@@ -975,7 +975,7 @@ fn trifle_spawn_system(
                     },
                     Trifle(lot.clone()),
                     CanHappen(false),
-                    Speed(rand::thread_rng().gen_range(90.0..150.0)),
+                    Speed(rand::thread_rng().gen_range(150.0..200.0)),
                     OnGameScreen,
                 ))
                 .with_children(|parent| {

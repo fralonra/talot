@@ -10,6 +10,7 @@ pub trait TimingImpl<T> {
 
 #[derive(Clone, Debug, Deserialize)]
 pub struct Timing {
+    #[serde(default)]
     pub p: f32,
     // Timing condition. Needs to meet them all.
     #[serde(default)]
@@ -22,5 +23,11 @@ impl Default for Timing {
             p: 0.5,
             conditions: vec![],
         }
+    }
+}
+
+impl Timing {
+    pub fn default_timings() -> Vec<Self> {
+        vec![Self::default()]
     }
 }

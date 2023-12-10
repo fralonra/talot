@@ -417,7 +417,7 @@
                     ],
                     "timings": [
                         {
-                            "p": 0.5,
+                            "p": 0.3,
                             "conditions": [
                                 {
                                     "Age": {
@@ -480,6 +480,78 @@
                                     }
                                 }
                             ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": 0,
+            "name": "Social",
+            "timings": [
+                {
+                    "p": 0.3,
+                    "conditions": [
+                        {
+                            "Age": {
+                                "Gt": 3
+                            }
+                        }
+                    ]
+                },
+                {
+                    "p": 0.6,
+                    "conditions": [
+                        {
+                            "Stat": [
+                                {
+                                    "Gt": 50.0
+                                },
+                                "Soc"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "p": 0.8,
+                    "conditions": [
+                        {
+                            "Stat": [
+                                {
+                                    "Gt": 70.0
+                                },
+                                "Soc"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "lots": [
+                {
+                    "id": 0,
+                    "desc": "Make new friends",
+                    "p": 0.3,
+                    "effects": [
+                        {
+                            "ER": {
+                                "p": 0.6,
+                                "ef": "Lol",
+                                "v": 1
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.8,
+                                "stat": "Soc",
+                                "v": 1
+                            }
+                        },
+                        {
+                            "Stat": {
+                                "p": 0.4,
+                                "stat": "Soc",
+                                "v": 1
+                            }
                         }
                     ]
                 }
