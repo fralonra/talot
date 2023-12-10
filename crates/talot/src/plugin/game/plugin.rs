@@ -27,7 +27,7 @@ use super::{
         UiPlayerStatSocialLabel, UiTimelinePanel,
     },
     constant::{
-        ER_CAPACITY, ER_SPRITE_GAP, ER_SPRITE_SIZE, GAME_AREA_HEIGHT, GAME_AREA_MARGIN,
+        ER_CAPACITY, ER_SPRITE_GAP, ER_SPRITE_SIZE, GAME_AREA_HEIGHT, GAME_AREA_MARGIN_VERTICAL,
         GAME_AREA_WIDTH, MODAL_BACKGROUND_COLOR, PANEL_BACKGROUND_COLOR, PANEL_BOTTOM_HEIGHT,
         PANEL_LEFT_WIDTH, PANEL_RIGHT_WIDTH, PLAYER_SIZE, TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
     },
@@ -659,7 +659,7 @@ fn setup_playing(
             parent
                 .spawn(NodeBundle {
                     style: Style {
-                        padding: UiRect::all(Val::Px(20.0)),
+                        padding: UiRect::all(Val::Px(12.0)),
                         align_self: AlignSelf::FlexStart,
                         flex_direction: FlexDirection::Column,
                         ..default()
@@ -737,7 +737,7 @@ fn setup_playing(
                 },
                 transform: Transform::from_translation(Vec3::new(
                     (i as f32 + 0.5 - ER_CAPACITY * 0.5) * (ER_SPRITE_GAP + ER_SPRITE_SIZE),
-                    -GAME_AREA_HEIGHT * 0.5 - GAME_AREA_MARGIN - PANEL_BOTTOM_HEIGHT * 0.5,
+                    -GAME_AREA_HEIGHT * 0.5 - GAME_AREA_MARGIN_VERTICAL - PANEL_BOTTOM_HEIGHT * 0.5,
                     0.0,
                 )),
                 texture: image_assets.empty_ef.clone(),
@@ -1546,9 +1546,21 @@ fn apply_resp(
     }
 
     if let Some(new_er) = resp.er {
-        er.tot = new_er.tot;
+        if new_er.lol + new_er.tot > ER_CAPACITY {
+            let lol_diff = new_er.lol - er.lol;
+            let tot_diff = new_er.tot - er.tot;
 
-        er.lol = new_er.lol.min(ER_CAPACITY - er.tot);
+            if tot_diff == 0.0 {
+                er.lol = ER_CAPACITY.min(er.lol + lol_diff);
+                er.tot = ER_CAPACITY - er.lol;
+            } else {
+                er.tot = ER_CAPACITY.min(er.tot + tot_diff);
+                er.lol = ER_CAPACITY - er.tot;
+            }
+        } else {
+            er.lol = new_er.lol;
+            er.tot = new_er.tot;
+        }
     }
 
     if let Some(new_stats) = resp.stats {
@@ -1645,7 +1657,7 @@ fn ui_tip(parent: &mut ChildBuilder, text: &str) {
             },
         )
         .with_style(Style {
-            margin: UiRect::bottom(Val::Px(6.0)),
+            margin: UiRect::bottom(Val::Px(4.0)),
             ..default()
         }),
     );
