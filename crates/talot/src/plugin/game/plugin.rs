@@ -248,7 +248,7 @@ fn setup_playing(
                             format!("Difficulty: {}", difficulty.label()),
                             TextStyle {
                                 font_size: 16.0,
-                                color: Color::BEIGE,
+                                color: TEXT_COLOR,
                                 ..default()
                             },
                         )
@@ -265,6 +265,7 @@ fn setup_playing(
                                 "Age: ",
                                 TextStyle {
                                     font_size: 30.0,
+                                    color: TEXT_COLOR,
                                     ..default()
                                 },
                             ),
@@ -389,6 +390,7 @@ fn setup_playing(
                         "Bio",
                         TextStyle {
                             font_size: 30.0,
+                            color: TEXT_COLOR,
                             ..default()
                         },
                     ));
@@ -412,10 +414,10 @@ fn setup_playing(
     commands.spawn((
         SpriteBundle {
             sprite: Sprite {
-                color: Color::RED,
                 custom_size: Some(Vec2::new(GAME_AREA_WIDTH, GAME_AREA_HEIGHT)),
                 ..default()
             },
+            texture: image_assets.game_area.clone(),
             ..default()
         },
         OnGameScreen,
@@ -447,7 +449,6 @@ fn setup_playing(
     commands.spawn((
         SpriteBundle {
             sprite: Sprite {
-                color: Color::WHITE,
                 custom_size: Some(PLAYER_SIZE),
                 ..default()
             },
@@ -775,7 +776,8 @@ fn text_attrs_system(
                             parent.spawn(TextBundle::from_section(
                                 attr,
                                 TextStyle {
-                                    font_size: 16.0,
+                                    font_size: 20.0,
+                                    color: TEXT_COLOR,
                                     ..default()
                                 },
                             ));
@@ -831,6 +833,7 @@ fn text_bio_system(
                                     },
                                     TextStyle {
                                         font_size: 16.0,
+                                        color: TEXT_COLOR,
                                         ..default()
                                     },
                                 )
@@ -849,6 +852,7 @@ fn text_bio_system(
                                     },
                                     TextStyle {
                                         font_size: 16.0,
+                                        color: TEXT_COLOR,
                                         ..default()
                                     },
                                 )
@@ -986,7 +990,7 @@ fn trifle_spawn_system(
                             lot_desc,
                             TextStyle {
                                 font_size: TRIFLE_LABEL_FONT_SIZE,
-                                color: Color::GOLD,
+                                color: Color::DARK_GRAY,
                                 ..default()
                             },
                         )
@@ -994,7 +998,7 @@ fn trifle_spawn_system(
                         transform: Transform::from_translation(Vec3::new(
                             0.0,
                             size.y * 0.5 + 4.0 + TRIFLE_LABEL_FONT_SIZE * 0.5,
-                            0.0,
+                            100.0,
                         )),
                         ..default()
                     });
@@ -1012,7 +1016,6 @@ fn trifle_handle_system(
                 &mut Attributable,
                 &mut EmotionalRating,
                 &mut PlayerStat,
-                &mut Sprite,
                 &Transform,
             ),
             With<Player>,
@@ -1027,12 +1030,9 @@ fn trifle_handle_system(
     ),
     (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
 ) {
-    let (age, mut attrs, mut er, mut stats, mut player_sprite, player_transform) =
-        query_player.single_mut();
+    let (age, mut attrs, mut er, mut stats, player_transform) = query_player.single_mut();
     let player_left = player_transform.translation.x - PLAYER_SIZE.x * 0.5;
     let player_right = player_transform.translation.x + PLAYER_SIZE.x * 0.5;
-
-    let mut is_intersected = false;
 
     for (entity, can_happen, sprite, transform, trifle) in query_trifle.iter() {
         if !**can_happen {
@@ -1044,9 +1044,8 @@ fn trifle_handle_system(
         let left = transform.translation.x - size.x * 0.5;
         let right = transform.translation.x + size.x * 0.5;
 
+        // Is intersected
         if player_left <= right && player_right >= left {
-            is_intersected = true;
-
             let query = QueryInfo {
                 age: age.0,
                 attrs: &attrs,
@@ -1172,10 +1171,10 @@ fn trifle_miss_system(
 }
 
 fn trifle_update_system(
-    mut query_trifle: Query<(&mut CanHappen, &mut Sprite, &Speed, &mut Transform), With<Trifle>>,
+    mut query_trifle: Query<(&mut CanHappen, &Speed, &mut Transform), With<Trifle>>,
     time: Res<Time>,
 ) {
-    for (mut can_happen, mut sprite, speed, mut transform) in query_trifle.iter_mut() {
+    for (mut can_happen, speed, mut transform) in query_trifle.iter_mut() {
         let new_position = transform.translation.y - speed.0 * time.delta_seconds();
 
         transform.translation.y = new_position.clamp(

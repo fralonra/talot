@@ -30,6 +30,8 @@ pub struct GameDataAssets {
 pub struct ImageAssets {
     #[asset(path = "images/empty_ef.png")]
     pub empty_ef: Handle<Image>,
+    #[asset(path = "images/game_area.png")]
+    pub game_area: Handle<Image>,
     #[asset(path = "images/lol.png")]
     pub lol: Handle<Image>,
     #[asset(path = "images/player.png")]

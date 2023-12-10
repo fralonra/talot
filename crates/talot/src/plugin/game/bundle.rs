@@ -1,5 +1,7 @@
 use bevy::prelude::*;
 
+use crate::constant::TEXT_COLOR;
+
 #[derive(Bundle)]
 pub(super) struct StatBundle {
     text: TextBundle,
@@ -13,6 +15,7 @@ impl StatBundle {
                     format!("{}: ", label),
                     TextStyle {
                         font_size: 30.0,
+                        color: TEXT_COLOR,
                         ..default()
                     },
                 ),

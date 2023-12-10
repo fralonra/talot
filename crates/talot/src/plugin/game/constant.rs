@@ -22,4 +22,4 @@ pub(super) const PANEL_RIGHT_WIDTH: f32 = 250.0;
 pub(super) const PLAYER_SIZE: Vec2 = Vec2::new(50.0, 50.0);
 
 pub(super) const TRIFLE_HEIGHT: f32 = 10.0;
-pub(super) const TRIFLE_LABEL_FONT_SIZE: f32 = 20.0;
+pub(super) const TRIFLE_LABEL_FONT_SIZE: f32 = 16.0;
