@@ -21,17 +21,18 @@ use crate::{
 use super::{
     component::{
         Age, Attributable, CanHappen, EmotionalRating, MenuButtonAction, OnGameOverScreen,
-        OnGameScreen, OnGameSuspendScreen, Player, PlayerStat, ScrollingList, Speed, Trifle,
-        UiAgeLabel, UiAttrsPanel, UiBioPanel, UiERSprite, UiGameArea, UiPlayerStatIntuitionLabel,
-        UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel, UiPlayerStatSocialLabel,
+        OnGameOverTombstoneScreen, OnGameScreen, OnGameSuspendScreen, Player, PlayerStat,
+        ScrollingList, Speed, Trifle, UiAgeLabel, UiAttrsPanel, UiERSprite, UiGameArea,
+        UiPlayerStatIntuitionLabel, UiPlayerStatKnowledgeLabel, UiPlayerStatPhysicalLabel,
+        UiPlayerStatSocialLabel, UiTimelinePanel,
     },
     constant::{
         ER_CAPACITY, ER_SPRITE_GAP, ER_SPRITE_SIZE, GAME_AREA_HEIGHT, GAME_AREA_MARGIN,
         GAME_AREA_WIDTH, MODAL_BACKGROUND_COLOR, PANEL_BACKGROUND_COLOR, PANEL_BOTTOM_HEIGHT,
         PANEL_LEFT_WIDTH, PANEL_RIGHT_WIDTH, PLAYER_SIZE, TRIFLE_HEIGHT, TRIFLE_LABEL_FONT_SIZE,
     },
-    resource::{AgingTimer, Attributes, Bio, TrifleSpawnTimer},
-    state::InGameState,
+    resource::{AgingTimer, Attributes, Timeline, TrifleSpawnTimer},
+    state::{InGameState, OverState},
 };
 
 pub struct GamePlugin;
@@ -39,11 +40,14 @@ pub struct GamePlugin;
 impl Plugin for GamePlugin {
     fn build(&self, app: &mut App) {
         app.add_state::<InGameState>()
+            .add_state::<OverState>()
             // OnEnter
             .add_systems(OnEnter(GameState::Game), setup)
             .add_systems(OnEnter(InGameState::Playing), setup_playing)
             .add_systems(OnEnter(InGameState::Suspend), setup_suspend)
             .add_systems(OnEnter(InGameState::Over), setup_over)
+            .add_systems(OnEnter(OverState::Menu), setup_over_menu)
+            .add_systems(OnEnter(OverState::Tombstone), setup_over_tombstone)
             // Update
             .add_systems(
                 Update,
@@ -73,7 +77,7 @@ impl Plugin for GamePlugin {
                     er_bar_system,
                     text_age_system,
                     text_attrs_system,
-                    text_bio_system,
+                    text_timeline_system,
                     text_stat_int_system,
                     text_stat_kno_system,
                     text_stat_phy_system,
@@ -85,23 +89,42 @@ impl Plugin for GamePlugin {
                 Update,
                 (button_system, menu_action_system)
                     .run_if(in_state(GameState::Game))
-                    .run_if(not(in_state(InGameState::Playing))),
+                    .run_if(not(in_state(InGameState::Playing)))
+                    .run_if(not(in_state(OverState::Tombstone))),
+            )
+            .add_systems(
+                Update,
+                (over_tombstone_keyboard_system).run_if(in_state(OverState::Tombstone)),
             )
             // OnExit
             .add_systems(
                 OnExit(InGameState::Suspend),
                 despawn_screen::<OnGameSuspendScreen>,
             )
+            .add_systems(
+                OnExit(OverState::Tombstone),
+                despawn_screen::<OnGameOverTombstoneScreen>,
+            )
+            .add_systems(OnExit(InGameState::Over), exit_over)
             .add_systems(OnExit(InGameState::Over), despawn_screen::<OnGameScreen>)
             .add_systems(OnExit(GameState::Game), despawn_screen::<OnGameScreen>);
     }
 }
 
+// Setup Systems
 fn setup(mut in_game_state: ResMut<NextState<InGameState>>) {
     in_game_state.set(InGameState::Playing);
 }
 
-fn setup_over(mut commands: Commands) {
+fn setup_over(mut over_state: ResMut<NextState<OverState>>) {
+    over_state.set(OverState::Menu);
+}
+
+fn setup_over_menu(mut commands: Commands, query_ui: Query<&OnGameOverScreen>) {
+    if !query_ui.is_empty() {
+        return;
+    }
+
     let button_style = Style {
         width: Val::Px(250.0),
         height: Val::Px(65.0),
@@ -177,6 +200,23 @@ fn setup_over(mut commands: Commands) {
                             ));
                         });
 
+                    // Tomestone
+                    parent
+                        .spawn((
+                            ButtonBundle {
+                                style: button_style.clone(),
+                                background_color: NORMAL_BUTTON_COLOR.into(),
+                                ..default()
+                            },
+                            MenuButtonAction::Tombstone,
+                        ))
+                        .with_children(|parent| {
+                            parent.spawn(TextBundle::from_section(
+                                "Tombstone",
+                                button_text_style.clone(),
+                            ));
+                        });
+
                     // Back To Menu
                     parent
                         .spawn((
@@ -188,8 +228,306 @@ fn setup_over(mut commands: Commands) {
                             MenuButtonAction::BackToMainMenu,
                         ))
                         .with_children(|parent| {
+                            parent.spawn(TextBundle::from_section(
+                                "That's Enough",
+                                TextStyle {
+                                    font_size: 30.0,
+                                    ..default()
+                                },
+                            ));
+                        });
+                });
+        });
+}
+
+fn setup_over_tombstone(
+    mut commands: Commands,
+    query_player: Query<(&Age, &PlayerStat), With<Player>>,
+
+    (attrs, image_assets, timeline): (Res<Attributes>, Res<ImageAssets>, Res<Timeline>),
+) {
+    let (age, stats) = query_player.single();
+
+    commands
+        .spawn((
+            NodeBundle {
+                style: Style {
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    ..default()
+                },
+                background_color: Color::GRAY.into(),
+                ..default()
+            },
+            OnGameScreen,
+            OnGameOverScreen,
+            OnGameOverTombstoneScreen,
+        ))
+        .with_children(|parent| {
+            parent
+                .spawn(NodeBundle {
+                    style: Style {
+                        width: Val::Percent(80.0),
+                        height: Val::Percent(80.0),
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|parent| {
+                    parent
+                        .spawn(NodeBundle {
+                            style: Style {
+                                width: Val::Percent(45.0),
+                                flex_direction: FlexDirection::Column,
+                                ..default()
+                            },
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            // Age
+                            parent.spawn(
+                                TextBundle::from_section(
+                                    format!("You got depressed at {}", **age),
+                                    TextStyle {
+                                        font_size: 30.0,
+                                        color: TEXT_COLOR,
+                                        ..default()
+                                    },
+                                )
+                                .with_style(Style {
+                                    margin: UiRect::bottom(Val::Px(20.0)),
+                                    ..default()
+                                }),
+                            );
+
+                            // Stats
+                            parent.spawn(
+                                TextBundle::from_section(
+                                    "Your Stats",
+                                    TextStyle {
+                                        font_size: 30.0,
+                                        color: TEXT_COLOR,
+                                        ..default()
+                                    },
+                                )
+                                .with_style(Style {
+                                    margin: UiRect::bottom(Val::Px(8.0)),
+                                    ..default()
+                                }),
+                            );
+
                             parent
-                                .spawn(TextBundle::from_section("Back To Menu", button_text_style));
+                                .spawn(NodeBundle {
+                                    style: Style {
+                                        width: Val::Percent(80.0),
+                                        flex_direction: FlexDirection::Column,
+                                        ..default()
+                                    },
+                                    ..default()
+                                })
+                                .with_children(|parent| {
+                                    ui_stat(
+                                        parent,
+                                        "Physical",
+                                        stats.physical.to_string(),
+                                        image_assets.stat_phy.clone(),
+                                        UiPlayerStatPhysicalLabel,
+                                    );
+
+                                    ui_stat(
+                                        parent,
+                                        "Intuition",
+                                        stats.intuition.to_string(),
+                                        image_assets.stat_int.clone(),
+                                        UiPlayerStatIntuitionLabel,
+                                    );
+
+                                    ui_stat(
+                                        parent,
+                                        "Knowledge",
+                                        stats.knowledge.to_string(),
+                                        image_assets.stat_kno.clone(),
+                                        UiPlayerStatKnowledgeLabel,
+                                    );
+
+                                    ui_stat(
+                                        parent,
+                                        "Social",
+                                        stats.social.to_string(),
+                                        image_assets.stat_soc.clone(),
+                                        UiPlayerStatSocialLabel,
+                                    );
+                                });
+
+                            // Attrs
+                            if !attrs.is_empty() {
+                                parent.spawn(
+                                    TextBundle::from_section(
+                                        "Your Traits",
+                                        TextStyle {
+                                            font_size: 30.0,
+                                            color: TEXT_COLOR,
+                                            ..default()
+                                        },
+                                    )
+                                    .with_style(Style {
+                                        margin: UiRect::px(0.0, 0.0, 20.0, 8.0),
+                                        ..default()
+                                    }),
+                                );
+
+                                parent
+                                    .spawn(NodeBundle {
+                                        style: Style {
+                                            flex_wrap: FlexWrap::Wrap,
+                                            ..default()
+                                        },
+                                        ..default()
+                                    })
+                                    .with_children(|parent| {
+                                        for attr in &**attrs {
+                                            parent
+                                                .spawn(NodeBundle {
+                                                    style: Style {
+                                                        border: UiRect::all(Val::Px(1.0)),
+                                                        margin: UiRect::px(0.0, 8.0, 8.0, 0.0),
+                                                        padding: UiRect::px(8.0, 8.0, 4.0, 4.0),
+                                                        ..default()
+                                                    },
+                                                    border_color: Color::ORANGE.into(),
+                                                    ..default()
+                                                })
+                                                .with_children(|parent| {
+                                                    parent.spawn(TextBundle::from_section(
+                                                        attr,
+                                                        TextStyle {
+                                                            font_size: 20.0,
+                                                            color: TEXT_COLOR,
+                                                            ..default()
+                                                        },
+                                                    ));
+                                                });
+                                        }
+                                    });
+                            }
+                        });
+
+                    parent.spawn(NodeBundle {
+                        style: Style {
+                            width: Val::Percent(10.0),
+                            ..default()
+                        },
+                        ..default()
+                    });
+
+                    parent
+                        .spawn(NodeBundle {
+                            style: Style {
+                                width: Val::Percent(45.0),
+                                flex_direction: FlexDirection::Column,
+                                ..default()
+                            },
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            // Timeline
+                            parent.spawn(
+                                TextBundle::from_section(
+                                    "Your timeline",
+                                    TextStyle {
+                                        font_size: 30.0,
+                                        color: TEXT_COLOR,
+                                        ..default()
+                                    },
+                                )
+                                .with_style(Style {
+                                    margin: UiRect::bottom(Val::Px(8.0)),
+                                    ..default()
+                                }),
+                            );
+
+                            parent
+                                .spawn(NodeBundle {
+                                    style: Style {
+                                        align_self: AlignSelf::Stretch,
+                                        flex_direction: FlexDirection::Column,
+                                        overflow: Overflow::clip_y(),
+                                        ..default()
+                                    },
+                                    ..default()
+                                })
+                                .with_children(|parent| {
+                                    parent
+                                        .spawn((
+                                            NodeBundle {
+                                                style: Style {
+                                                    align_items: AlignItems::Center,
+                                                    flex_direction: FlexDirection::Column,
+                                                    overflow: Overflow::clip_y(),
+                                                    ..default()
+                                                },
+                                                ..default()
+                                            },
+                                            ScrollingList::default(),
+                                        ))
+                                        .with_children(|parent| {
+                                            let mut last_age = -1.0;
+
+                                            for (age, desc, times) in &**timeline {
+                                                parent
+                                                    .spawn(NodeBundle {
+                                                        style: Style {
+                                                            width: Val::Percent(100.0),
+                                                            ..default()
+                                                        },
+                                                        ..default()
+                                                    })
+                                                    .with_children(|parent| {
+                                                        parent.spawn(
+                                                            TextBundle::from_section(
+                                                                if last_age == *age {
+                                                                    "".to_owned()
+                                                                } else {
+                                                                    format!("{}", age)
+                                                                },
+                                                                TextStyle {
+                                                                    font_size: 16.0,
+                                                                    color: TEXT_COLOR,
+                                                                    ..default()
+                                                                },
+                                                            )
+                                                            .with_style(Style {
+                                                                width: Val::Percent(10.0),
+                                                                ..default()
+                                                            }),
+                                                        );
+
+                                                        parent.spawn(
+                                                            TextBundle::from_section(
+                                                                if *times > 1 {
+                                                                    format!("{} * {}", desc, times)
+                                                                } else {
+                                                                    desc.to_owned()
+                                                                },
+                                                                TextStyle {
+                                                                    font_size: 16.0,
+                                                                    color: TEXT_COLOR,
+                                                                    ..default()
+                                                                },
+                                                            )
+                                                            .with_style(Style {
+                                                                width: Val::Percent(90.0),
+                                                                ..default()
+                                                            }),
+                                                        );
+                                                    });
+
+                                                last_age = *age;
+                                            }
+                                        });
+                                });
                         });
                 });
         });
@@ -281,9 +619,11 @@ fn setup_playing(
                         UiAgeLabel,
                     ));
 
+                    // Stats
                     ui_stat(
                         parent,
                         "Physical",
+                        "0",
                         image_assets.stat_phy.clone(),
                         UiPlayerStatPhysicalLabel,
                     );
@@ -291,6 +631,7 @@ fn setup_playing(
                     ui_stat(
                         parent,
                         "Intuition",
+                        "0",
                         image_assets.stat_int.clone(),
                         UiPlayerStatIntuitionLabel,
                     );
@@ -298,6 +639,7 @@ fn setup_playing(
                     ui_stat(
                         parent,
                         "Knowledge",
+                        "0",
                         image_assets.stat_kno.clone(),
                         UiPlayerStatKnowledgeLabel,
                     );
@@ -305,6 +647,7 @@ fn setup_playing(
                     ui_stat(
                         parent,
                         "Social",
+                        "0",
                         image_assets.stat_soc.clone(),
                         UiPlayerStatSocialLabel,
                     );
@@ -325,65 +668,10 @@ fn setup_playing(
                 })
                 .with_children(|parent| {
                     // Game Tips
-                    parent.spawn(
-                        TextBundle::from_section(
-                            "Move your character using arrow keys.",
-                            TextStyle {
-                                font_size: 20.0,
-                                color: TEXT_COLOR,
-                                ..default()
-                            },
-                        )
-                        .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(8.0)),
-                            ..default()
-                        }),
-                    );
-
-                    parent.spawn(
-                        TextBundle::from_section(
-                            "Collect lol, avoid tot.",
-                            TextStyle {
-                                font_size: 20.0,
-                                color: TEXT_COLOR,
-                                ..default()
-                            },
-                        )
-                        .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(8.0)),
-                            ..default()
-                        }),
-                    );
-
-                    parent.spawn(
-                        TextBundle::from_section(
-                            "Find your way to a remarkable life.",
-                            TextStyle {
-                                font_size: 20.0,
-                                color: TEXT_COLOR,
-                                ..default()
-                            },
-                        )
-                        .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(8.0)),
-                            ..default()
-                        }),
-                    );
-
-                    parent.spawn(
-                        TextBundle::from_section(
-                            "Don't get depressed.",
-                            TextStyle {
-                                font_size: 20.0,
-                                color: TEXT_COLOR,
-                                ..default()
-                            },
-                        )
-                        .with_style(Style {
-                            margin: UiRect::bottom(Val::Px(8.0)),
-                            ..default()
-                        }),
-                    );
+                    ui_tip(parent, "Left/Right Arrows: Move   Esc: Pause");
+                    ui_tip(parent, "Collect lol, avoid tot.");
+                    ui_tip(parent, "Find your way to a remarkable life.");
+                    ui_tip(parent, "Don't get depressed.");
                 });
 
             // Right Panel
@@ -400,9 +688,9 @@ fn setup_playing(
                     ..default()
                 })
                 .with_children(|parent| {
-                    // Bio
+                    // Timeline
                     parent.spawn(TextBundle::from_section(
-                        "Bio",
+                        "Timeline",
                         TextStyle {
                             font_size: 30.0,
                             color: TEXT_COLOR,
@@ -420,7 +708,7 @@ fn setup_playing(
                             },
                             ..default()
                         },
-                        UiBioPanel,
+                        UiTimelinePanel,
                     ));
                 });
         });
@@ -470,7 +758,7 @@ fn setup_playing(
             transform: Transform::from_translation(Vec3::new(
                 0.0,
                 (PLAYER_SIZE.y - GAME_AREA_HEIGHT) * 0.5,
-                1.0,
+                2.0,
             )),
             texture: image_assets.player.clone(),
             ..default()
@@ -491,7 +779,7 @@ fn setup_playing(
     )));
 
     commands.insert_resource(Attributes::default());
-    commands.insert_resource(Bio::default());
+    commands.insert_resource(Timeline::default());
 }
 
 fn setup_suspend(mut commands: Commands) {
@@ -589,6 +877,12 @@ fn setup_suspend(mut commands: Commands) {
         });
 }
 
+// Exit Systems
+fn exit_over(mut over_state: ResMut<NextState<OverState>>) {
+    over_state.set(OverState::Disabled);
+}
+
+// Other Systems
 fn button_system(
     mut query_interaction: Query<
         (&mut BackgroundColor, &Interaction),
@@ -648,14 +942,24 @@ fn keyboard_system(input: Res<Input<KeyCode>>, mut in_game_state: ResMut<NextSta
     }
 }
 
+fn over_tombstone_keyboard_system(
+    input: Res<Input<KeyCode>>,
+    mut over_state: ResMut<NextState<OverState>>,
+) {
+    if input.pressed(KeyCode::Escape) {
+        over_state.set(OverState::Menu);
+    }
+}
+
 fn menu_action_system(
     query_interaction: Query<
         (&Interaction, &MenuButtonAction),
         (Changed<Interaction>, With<Button>),
     >,
-    (mut game_state, mut ingame_state): (
+    (mut game_state, mut ingame_state, mut over_state): (
         ResMut<NextState<GameState>>,
         ResMut<NextState<InGameState>>,
+        ResMut<NextState<OverState>>,
     ),
 ) {
     for (interaction, menu_button_action) in &query_interaction {
@@ -666,6 +970,9 @@ fn menu_action_system(
                 }
                 MenuButtonAction::Resume => {
                     ingame_state.set(InGameState::Playing);
+                }
+                MenuButtonAction::Tombstone => {
+                    over_state.set(OverState::Tombstone);
                 }
                 MenuButtonAction::BackToMainMenu => {
                     game_state.set(GameState::Menu);
@@ -802,12 +1109,12 @@ fn text_attrs_system(
     }
 }
 
-fn text_bio_system(
+fn text_timeline_system(
     mut commands: Commands,
-    query_entity: Query<Entity, With<UiBioPanel>>,
-    bio: Res<Bio>,
+    query_entity: Query<Entity, With<UiTimelinePanel>>,
+    timeline: Res<Timeline>,
 ) {
-    if bio.is_changed() {
+    if timeline.is_changed() {
         let entity = query_entity.single();
 
         commands.entity(entity).despawn_descendants();
@@ -829,7 +1136,7 @@ fn text_bio_system(
             .with_children(|parent| {
                 let mut last_age = -1.0;
 
-                for (age, bio, times) in &**bio {
+                for (age, desc, times) in &**timeline {
                     parent
                         .spawn(NodeBundle {
                             style: Style {
@@ -861,9 +1168,9 @@ fn text_bio_system(
                             parent.spawn(
                                 TextBundle::from_section(
                                     if *times > 1 {
-                                        format!("{} * {}", bio, times)
+                                        format!("{} * {}", desc, times)
                                     } else {
-                                        bio.to_owned()
+                                        desc.to_owned()
                                     },
                                     TextStyle {
                                         font_size: 16.0,
@@ -1005,7 +1312,7 @@ fn trifle_spawn_system(
                             lot_desc,
                             TextStyle {
                                 font_size: TRIFLE_LABEL_FONT_SIZE,
-                                color: Color::DARK_GRAY,
+                                color: Color::GOLD,
                                 ..default()
                             },
                         )
@@ -1043,7 +1350,7 @@ fn trifle_handle_system(
         Res<GameDataAssets>,
         Res<Volume>,
     ),
-    (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
+    (mut res_attrs, mut timeline): (ResMut<Attributes>, ResMut<Timeline>),
 ) {
     let (age, mut attrs, mut er, mut stats, player_transform) = query_player.single_mut();
     let player_left = player_transform.translation.x - PLAYER_SIZE.x * 0.5;
@@ -1109,7 +1416,7 @@ fn trifle_handle_system(
                 &mut er,
                 &mut stats,
                 &mut res_attrs,
-                &mut bio,
+                &mut timeline,
                 false,
             );
 
@@ -1138,7 +1445,7 @@ fn trifle_miss_system(
         Res<GameDataAssets>,
         Res<Volume>,
     ),
-    (mut res_attrs, mut bio): (ResMut<Attributes>, ResMut<Bio>),
+    (mut res_attrs, mut timeline): (ResMut<Attributes>, ResMut<Timeline>),
 ) {
     let (age, mut attrs, mut er, mut stats) = query_player.single_mut();
 
@@ -1176,7 +1483,7 @@ fn trifle_miss_system(
                 &mut er,
                 &mut stats,
                 &mut res_attrs,
-                &mut bio,
+                &mut timeline,
                 true,
             );
 
@@ -1203,6 +1510,7 @@ fn trifle_update_system(
     }
 }
 
+// Others
 fn apply_resp(
     resp: RespInfo,
     game_assets: &Assets<GameAsset>,
@@ -1213,7 +1521,7 @@ fn apply_resp(
     er: &mut EmotionalRating,
     stats: &mut PlayerStat,
     res_attrs: &mut Attributes,
-    bio: &mut Bio,
+    timeline: &mut Timeline,
     missed: bool,
 ) {
     if let Some(ids) = resp.attrs {
@@ -1253,7 +1561,7 @@ fn apply_resp(
         lot_desc.clone()
     };
 
-    let event_repeated = bio
+    let event_repeated = timeline
         .last_mut()
         .and_then(|last| {
             if last.0 == age && last.1 == *desc {
@@ -1267,13 +1575,14 @@ fn apply_resp(
         .unwrap_or(false);
 
     if !event_repeated {
-        bio.push((age, desc, 1));
+        timeline.push((age, desc, 1));
     }
 }
 
 fn ui_stat<C: Component>(
     parent: &mut ChildBuilder,
     label: &str,
+    value: impl Into<String>,
     image: Handle<Image>,
     component: C,
 ) {
@@ -1309,7 +1618,7 @@ fn ui_stat<C: Component>(
 
             parent.spawn((
                 TextBundle::from_section(
-                    "",
+                    value,
                     TextStyle {
                         font_size: 30.0,
                         color: Color::GOLD,
@@ -1323,4 +1632,21 @@ fn ui_stat<C: Component>(
                 component,
             ));
         });
+}
+
+fn ui_tip(parent: &mut ChildBuilder, text: &str) {
+    parent.spawn(
+        TextBundle::from_section(
+            text,
+            TextStyle {
+                font_size: 20.0,
+                color: TEXT_COLOR,
+                ..default()
+            },
+        )
+        .with_style(Style {
+            margin: UiRect::bottom(Val::Px(6.0)),
+            ..default()
+        }),
+    );
 }

@@ -8,6 +8,7 @@ use talot_core::{Lot, Stats, ER};
 pub(super) enum MenuButtonAction {
     Rebirth,
     Resume,
+    Tombstone,
     BackToMainMenu,
 }
 
@@ -16,6 +17,9 @@ pub(super) struct OnGameScreen;
 
 #[derive(Component)]
 pub(super) struct OnGameOverScreen;
+
+#[derive(Component)]
+pub(super) struct OnGameOverTombstoneScreen;
 
 #[derive(Component)]
 pub(super) struct OnGameSuspendScreen;
@@ -32,7 +36,7 @@ pub(super) struct UiAgeLabel;
 pub(super) struct UiAttrsPanel;
 
 #[derive(Component)]
-pub(super) struct UiBioPanel;
+pub(super) struct UiTimelinePanel;
 
 #[derive(Component)]
 pub(super) struct UiERSprite;

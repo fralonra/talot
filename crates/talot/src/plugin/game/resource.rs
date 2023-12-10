@@ -12,4 +12,4 @@ pub(super) struct TrifleSpawnTimer(pub Timer);
 pub(super) struct Attributes(pub Vec<String>);
 
 #[derive(Default, Deref, DerefMut, Resource)]
-pub(super) struct Bio(pub Vec<(f32, String, u32)>);
+pub(super) struct Timeline(pub Vec<(f32, String, u32)>);
