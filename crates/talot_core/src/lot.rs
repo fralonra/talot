@@ -6,13 +6,13 @@ use crate::{effect::EffectResp, Effect, QueryInfo, RespInfo, Stat, Timing, EF};
 pub struct Lot {
     pub id: u32,
     pub desc: String,
+    #[serde(default)]
+    pub missed_desc: Option<String>,
     pub p: f32,
     #[serde(default)]
     pub one_time: bool,
     #[serde(default)]
     pub hidden: bool,
-    #[serde(default)]
-    pub hide_desc: bool,
     #[serde(default)]
     pub effects: Vec<Effect>,
     #[serde(default)]

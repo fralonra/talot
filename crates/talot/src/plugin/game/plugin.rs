@@ -4,8 +4,8 @@ use bevy::{
     prelude::*,
 };
 use rand::Rng;
-use rand_distr::{Distribution, Normal};
-use talot_core::{Attribute, QueryInfo, RespInfo};
+use rand_distr::{Bernoulli, Distribution, Normal};
+use talot_core::{Attribute, Lot, QueryInfo, RespInfo};
 
 use crate::{
     asset::{AudioAssets, GameAsset, GameDataAssets, ImageAssets},
@@ -1262,20 +1262,23 @@ fn trifle_spawn_system(
         });
 
         if let Some((category, lot)) = category_and_lot {
-            // TODO: p
-            let normal = Normal::new(0.5, 0.1).unwrap();
-            let p = normal.sample(&mut rand::thread_rng());
-            let p = (p as f32).clamp(0.1, 0.9);
+            let normal = Normal::new(0.0, 0.1).unwrap();
+            let offset = normal.sample(&mut rand::thread_rng());
+            let p = (lot.p + offset as f32).clamp(0.1, 0.9);
 
             let lot_desc = if lot.hidden {
-                format!("????")
-            } else if lot.hide_desc {
-                format!("???? ({})", category.name)
+                let b = Bernoulli::new(0.5).unwrap();
+
+                if !b.sample(&mut rand::thread_rng()) {
+                    format!("????")
+                } else {
+                    format!("???? ({})", category.name)
+                }
             } else {
                 format!("{}", lot.desc)
             };
 
-            let width = GAME_AREA_WIDTH * p * 0.5;
+            let width = GAME_AREA_WIDTH * p * 0.9;
             let size = Vec2::new(width, TRIFLE_HEIGHT);
 
             let mut x = rand::thread_rng().gen_range(0.0..GAME_AREA_WIDTH) - GAME_AREA_WIDTH * 0.5;
@@ -1411,7 +1414,7 @@ fn trifle_handle_system(
                 resp,
                 &game_assets,
                 &asset_handles,
-                &lot.desc,
+                lot,
                 **age,
                 &mut attrs,
                 &mut er,
@@ -1478,7 +1481,7 @@ fn trifle_miss_system(
                 resp,
                 &game_assets,
                 &asset_handles,
-                &lot.desc,
+                lot,
                 **age,
                 &mut attrs,
                 &mut er,
@@ -1516,7 +1519,7 @@ fn apply_resp(
     resp: RespInfo,
     game_assets: &Assets<GameAsset>,
     asset_handles: &GameDataAssets,
-    lot_desc: &String,
+    lot: &Lot,
     age: f32,
     attrs: &mut Attributable,
     er: &mut EmotionalRating,
@@ -1573,9 +1576,11 @@ fn apply_resp(
     }
 
     let desc = if missed {
-        format!("(Not) {}", lot_desc)
+        lot.missed_desc
+            .clone()
+            .unwrap_or(format!("(Not) {}", lot.desc))
     } else {
-        lot_desc.clone()
+        lot.desc.clone()
     };
 
     let event_repeated = timeline

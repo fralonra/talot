@@ -14,6 +14,10 @@ let lot_id = 0
 for (let cate of json.categories) {
     cate.id = cate_id++
 
+    if (cate.lots === undefined) {
+        continue
+    }
+
     for (let lot of cate.lots) {
         lot.id = lot_id++
     }
