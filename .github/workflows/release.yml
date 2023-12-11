@@ -19,6 +19,7 @@ jobs:
       - name: Gzip
         run: |
           mkdir talot
+          cp -r ./crates/talot/assets talot/
           mv ./target/release/talot talot/
           tar -zcvf ./talot-linux-${{ github.ref_name }}.tar.gz talot
       - name: Release
@@ -39,6 +40,7 @@ jobs:
       - name: Gzip
         run: |
           mkdir talot
+          cp -r ./crates/talot/assets talot/
           mv ./target/release/talot talot/
           tar -zcvf ./talot-macos-${{ github.ref_name }}.tar.gz talot
       - name: Release
@@ -62,6 +64,7 @@ jobs:
       - name: Gzip
         run: |
           mkdir talot
+          cp -r ./crates/talot/assets talot/
           mv ./target/release/talot.exe talot/
           tar -zcvf ./talot-windows-${{ github.ref_name }}.tar.gz talot
       - name: Release
