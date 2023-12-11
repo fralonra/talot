@@ -23,6 +23,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Install dependencies on Ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
+        run: sudo apt-get install g++ pkg-config libx11-dev libasound2-dev libudev-dev
       - name: Build
         run: cargo build --verbose
       - name: Run tests
