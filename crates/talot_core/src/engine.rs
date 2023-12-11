@@ -43,7 +43,7 @@ pub struct Engine {
     pub categories: Vec<Category>,
 
     #[serde(skip)]
-    pub executed_map: Arc<RwLock<HashMap<u32, bool>>>,
+    pub executed_set: Arc<RwLock<HashSet<u32>>>,
 }
 
 impl Engine {
@@ -60,8 +60,8 @@ impl Engine {
             &self.categories,
             query,
             |_| true,
-            |(id, category)| TimingWrapper {
-                id,
+            |(idx, category)| TimingWrapper {
+                id: idx,
                 timings: &category.timings,
             },
         )
@@ -86,7 +86,7 @@ impl Engine {
     }
 
     pub fn reset(&self) {
-        self.executed_map.write().unwrap().clear();
+        self.executed_set.write().unwrap().clear();
     }
 
     fn query_candidates_id_and_weight<T>(
@@ -127,15 +127,15 @@ impl Engine {
         let lot = self.query_random_item(
             &category.lots,
             query,
-            |lot| !lot.one_time || !self.executed_map.read().unwrap().contains_key(&lot.id),
-            |(id, lot)| TimingWrapper {
-                id,
+            |(_, lot)| !lot.one_time || !self.executed_set.read().unwrap().contains(&lot.id),
+            |(idx, lot)| TimingWrapper {
+                id: idx,
                 timings: &lot.timings,
             },
         );
 
         if let Some(lot) = lot {
-            self.executed_map.write().unwrap().insert(lot.id, true);
+            self.executed_set.write().unwrap().insert(lot.id);
         }
 
         lot
@@ -150,12 +150,12 @@ impl Engine {
     ) -> Option<&'a T>
     where
         M: FnMut((usize, &T)) -> TimingWrapper<usize>,
-        P: FnMut(&&T) -> bool,
+        P: FnMut(&(usize, &T)) -> bool,
     {
         let wrapper_list = list
             .iter()
-            .filter(predicate)
             .enumerate()
+            .filter(predicate)
             .map(wrapper_mapper)
             .collect::<Vec<TimingWrapper<usize>>>();
 

@@ -1262,6 +1262,7 @@ fn trifle_spawn_system(
         });
 
         if let Some((category, lot)) = category_and_lot {
+            // TODO: p
             let normal = Normal::new(0.5, 0.1).unwrap();
             let p = normal.sample(&mut rand::thread_rng());
             let p = (p as f32).clamp(0.1, 0.9);
@@ -1524,6 +1525,10 @@ fn apply_resp(
     timeline: &mut Timeline,
     missed: bool,
 ) {
+    if resp.attrs.is_none() && resp.er.is_none() && resp.stats.is_none() {
+        return;
+    }
+
     if let Some(ids) = resp.attrs {
         let game_asset = game_assets.get(&asset_handles.core).unwrap();
 
@@ -1568,7 +1573,7 @@ fn apply_resp(
     }
 
     let desc = if missed {
-        format!("(Did Not) {}", lot_desc)
+        format!("(Not) {}", lot_desc)
     } else {
         lot_desc.clone()
     };
