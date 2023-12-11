@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags: ["v[0-9]+.[0-9]+.[0-9]+*"]
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: cargo build --release
+      - name: Gzip
+        run: |
+          mkdir talot
+          mv ./target/release/talot talot/
+          tar -zcvf ./talot-linux-${{ github.ref_name }}.tar.gz talot
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./talot-linux-${{ github.ref_name }}.tar.gz
+
+  macos:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: cargo build --release
+      - name: Gzip
+        run: |
+          mkdir talot
+          mv ./target/release/talot talot/
+          tar -zcvf ./talot-macos-${{ github.ref_name }}.tar.gz talot
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ./talot-macos-${{ github.ref_name }}.tar.gz
+
+  windows:
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: bash
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build
+        run: cargo build --release
+      - name: Gzip
+        run: |
+          mkdir talot
+          mv ./target/release/talot.exe talot/
+          tar -zcvf ./talot-windows-${{ github.ref_name }}.tar.gz talot
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./talot-windows-${{ github.ref_name }}.tar.gz
