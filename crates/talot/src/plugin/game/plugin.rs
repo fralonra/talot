@@ -1382,8 +1382,8 @@ fn trifle_handle_system(
             let lot = &**trifle;
             let resp = lot.apply(&query);
 
-            if let Some(er) = &resp.er {
-                if er.lol >= 0.0 {
+            if let Some(new_er) = &resp.er {
+                if new_er.lol - er.lol > 0.0 {
                     commands.spawn(AudioBundle {
                         source: audio_assets.lol.clone(),
                         settings: PlaybackSettings {
@@ -1391,7 +1391,9 @@ fn trifle_handle_system(
                             ..default()
                         },
                     });
-                } else {
+                }
+
+                if new_er.tot - er.tot > 0.0 {
                     commands.spawn(AudioBundle {
                         source: audio_assets.tot.clone(),
                         settings: PlaybackSettings {
