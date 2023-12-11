@@ -21,6 +21,7 @@ pub fn run() {
         .add_plugins((
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window {
+                    title: "That's a LOT".into(),
                     resolution: (WINDOW_WIDTH, WINDOW_HEIGHT).into(),
                     resizable: false,
                     ..default()
