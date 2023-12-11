@@ -8,7 +8,7 @@ mod state;
 mod web;
 
 use asset::{AudioAssets, GameAsset, GameDataAssets, ImageAssets};
-use bevy::prelude::*;
+use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
 use constant::{NORMAL_VOLUME, WINDOW_HEIGHT, WINDOW_WIDTH};
@@ -18,6 +18,7 @@ use state::GameState;
 
 pub fn run() {
     App::new()
+        .insert_resource(AssetMetaCheck::Never)
         .add_plugins((
             DefaultPlugins.set(WindowPlugin {
                 primary_window: Some(Window {
